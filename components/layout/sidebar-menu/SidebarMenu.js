@@ -76,7 +76,7 @@ class SidebarMenu extends LitElement {
         font-size: 1rem;
         display: flex;
         align-items: center;
-        
+
         width: 100%;
         height: 50px;
         padding: auto;
@@ -89,7 +89,7 @@ class SidebarMenu extends LitElement {
     this.theme = "dark";
     this.collapsed = false;
     this.selected = "";
-    this.enabled = { socialProfiles: false };
+    this.enabled = { people: false };
   }
 
   render() {
@@ -124,15 +124,18 @@ class SidebarMenu extends LitElement {
 
           <mv-menu-panel
             group
-            .value="${{ selected: "socialProfiles" }}"
-            ?selected="${this.selected === "socialProfiles"}"
-            ?open="${this.enabled.socialProfiles}"
+            .value="${{ selected: "people" }}"
+            ?selected="${this.selected === "people"}"
+            ?open="${this.enabled.people}"
             ?popout="${this.collapsed}"
+            @close-popout="${this.closePopout}"
             @select-group="${this.toggleGroup}"
           >
             <mv-menu-panel label>
-              <mv-lnr icon="user"></mv-lnr>
-              ${this.collapsed ? html`` : html`<span>People</span>`}
+              <div class="text">
+                <mv-lnr icon="user"></mv-lnr>
+                ${this.collapsed ? html`` : html`<span>People</span>`}
+              </div>
             </mv-menu-panel>
             <mv-menu-panel item>
               <div class="text">
@@ -184,6 +187,13 @@ class SidebarMenu extends LitElement {
     this.enabled = { ...this.enabled, [selected]: !this.enabled[selected] };
     this.selected = this.enabled ? selected : "";
   };
+
+  closePopout = () => {
+    const {enabled, selected} = this;
+    if(enabled[selected]) {
+      this.enabled = { ...enabled, [selected]: false };
+    }
+  }
 }
 
 customElements.define("sidebar-menu", SidebarMenu);

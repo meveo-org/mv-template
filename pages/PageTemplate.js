@@ -20,7 +20,7 @@ export default class PageTemplate extends LitElement {
         background: var(--light-9-background);
         height: calc(100% - 40px);
         width: calc(100% - 80px);
-        min-width: 990px;
+        min-width: 600px;
         overflow: auto;
         padding: 40px 40px 0 40px;
         margin: 0;
