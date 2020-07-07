@@ -7,15 +7,8 @@ import "mv-tooltip";
 import "../components/layout/PageLayout.js";
 
 export default class PageTemplate extends LitElement {
-  static get properties() {
-    return {};
-  }
-
   static get styles() {
     return css`
-      :host {
-      }
-
       .main-container {
         background: var(--light-9-background);
         height: calc(100% - 40px);
