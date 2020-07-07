@@ -19,7 +19,6 @@ export default class PageLayout extends LitElement {
         top: 0;
         padding: 0;
         margin: 0;
-        --mv-footer-item-light-color: #444444;
         --mv-header-height: 80px;
         --mv-footer-height: 40px;
         --mv-menu-panel-width: 0;
@@ -32,14 +31,13 @@ export default class PageLayout extends LitElement {
         height: 100%;
         position: relative;
         overflow-y: hidden;
-        --mv-footer-margin-left: 330px;
-        --main-container-padding-left: 0;
-        --grid-template-columns: 330px auto;
+        --sidebar-width: 330px;
+        --grid-template-columns: var(--sidebar-width) auto;
+        --mv-footer-margin-left: var(--sidebar-width);        
       }
 
       .sidebar.sidebar-collapse {
-        --grid-template-columns: 65px auto;
-        --mv-footer-margin-left: 65px;
+        --sidebar-width: 65px;        
       }
 
       .main-section {
@@ -47,9 +45,9 @@ export default class PageLayout extends LitElement {
         grid-template-columns: var(--grid-template-columns);
         transition: all 0.3s;
         grid-gap: 0;
-        margin: 0;
+        margin-left: var(--sidebar-width);
         padding: 0;
-        width: 100%;
+        width: calc(100% - var(--sidebar-width));
         height: 100%;
       }
 
@@ -76,12 +74,12 @@ export default class PageLayout extends LitElement {
       <div class="sidebar${collapse}">
         <mv-main>
           <topbar-menu slot="header"></topbar-menu>
+          <sidebar-menu
+            ?collapsed="${!this.sidebar}"
+            @sidebar-item-clicked="${this.sidebarItemClicked}"
+            @toggle-sidebar="${this.toggleSidebar}"
+          ></sidebar-menu>
           <div class="main-section">
-            <sidebar-menu
-              ?collapsed="${!this.sidebar}"
-              @sidebar-item-clicked="${this.sidebarItemClicked}"
-              @toggle-sidebar="${this.toggleSidebar}"
-            ></sidebar-menu>
             <slot></slot>
           </div>
           <mv-footer slot="footer" .theme="${this.theme}">

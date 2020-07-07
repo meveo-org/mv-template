@@ -28,20 +28,12 @@ export default class PageTemplate extends LitElement {
     `;
   }
 
-  constructor() {
-    super();
-  }
-
   render() {
     return html`
-      <page-layout name="page-template" storage-modes="local">
+      <page-layout>
         <div class="main-container">Template Contents</div>
       </page-layout>
     `;
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
   }
 }
 

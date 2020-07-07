@@ -14,9 +14,7 @@ class TopbarMenu extends LitElement {
 
   static get styles() {
     return css`
-      :host {
-        --mv-header-height: 80px;
-      }
+      :host {}
 
       .title {
         padding: 0 20px;
