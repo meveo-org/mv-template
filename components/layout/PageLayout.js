@@ -19,25 +19,28 @@ export default class PageLayout extends LitElement {
         top: 0;
         padding: 0;
         margin: 0;
-        --mv-header-height: 80px;
+        --mv-header-height: 60px;
         --mv-footer-height: 40px;
         --mv-menu-panel-width: 0;
         --mv-main-margin-left: 0;
         --mv-content-padding: 0;
+        --container-padding: 40px;
+        --container-total-padding: calc(var(--container-padding) * 2);
+        --container-dimensions: calc(100% - var(----container-total-padding));
       }
 
       .sidebar {
         background: var(--light-9-background);
         height: 100%;
         position: relative;
-        overflow-y: hidden;
+        overflow-y: auto;
         --sidebar-width: 330px;
-        --grid-template-columns: var(--sidebar-width) auto;
-        --mv-footer-margin-left: var(--sidebar-width);        
+        --grid-template-columns: auto;
+        --mv-footer-margin-left: var(--sidebar-width);
       }
 
       .sidebar.sidebar-collapse {
-        --sidebar-width: 65px;        
+        --sidebar-width: 65px;
       }
 
       .main-section {
@@ -51,8 +54,14 @@ export default class PageLayout extends LitElement {
         height: 100%;
       }
 
-      .main-content {
-        width: 100%;
+      .main-container {
+        background: var(--light-9-background);
+        height: var(--container-dimensions);
+        width: var(--container-dimensions);
+        min-width: 600px;
+        overflow: auto;
+        padding: 40px;
+        margin: 0;
       }
 
       .container-wrap {
@@ -80,7 +89,9 @@ export default class PageLayout extends LitElement {
             @toggle-sidebar="${this.toggleSidebar}"
           ></sidebar-menu>
           <div class="main-section">
-            <slot></slot>
+            <div class="main-container">
+              <slot></slot>
+            </div>
           </div>
           <mv-footer slot="footer" .theme="${this.theme}">
             <mv-footer item>

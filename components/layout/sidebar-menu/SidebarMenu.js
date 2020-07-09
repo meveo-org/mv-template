@@ -23,10 +23,10 @@ class SidebarMenu extends LitElement {
 
       .sidebar {
         position: fixed;
-        height: calc(100vh - 80px);
+        height: 100%;
         z-index: 99;
         box-shadow: 0 1px 30px 1px rgba(0, 0, 0, 0.11);
-        background-color: #3f4753;
+        background-color: #3f4753;        
         --mv-menu-panel-width: 330px;
       }
 
