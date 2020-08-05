@@ -26,7 +26,7 @@ export default class PageLayout extends LitElement {
         --mv-content-padding: 0;
         --container-padding: 40px;
         --container-total-padding: calc(var(--container-padding) * 2);
-        --container-dimensions: calc(100% - var(----container-total-padding));
+        --container-dimensions: calc(100% - var(--container-total-padding));
         --mv-container-min-width: var(--container-dimensions);
         --mv-container-max-width: 100%;
         --mv-container-margin: 0 0 var(--container-padding) 0;
