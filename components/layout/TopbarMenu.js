@@ -29,7 +29,7 @@ class TopbarMenu extends LitElement {
   render() {
     return html`
       <mv-header>
-        <mv-header item><h1 class="title">MvTemplate</h1></mv-header>
+        <mv-header item><h1 class="title">${""}</h1></mv-header>
       </mv-header>
     `;
   }

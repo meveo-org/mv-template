@@ -2,8 +2,8 @@ import { LitElement, html, css } from "lit-element";
 import "mv-header";
 import "mv-main";
 import "mv-footer";
-import "./topbar-menu/TopbarMenu.js";
-import "./sidebar-menu/SidebarMenu.js";
+import "./TopbarMenu.js";
+import "./SidebarMenu.js";
 
 export default class PageLayout extends LitElement {
   static get properties() {
