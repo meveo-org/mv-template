@@ -87,7 +87,7 @@ export default class PageLayout extends LitElement {
         <mv-main>
           <topbar-menu slot="header"></topbar-menu>
           <sidebar-menu
-            ?collapsed="${!this.sidebar}"
+            ?expanded="${this.sidebar}"
             @sidebar-item-clicked="${this.sidebarItemClicked}"
             @toggle-sidebar="${this.toggleSidebar}"
           ></sidebar-menu>
@@ -98,7 +98,7 @@ export default class PageLayout extends LitElement {
           </div>
           <mv-footer slot="footer" .theme="${this.theme}">
             <mv-footer item>
-              <small> MvTemplate&copy; 2020 </small>
+              <small> Meveo&copy; 2020 </small>
             </mv-footer>
           </mv-footer>
         </mv-main>

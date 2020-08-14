@@ -4,6 +4,7 @@ import "mv-dropdown";
 import "mv-header";
 import "mv-menu";
 import "mv-font-awesome";
+import "router-slot";
 
 class TopbarMenu extends LitElement {
   static get properties() {
@@ -14,10 +15,17 @@ class TopbarMenu extends LitElement {
 
   static get styles() {
     return css`
-      :host {}
+      :host {
+      }
+
+      router-link {
+        outline: none;
+        user-select: none;
+      }
 
       .title {
         padding: 0 20px;
+        cursor: pointer;
       }
     `;
   }
@@ -29,7 +37,11 @@ class TopbarMenu extends LitElement {
   render() {
     return html`
       <mv-header>
-        <mv-header item><h1 class="title">${""}</h1></mv-header>
+        <mv-header item>
+          <h1 class="title">
+            <router-link path="./dashboard">Custom Entities</router-link>
+          </h1>
+        </mv-header>
       </mv-header>
     `;
   }

@@ -1,0 +1,48 @@
+{
+  "title": "Demo",
+  "id": "Demo",
+  "storages": ["SQL"],
+  "default": "Demo entity",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "properties": {
+    "name": {
+      "title": "Demo.name",
+      "description": "Name",
+      "id": "CE_Demo_name",
+      "storages": ["SQL"],
+      "nullable": true,
+      "readOnly": false,
+      "versionable": false,
+      "type": "string",
+      "maxLength": 255
+    },
+    "description": {
+      "title": "Demo.description",
+      "description": "Description",
+      "id": "CE_Demo_description",
+      "storages": ["SQL"],
+      "nullable": true,
+      "readOnly": false,
+      "versionable": false,
+      "type": "string",
+      "maxLength": 255
+    },
+    "childEntities": {
+      "title": "Demo.childEntities",
+      "description": "Child Entities",
+      "id": "CE_Demo_childEntities",
+      "storages": ["SQL"],
+      "nullable": true,
+      "readOnly": false,
+      "versionable": false,
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "title": "Demo.childEntities item",
+        "id": "CE_Demo_childEntities_item",
+        "$ref": "./DemoChild"
+      }
+    }
+  }
+}

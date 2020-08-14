@@ -1,8 +1,8 @@
 import { LitElement, html, css } from "lit-element";
 import "mv-container";
-import "../components/layout/PageLayout.js";
+import "../../components/layout/PageLayout.js";
 
-export default class PageTemplate extends LitElement {
+export default class UpdateDemo extends LitElement {
   static get styles() {
     return css``;
   }
@@ -10,10 +10,10 @@ export default class PageTemplate extends LitElement {
   render() {
     return html`
       <page-layout>
-        <mv-container>Template Contents</mv-container>
+        <mv-container>Update Demo</mv-container>
       </page-layout>
     `;
   }
 }
 
-customElements.define("page-template", PageTemplate);
+customElements.define("update-demo", UpdateDemo);

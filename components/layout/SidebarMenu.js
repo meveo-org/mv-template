@@ -5,10 +5,10 @@ import "mv-font-awesome";
 class SidebarMenu extends LitElement {
   static get properties() {
     return {
-      enabled: { type: Object, attribute: false, reflect: true },
+      title: { type: String },
       selected: { type: String },
       sidebar: { type: Boolean },
-      collapsed: { type: Boolean },
+      expanded: { type: Boolean },
     };
   }
 
@@ -24,6 +24,10 @@ class SidebarMenu extends LitElement {
       mv-menu-panel {
         font-family: "MuseoSans";
         --font-size-m: 1rem;
+      }
+
+      router-link {
+        outline: none;
       }
 
       .sidebar {
@@ -83,6 +87,7 @@ class SidebarMenu extends LitElement {
         width: 100%;
         height: var(--mv-menu-panel-item-height);
         padding: auto;
+        cursor: pointer;
       }
 
       .text *[icon] {
@@ -94,25 +99,24 @@ class SidebarMenu extends LitElement {
   constructor() {
     super();
     this.theme = "dark";
-    this.collapsed = false;
+    this.expanded = false;
     this.selected = "";
-    this.enabled = { people: false };
   }
 
   render() {
     const { theme } = this;
-    const collapsedClass = this.collapsed ? " collapsed" : "";
+    const expandedClass = this.expanded ? "" : " collapsed";
 
     return html`
-      <div class="sidebar${collapsedClass}">
+      <div class="sidebar${expandedClass}">
         <mv-menu-panel menu show-header .theme="${theme}">
           <mv-menu-panel label>
-            <div class="${`sidebar-header${collapsedClass}`}">
-              <div class="header-title">${""}</div>
+            <div class="${`sidebar-header${expandedClass}`}">
+              <div class="header-title">${this.title || ""}</div>
               <button class="collapse-button" @click="${this.toggleSidebar}">
-                ${this.collapsed
-                  ? html` <div><mv-fa icon="chevron-right"></mv-fa></div>`
-                  : html` <div><mv-fa icon="chevron-left"></mv-fa></div> `}
+                ${this.expanded
+                  ? html`<div><mv-fa icon="chevron-left"></mv-fa></div>`
+                  : html`<div><mv-fa icon="chevron-right"></mv-fa></div>`}
               </button>
             </div>
           </mv-menu-panel>
@@ -125,20 +129,22 @@ class SidebarMenu extends LitElement {
           >
             <div class="text">
               <mv-fa icon="star"></mv-fa>
-              ${this.collapsed ? html`` : html`<span>Favorites</span>`}
+              ${this.expanded ? html`<span>Favorites</span>` : html``}
             </div>
           </mv-menu-panel>
 
           <mv-menu-panel
             item
-            .value="${{ selected: "investigations" }}"
-            ?selected="${this.selected === "investigations"}"
+            .value="${{ selected: "demo" }}"
+            ?selected="${this.selected === "demo"}"
             @select-item="${this.selectItem}"
           >
-            <div class="text">
-              <mv-fa icon="user-secret"></mv-fa>
-              ${this.collapsed ? html`` : html`<span>Investigations</span>`}
-            </div>
+            <router-link path="./demo/list">
+              <div class="text">
+                <mv-fa icon="user-secret"></mv-fa>
+                ${this.expanded ? html`<span>Demo</span>` : html``}
+              </div>
+            </router-link>
           </mv-menu-panel>
 
           <mv-menu-panel
@@ -149,7 +155,7 @@ class SidebarMenu extends LitElement {
           >
             <div class="text">
               <mv-fa icon="cog"></mv-fa>
-              ${this.collapsed ? html`` : html`<span>Settings</span>`}
+              ${this.expanded ? html`<span>Settings</span>` : html``}
             </div>
           </mv-menu-panel>
         </mv-menu-panel>
