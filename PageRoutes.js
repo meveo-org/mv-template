@@ -1,23 +1,14 @@
 import { LitElement, html } from "lit-element";
-import { ENTITIES } from "config";
+import * as config from "config";
+import { extractEntities } from "utils";
 import "mv-router";
 
 // component paths are relative to /web_modules/mv-router
 const PAGES_PATH = "../../pages";
 
-console.log(
-  "ENTITIES: ",
-  Object.keys(ENTITIES)
-    .map((key) => {
-      console.log("key: ", key);
-      return JSON.stringify(ENTITIES[key], null, 2);
-    })
-    .join("\r\r")
-);
-
 class PageRoutes extends LitElement {
   render() {
-    const entityList = Object.keys(ENTITIES).map((key) => ENTITIES[key]);
+    const entityList = extractEntities(config);
     return html`
       <mv-router>
         <mv-router

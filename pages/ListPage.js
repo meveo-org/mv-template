@@ -1,6 +1,7 @@
 import { LitElement, html, css } from "lit-element";
+import * as config from "config";
+import { findEntity } from "utils";
 import { parseColumns } from "mv-table-utils";
-import DemoSchema from "DemoSchema";
 import "mv-button";
 import "mv-container";
 import "mv-font-awesome";
@@ -9,16 +10,15 @@ import "mv-table";
 import "mv-tooltip";
 import "../../components/layout/PageLayout.js";
 
-const DEFAULT_COLUMNS = Object.keys(DemoSchema.properties);
-
 export default class ListPage extends LitElement {
   static get properties() {
     return {
-      entity: {type: Object, attribute: false, reflect: true},
+      entity: { type: Object, attribute: false, reflect: true },
       pages: { type: Number },
       currentPage: { type: Number },
       columns: { type: Array },
       items: { type: Array },
+      code: { type: String },
     };
   }
 
@@ -64,10 +64,11 @@ export default class ListPage extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.columns = this.columns || parseColumns(
-      DemoSchema.properties,
-      DEFAULT_COLUMNS
-    );
+    const entity = findEntity(config, this.entity.code || this.code);
+    const { properties } = entity.schema;
+    const columnOrder = Object.keys(properties || {});
+
+    this.columns = this.columns || parseColumns(properties, columnOrder);
   }
 
   gotoPage = (event) => {
@@ -76,7 +77,7 @@ export default class ListPage extends LitElement {
   };
 
   newItem = () => {
-    history.pushState(entity, "", `./new/${this.entity.code}`);
+    history.pushState(null, "", `./new/${this.entity.code}`);
   };
 }
 

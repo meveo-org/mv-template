@@ -1,4 +1,6 @@
 import { LitElement, html, css } from "lit-element";
+import * as config from "config";
+import { extractEntities } from "utils";
 import "mv-menu-panel";
 import "mv-font-awesome";
 
@@ -108,6 +110,7 @@ class SidebarMenu extends LitElement {
   render() {
     const { theme } = this;
     const expandedClass = this.expanded ? "" : " collapsed";
+    const entityList = extractEntities(config);
 
     return html`
       <div class="sidebar${expandedClass}">
@@ -135,19 +138,23 @@ class SidebarMenu extends LitElement {
             </div>
           </mv-menu-panel>
 
-          <mv-menu-panel
-            item
-            .value="${{ selected: "demo" }}"
-            ?selected="${this.selected === "demo"}"
-            @select-item="${this.selectItem}"
-          >
-            <router-link path="./demo/list">
-              <div class="text">
-                <mv-fa icon="user-secret"></mv-fa>
-                ${this.expanded ? html`<span>Demo</span>` : html``}
-              </div>
-            </router-link>
-          </mv-menu-panel>
+          ${entityList.map(
+            (entity) => html`
+              <mv-menu-panel
+                item
+                .value="${{ selected: entity.code }}"
+                ?selected="${this.selected === entity.code}"
+                @select-item="${this.selectItem}"
+              >
+                <router-link path="./list/${entity.code}">
+                  <div class="text">
+                    <mv-fa icon="user-secret"></mv-fa>
+                    ${this.expanded ? html`<span>${entity.label}</span>` : html``}
+                  </div>
+                </router-link>
+              </mv-menu-panel>
+            `
+          )}
 
           <mv-menu-panel
             item
