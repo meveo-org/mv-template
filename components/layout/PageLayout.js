@@ -8,7 +8,7 @@ import "./SidebarMenu.js";
 export default class PageLayout extends LitElement {
   static get properties() {
     return {
-      sidebar: { type: Boolean, attribute: false },
+      sidebarExpanded: { type: Boolean, attribute: false },
       theme: { type: String, attribute: true },
     };
   }
@@ -76,20 +76,19 @@ export default class PageLayout extends LitElement {
   constructor() {
     super();
     this.theme = "light";
-    this.sidebar = true;
+    this.sidebarExpanded = true;
   }
 
   render() {
-    const collapse = !this.sidebar ? " sidebar-collapse" : "";
+    const collapse = this.sidebarExpanded ? "" : " sidebar-collapse";
 
     return html`
       <div class="sidebar${collapse}">
         <mv-main>
           <topbar-menu slot="header"></topbar-menu>
           <sidebar-menu
-            ?expanded="${this.sidebar}"
+            ?expanded="${this.sidebarExpanded}"
             @sidebar-item-clicked="${this.sidebarItemClicked}"
-            @toggle-sidebar="${this.toggleSidebar}"
           ></sidebar-menu>
           <div class="main-section">
             <div class="main-container">
@@ -106,17 +105,27 @@ export default class PageLayout extends LitElement {
     `;
   }
 
-  sidebarItemClicked(event) {
+  connectedCallback() {
+    super.connectedCallback();
+    document.addEventListener("toggle-sidebar", this.toggleSidebar);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    document.removeEventListener("toggle-sidebar", this.toggleSidebar);
+  }
+
+  sidebarItemClicked = (event) => {
     const {
       detail: { selected },
     } = event;
     this.selected = selected;
-  }
+  };
 
-  toggleSidebar() {
-    this.sidebar = !this.sidebar;
+  toggleSidebar = () => {
+    this.sidebarExpanded = !this.sidebarExpanded;
     document.dispatchEvent(new CustomEvent("page-resize"));
-  }
+  };
 }
 
 customElements.define("page-layout", PageLayout);

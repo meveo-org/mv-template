@@ -4,7 +4,7 @@ import "mv-container";
 import "../../components/CollapsingField.js";
 import "../../components/layout/PageLayout.js";
 
-export default class ViewDemo extends LitElement {
+export default class ViewPage extends LitElement {
   static get properties() {
     return {
       ...super.properties,
@@ -126,15 +126,11 @@ export default class ViewDemo extends LitElement {
                             </tr>
                             <tr class="field">
                               <td class="label">Name</td>
-                              <td class="value">
-                                ${childEntity.name}
-                              </td>
+                              <td class="value">${childEntity.name}</td>
                             </tr>
                             <tr class="field">
                               <td class="label">Description</td>
-                              <td class="value">
-                                ${childEntity.description}
-                              </td>
+                              <td class="value">${childEntity.description}</td>
                             </tr>
                           `
                         )}
@@ -159,12 +155,12 @@ export default class ViewDemo extends LitElement {
   }
 
   back = (event) => {
-    history.pushState(null, "", "./demo/list");
+    history.pushState(null, "", `/list/${this.entity.code}`);
   };
 
   edit = () => {
-    history.pushState(null, "", "./demo/new");
+    history.pushState(null, "", `/new/${this.entity.code}`);
   };
 }
 
-customElements.define("view-demo", ViewDemo);
+customElements.define("view-page", ViewPage);

@@ -11,11 +11,12 @@ import "mv-form-field";
 import "mv-tooltip";
 import "../../components/layout/PageLayout.js";
 
-export default class NewDemo extends MvElement {
+export default class NewPage extends MvElement {
   static get properties() {
     return {
       ...super.properties,
       name: { type: String, attribute: false, reflect: true },
+      entity: { type: Object, attribute: false, reflect: true },
       description: { type: String, attribute: false, reflect: true },
       errors: { type: Array, attribute: false, reflect: true },
     };
@@ -104,7 +105,7 @@ export default class NewDemo extends MvElement {
   cancel = (event) => {
     this.errors = null;
     clearForm(null)(event);
-    history.pushState(null, "", "./demo/list");
+    history.pushState(null, "", `./list/${this.entity.code}`);
   };
 
   save = () => {
@@ -121,4 +122,4 @@ export default class NewDemo extends MvElement {
   };
 }
 
-customElements.define("new-demo", NewDemo);
+customElements.define("new-page", NewPage);

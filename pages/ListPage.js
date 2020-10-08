@@ -11,9 +11,10 @@ import "../../components/layout/PageLayout.js";
 
 const DEFAULT_COLUMNS = Object.keys(DemoSchema.properties);
 
-export default class ListDemo extends LitElement {
+export default class ListPage extends LitElement {
   static get properties() {
     return {
+      entity: {type: Object, attribute: false, reflect: true},
       pages: { type: Number },
       currentPage: { type: Number },
       columns: { type: Array },
@@ -75,8 +76,8 @@ export default class ListDemo extends LitElement {
   };
 
   newItem = () => {
-    history.pushState(null, "", "./demo/new");
+    history.pushState(entity, "", `./new/${this.entity.code}`);
   };
 }
 
-customElements.define("list-demo", ListDemo);
+customElements.define("list-page", ListPage);

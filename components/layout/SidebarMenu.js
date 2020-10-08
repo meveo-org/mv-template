@@ -9,6 +9,7 @@ class SidebarMenu extends LitElement {
       selected: { type: String },
       sidebar: { type: Boolean },
       expanded: { type: Boolean },
+      hasHeader: { type: Boolean, attribute: "has-header" },
     };
   }
 
@@ -99,7 +100,8 @@ class SidebarMenu extends LitElement {
   constructor() {
     super();
     this.theme = "dark";
-    this.expanded = false;
+    this.expanded = true;
+    this.hasHeader = false;
     this.selected = "";
   }
 
@@ -109,7 +111,7 @@ class SidebarMenu extends LitElement {
 
     return html`
       <div class="sidebar${expandedClass}">
-        <mv-menu-panel menu show-header .theme="${theme}">
+        <mv-menu-panel menu ?show-header="${this.hasHeader}" .theme="${theme}">
           <mv-menu-panel label>
             <div class="${`sidebar-header${expandedClass}`}">
               <div class="header-title">${this.title || ""}</div>
@@ -178,7 +180,7 @@ class SidebarMenu extends LitElement {
 
   toggleSidebar = () => {
     this.enabled = {};
-    this.dispatchEvent(new CustomEvent("toggle-sidebar"));
+    document.dispatchEvent(new CustomEvent("toggle-sidebar"));
   };
 
   toggleGroup = (event) => {

@@ -3,7 +3,7 @@ import "mv-container";
 import "../components/DashboardTile.js";
 import "../components/layout/PageLayout.js";
 
-export default class DemoDashboard extends LitElement {
+export default class MainDashboard extends LitElement {
   static get styles() {
     return css`
       h1 {
@@ -24,7 +24,7 @@ export default class DemoDashboard extends LitElement {
     return html`
       <page-layout>
         <mv-container>
-          <h1>Custom Entities Dashboard</h1>
+          <h1>Dashboard</h1>
           <div class="tiles">
             <dashboard-tile
               entity-code="demo"
@@ -53,4 +53,4 @@ export default class DemoDashboard extends LitElement {
   }
 }
 
-customElements.define("demo-dashboard", DemoDashboard);
+customElements.define("main-dashboard", MainDashboard);
