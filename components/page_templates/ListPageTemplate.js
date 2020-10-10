@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit-element";
 import * as config from "config";
-import { findEntity } from "utils";
+import { NULL_ENTITY, findEntity } from "utils";
 import { parseColumns } from "mv-table-utils";
 import "mv-button";
 import "mv-container";
@@ -10,15 +10,15 @@ import "mv-table";
 import "mv-tooltip";
 import "../../components/layout/PageLayout.js";
 
-export default class ListPage extends LitElement {
+export default class ListPageTemplate extends LitElement {
   static get properties() {
     return {
       entity: { type: Object, attribute: false, reflect: true },
+      filter: { type: Object, attribute: false, reflect: true },
       pages: { type: Number },
       currentPage: { type: Number },
       columns: { type: Array },
-      items: { type: Array },
-      code: { type: String },
+      rows: { type: Array },
     };
   }
 
@@ -32,22 +32,31 @@ export default class ListPage extends LitElement {
 
   constructor() {
     super();
+    this.entity = { ...NULL_ENTITY };
     this.pages = 1;
     this.currentPage = 1;
-    this.items = [];
+    this.rows = [];
+    this.filter = {
+      rowsPerPage: 10,
+      sortFields: [],
+      search: {
+        field: null,
+        value: null,
+      },
+    };
   }
 
   render() {
     return html`
       <page-layout>
         <mv-container>
-          <h1>Demos</h1>
+          <h1>${this.entity.label}</h1>
           <mv-button type="rounded" @button-clicked="${this.newItem}">
             <mv-fa icon="plus"></mv-fa>New
           </mv-button>
           <mv-table
             .columns="${this.columns || []}"
-            .rows="${this.items}"
+            .rows="${this.rows}"
             with-checkbox
             .action-column="${this.actionColumn}"
           ></mv-table>
@@ -64,21 +73,37 @@ export default class ListPage extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    const entity = findEntity(config, this.entity.code || this.code);
+    const code = (this.entity || {}).code || this.code;
+    const entity = this.entity || findEntity(config, code);
+    this.entity = entity;
     const { properties } = entity.schema;
     const columnOrder = Object.keys(properties || {});
-
     this.columns = this.columns || parseColumns(properties, columnOrder);
+    this.loadList(1);
   }
+
+  // override this in child component
+  loadList = (page) => {
+    this.rows = [];
+    this.pages = 1;
+    this.currentPage = page;
+  };
 
   gotoPage = (event) => {
     const { detail = {} } = event || {};
-    this.currentPage = detail.page || 1;
+    this.loadList(detail.page || 1);
   };
 
   newItem = () => {
-    history.pushState(null, "", `./new/${this.entity.code}`);
+    history.pushState(null, "", `./${this.entity.code}/new`);
+  };
+
+  updateRows = (event) => {
+    const { detail } = event;
+    const { list, count } = detail;
+    this.rows = list;
+    // TODO - do calculation for pages using count
   };
 }
 
-customElements.define("list-page", ListPage);
+customElements.define("list-page-template", ListPageTemplate);

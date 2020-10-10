@@ -22,29 +22,29 @@ class PageRoutes extends LitElement {
           (entity) => html`
             <mv-router
               route
-              path="view/:code"
+              path=":code/view"
               .entity="${entity}"
-              component="${PAGES_PATH}/ViewPage.js"
+              component="${PAGES_PATH}/${entity.code}/ViewPage.js"
             ></mv-router>
             <mv-router
               route
-              path="new/:code"
+              path=":code/new"
               name="${entity.code}"
               .entity="${entity}"
               storage-modes="local"
-              component="${PAGES_PATH}/NewPage.js"
+              component="${PAGES_PATH}/${entity.code}/NewPage.js"
             ></mv-router>
             <mv-router
               route
-              path="update/:code"
+              path=":code/update"
               .entity="${entity}"
-              component="${PAGES_PATH}/UpdatePage.js"
+              component="${PAGES_PATH}/${entity.code}/UpdatePage.js"
             ></mv-router>
             <mv-router
               route
-              path="list/:code"
+              path=":code/list"
               .entity="${entity}"
-              component="${PAGES_PATH}/ListPage.js"
+              component="${PAGES_PATH}/${entity.code}/ListPage.js"
             ></mv-router>
           `
         )}

@@ -6,3 +6,6 @@ export const extractEntities = (config) => {
 export const findEntity = (config, code) => {
   return extractEntities(config).find((item) => item.code === code);
 };
+
+export const buildProperties = () => {}
+export const buildModelFields = () => {}

@@ -1,28 +1,31 @@
 import { html, css } from "lit-element";
 import { MvElement } from "mv-element";
+import * as config from "config";
+import { ENTITY } from "../model/Demo.js";
 import { validate, matchError, clearForm } from "mv-form-utils";
-import DemoSchema from "DemoSchema";
-import DemoChildSchema from "DemoChildSchema";
 import "mv-button";
 import "mv-container";
 import "mv-font-awesome";
 import "mv-form";
 import "mv-form-field";
 import "mv-tooltip";
-import "../../components/layout/PageLayout.js";
+import "../components/form/FormField.js";
+import "../components/layout/PageLayout.js";
 
 export default class NewPage extends MvElement {
   static get properties() {
+    console.log("inside properties: ", ENTITY);
     return {
       ...super.properties,
-      name: { type: String, attribute: false, reflect: true },
-      entity: { type: Object, attribute: false, reflect: true },
-      description: { type: String, attribute: false, reflect: true },
+      formFields: { type: Array, attribute: false, reflect: true },
+      schema: { type: Object, attribute: false, reflect: true },
+      refSchemas: { type: Array, attribute: false, reflect: true },
       errors: { type: Array, attribute: false, reflect: true },
     };
   }
 
   static get model() {
+    console.log("inside model: ", ENTITY);
     return {
       modelClass: "Demo",
       mappings: [
@@ -43,29 +46,20 @@ export default class NewPage extends MvElement {
   }
 
   render() {
+    const { schema, refSchemas, formFields } = ENTITY;
     return html`
       <page-layout>
         <mv-container>
           <mv-form
             .store="${this.store}"
-            .schema="${DemoSchema}"
-            .refSchemas="${[DemoChildSchema]}"
+            .schema="${schema}"
+            .refSchemas="${refSchemas}"
           >
             <div class="form-grid">
-              <mv-form-field
-                name="name"
-                label="Name"
-                label-position="top"
-                .value="${this.name}"
-                .error="${matchError(this.errors, "name")}"
-              ></mv-form-field>
-              <mv-form-field
-                name="description"
-                label="Description"
-                label-position="top"
-                .value="${this.description}"
-                .error="${matchError(this.errors, "description")}"
-              ></mv-form-field>
+              ${(formFields || []).map(
+                (formField) =>
+                  html`<form-field .field="${formField}"></form-field>`
+              )}
             </div>
 
             <div class="button-grid">
@@ -90,6 +84,8 @@ export default class NewPage extends MvElement {
 
   connectedCallback() {
     super.connectedCallback();
+    this.entity =
+      this.entity || findEntity(config, this.entity.code || this.code);
     this.addEventListener("update-errors", this.handleErrors);
     this.addEventListener("clear-errors", this.clearErrors);
   }
@@ -122,4 +118,4 @@ export default class NewPage extends MvElement {
   };
 }
 
-customElements.define("new-page", NewPage);
+customElements.define("new-page-template", NewPageTemplate);

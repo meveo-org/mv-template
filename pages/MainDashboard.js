@@ -1,9 +1,19 @@
 import { LitElement, html, css } from "lit-element";
+import * as config from "config";
+import { extractEntities } from "utils";
 import "mv-container";
 import "../components/DashboardTile.js";
 import "../components/layout/PageLayout.js";
 
 export default class MainDashboard extends LitElement {
+  static get properties() {
+    return {
+      ...super.properties,
+      entities: { type: Array, attribute: false, reflect: true },
+      count: { type: Object, attribute: false, reflect: true },
+    };
+  }
+
   static get styles() {
     return css`
       h1 {
@@ -20,36 +30,36 @@ export default class MainDashboard extends LitElement {
       }
     `;
   }
+
+  constructor() {
+    super();
+    this.entities = [];
+    this.count = {};
+  }
+  
   render() {
     return html`
       <page-layout>
         <mv-container>
           <h1>Dashboard</h1>
           <div class="tiles">
+            ${this.entities.map(entity => html`
             <dashboard-tile
-              entity-code="demo"
-              title="Person"
-              item-count="1"
+              entity-code="${entity.code}"
+              title="${entity.label}"
+              item-count="${this.count[entity.code] || 0}"
             ></dashboard-tile>
-            <dashboard-tile
-              entity-code="demo"
-              title="Mission"
-              item-count="0"
-            ></dashboard-tile>
-            <dashboard-tile
-              entity-code="demo"
-              title="Profile"
-              item-count="12"
-            ></dashboard-tile>
-            <dashboard-tile
-              entity-code="demo"
-              title="Company"
-              item-count="8"
-            ></dashboard-tile>
+            `)}
           </div>
         </mv-container>
       </page-layout>
     `;
+  }
+
+  connectedCallback() {
+    this.entities = extractEntities(config) ||[];
+    // call api to load entity counts
+    super.connectedCallback();
   }
 }
 
