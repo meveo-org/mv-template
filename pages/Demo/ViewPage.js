@@ -163,4 +163,4 @@ export default class ViewPage extends LitElement {
   };
 }
 
-customElements.define("view-page", ViewPage);
+customElements.define("demo-view-page", ViewPage);

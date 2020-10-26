@@ -1,9 +1,11 @@
 import { LitElement, html, css } from "lit-element";
-
+import { matchError } from "mv-form-utils";
+import "mv-form-field";
 export default class InputField extends LitElement {
   static get properties() {
     return {
       field: { type: Object, attribute: false, reflect: true },
+      errors: { type: Object, attribute: false, reflect: true },
     };
   }
 
@@ -17,7 +19,25 @@ export default class InputField extends LitElement {
   }
 
   render() {
-    return html`<div>InputField</div>`;
+    const { code, description, valueRequired } = this.field || {};
+    return html`
+      <mv-form-field
+        name="${code}"
+        placeholder="${description || ""}"
+        label-position="none"
+        ?required="${valueRequired}"
+        .value="${this.value}"
+        .error="${matchError(this.errors, code)}"
+      ></mv-form-field>
+    `;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    const { value } = this.field;
+    if (value) {
+      this.value = value;
+    }
   }
 }
 

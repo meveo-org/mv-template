@@ -21,4 +21,4 @@ export default class UpdatePage extends LitElement {
   }
 }
 
-customElements.define("update-page", UpdatePage);
+customElements.define("demo-update-page", UpdatePage);

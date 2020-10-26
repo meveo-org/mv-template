@@ -55,9 +55,9 @@ export default class ListPageTemplate extends LitElement {
             <mv-fa icon="plus"></mv-fa>New
           </mv-button>
           <mv-table
+            with-checkbox
             .columns="${this.columns || []}"
             .rows="${this.rows}"
-            with-checkbox
             .action-column="${this.actionColumn}"
           ></mv-table>
           <mv-pagination
@@ -101,8 +101,9 @@ export default class ListPageTemplate extends LitElement {
   updateRows = (event) => {
     const { detail } = event;
     const { list, count } = detail;
+    const { rowsPerPage } = this.filter;
     this.rows = list;
-    // TODO - do calculation for pages using count
+    this.pages = count > 0 ? count / rowsPerPage : 0;
   };
 }
 

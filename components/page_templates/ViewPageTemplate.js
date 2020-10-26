@@ -4,7 +4,7 @@ import "mv-container";
 import "../../components/CollapsingField.js";
 import "../../components/layout/PageLayout.js";
 
-export default class ViewPage extends LitElement {
+export default class ViewPageTemplate extends LitElement {
   static get properties() {
     return {
       ...super.properties,
@@ -155,12 +155,12 @@ export default class ViewPage extends LitElement {
   }
 
   back = (event) => {
-    history.pushState(null, "", `/list/${this.entity.code}`);
+    history.pushState(null, "", `/${this.entity.code}/list`);
   };
 
   edit = () => {
-    history.pushState(null, "", `/new/${this.entity.code}`);
+    history.pushState(null, "", `/${this.entity.code}/new`);
   };
 }
 
-customElements.define("view-page", ViewPage);
+customElements.define("view-page-template", ViewPageTemplate);

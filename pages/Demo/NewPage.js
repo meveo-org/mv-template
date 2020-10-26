@@ -1,22 +1,27 @@
 import { html, css } from "lit-element";
 import { MvElement } from "mv-element";
 import * as config from "config";
-import { ENTITY } from "../model/Demo.js";
-import { validate, matchError, clearForm } from "mv-form-utils";
+import { findEntity, buildProperties, buildModelFields } from "utils";
+import { validate, clearForm } from "mv-form-utils";
 import "mv-button";
 import "mv-container";
 import "mv-font-awesome";
 import "mv-form";
 import "mv-form-field";
 import "mv-tooltip";
-import "../components/form/FormField.js";
-import "../components/layout/PageLayout.js";
+import "../../components/form/FormField.js";
+import "../../components/layout/PageLayout.js";
+
+const entityCode = "Demo";
+const entity = findEntity(config, entityCode);
+const properties = buildProperties(entity);
+const mappings = buildModelFields(entity);
 
 export default class NewPage extends MvElement {
   static get properties() {
-    console.log("inside properties: ", ENTITY);
     return {
       ...super.properties,
+      ...properties,
       formFields: { type: Array, attribute: false, reflect: true },
       schema: { type: Object, attribute: false, reflect: true },
       refSchemas: { type: Array, attribute: false, reflect: true },
@@ -25,13 +30,9 @@ export default class NewPage extends MvElement {
   }
 
   static get model() {
-    console.log("inside model: ", ENTITY);
     return {
-      modelClass: "Demo",
-      mappings: [
-        { property: "name", value: "name" },
-        { property: "description", value: "description" },
-      ],
+      modelClass: entity.schema,
+      mappings: [...mappings],
     };
   }
 
@@ -46,7 +47,7 @@ export default class NewPage extends MvElement {
   }
 
   render() {
-    const { schema, refSchemas, formFields } = ENTITY;
+    const { schema, refSchemas, formFields } = entity;
     return html`
       <page-layout>
         <mv-container>
@@ -56,10 +57,12 @@ export default class NewPage extends MvElement {
             .refSchemas="${refSchemas}"
           >
             <div class="form-grid">
-              ${(formFields || []).map(
-                (formField) =>
-                  html`<form-field .field="${formField}"></form-field>`
-              )}
+              ${(formFields || []).map((formField) => {
+                const value = this[formField.code];
+                return html`
+                  <form-field .field="${{ ...formField, value }}"></form-field>
+                `;
+              })}
             </div>
 
             <div class="button-grid">
@@ -84,8 +87,7 @@ export default class NewPage extends MvElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.entity =
-      this.entity || findEntity(config, this.entity.code || this.code);
+    this.entity = this.entity || findEntity(config, code);
     this.addEventListener("update-errors", this.handleErrors);
     this.addEventListener("clear-errors", this.clearErrors);
   }
@@ -101,13 +103,17 @@ export default class NewPage extends MvElement {
   cancel = (event) => {
     this.errors = null;
     clearForm(null)(event);
-    history.pushState(null, "", `./list/${this.entity.code}`);
+    history.pushState(null, "", `./${this.entity.code}/list`);
   };
 
   save = () => {
-    const errors = validate(DemoSchema, this.store.state, null, null, [
-      DemoChildSchema,
-    ]);
+    const errors = validate(
+      this.entity.schema,
+      this.store.state,
+      null,
+      null,
+      this.entity.refSchemas
+    );
     const hasError = errors && Object.keys(errors).some((key) => !!errors[key]);
     if (hasError) {
       console.log("errors :", errors);
@@ -118,4 +124,4 @@ export default class NewPage extends MvElement {
   };
 }
 
-customElements.define("new-page", NewPage);
+customElements.define("demo-new-page", NewPage);

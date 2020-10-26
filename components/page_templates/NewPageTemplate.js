@@ -101,7 +101,7 @@ export default class NewPage extends MvElement {
   cancel = (event) => {
     this.errors = null;
     clearForm(null)(event);
-    history.pushState(null, "", `./list/${this.entity.code}`);
+    history.pushState(null, "", `./${this.entity.code}/list`);
   };
 
   save = () => {

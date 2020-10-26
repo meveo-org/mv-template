@@ -34,4 +34,4 @@ export default class ListPage extends ListPageTemplate {
   };
 }
 
-customElements.define("list-page", ListPage);
+customElements.define("demo-list-page", ListPage);

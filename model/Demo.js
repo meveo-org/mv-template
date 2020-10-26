@@ -1,4 +1,4 @@
-export const ENTITY = (parameters) => {
+export const DemoEntity = (parameters) => {
   const { appPath /* RETRIEVE OTHER PARAMETERS */ } = parameters;
   return {
     code: "Demo",

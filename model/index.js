@@ -1,3 +1,1 @@
-import * as Demo from "./Demo.js";
-
-export const DEMO = Demo.ENTITY;
+export { DemoEntity } from "./Demo.js";
