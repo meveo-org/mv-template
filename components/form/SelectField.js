@@ -71,7 +71,6 @@ export default class SelectField extends LitElement {
     } = event;
     changeField(target, { name: code, value, originalEvent: event });
     this.selected = this.options.find((option) => option.value === value);
-    console.log("this.selected: ", this.selected);
   };
 
   clearValue = (event) => {

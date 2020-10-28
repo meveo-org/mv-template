@@ -1,5 +1,4 @@
 import { html, css } from "lit-element";
-import { MvElement } from "mv-element";
 import * as config from "config";
 import { findEntity, buildProperties, buildModelFields } from "utils";
 import { validate, clearForm } from "mv-form-utils";
@@ -11,21 +10,17 @@ import "mv-form-field";
 import "mv-tooltip";
 import "../../components/form/FormField.js";
 import "../../components/layout/PageLayout.js";
+import NewPageTemplate from "../../components/page_templates/NewPageTemplate.js";
 
 const entityCode = "Demo";
 const entity = findEntity(config, entityCode);
 const properties = buildProperties(entity);
 const mappings = buildModelFields(entity);
-
-export default class NewPage extends MvElement {
+export default class NewPage extends NewPageTemplate {
   static get properties() {
     return {
       ...super.properties,
       ...properties,
-      formFields: { type: Array, attribute: false, reflect: true },
-      schema: { type: Object, attribute: false, reflect: true },
-      refSchemas: { type: Array, attribute: false, reflect: true },
-      errors: { type: Array, attribute: false, reflect: true },
     };
   }
 
@@ -36,92 +31,10 @@ export default class NewPage extends MvElement {
     };
   }
 
-  static get styles() {
-    return css`
-      .form-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-column-gap: 20px;
-      }
-    `;
+  constructor() {
+    super();
+    this.entity = entity;
   }
-
-  render() {
-    const { schema, refSchemas, formFields } = entity;
-    return html`
-      <page-layout>
-        <mv-container>
-          <mv-form
-            .store="${this.store}"
-            .schema="${schema}"
-            .refSchemas="${refSchemas}"
-          >
-            <div class="form-grid">
-              ${(formFields || []).map((formField) => {
-                const value = this[formField.code];
-                return html`
-                  <form-field .field="${{ ...formField, value }}"></form-field>
-                `;
-              })}
-            </div>
-
-            <div class="button-grid">
-              <mv-button
-                @button-clicked="${clearForm(null)}"
-                button-style="info"
-              >
-                <mv-fa icon="undo"></mv-fa>Clear
-              </mv-button>
-              <mv-button @button-clicked="${this.cancel}" button-style="cancel">
-                <mv-fa icon="ban"></mv-fa>Cancel
-              </mv-button>
-              <mv-button @button-clicked="${this.save}">
-                <mv-fa icon="save"></mv-fa>Save
-              </mv-button>
-            </div>
-          </mv-form>
-        </mv-container>
-      </page-layout>
-    `;
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    this.entity = this.entity || findEntity(config, code);
-    this.addEventListener("update-errors", this.handleErrors);
-    this.addEventListener("clear-errors", this.clearErrors);
-  }
-
-  clearErrors = () => {
-    this.errors = null;
-  };
-
-  handleErrors = (event) => {
-    this.errors = event.detail.errors;
-  };
-
-  cancel = (event) => {
-    this.errors = null;
-    clearForm(null)(event);
-    history.pushState(null, "", `./${this.entity.code}/list`);
-  };
-
-  save = () => {
-    const errors = validate(
-      this.entity.schema,
-      this.store.state,
-      null,
-      null,
-      this.entity.refSchemas
-    );
-    const hasError = errors && Object.keys(errors).some((key) => !!errors[key]);
-    if (hasError) {
-      console.log("errors :", errors);
-    } else {
-      const item = this.store.state;
-      console.log("item: ", item);
-    }
-  };
 }
 
 customElements.define("demo-new-page", NewPage);
