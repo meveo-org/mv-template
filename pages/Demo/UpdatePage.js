@@ -2,7 +2,7 @@ import { LitElement, html, css } from "lit-element";
 import "mv-container";
 import "../../components/layout/PageLayout.js";
 
-export default class UpdatePage extends LitElement {
+export default class DemoUpdatePage extends LitElement {
   static properties() {
     return {
       entity: { type: Object, attribute: false, reflect: true },
@@ -21,4 +21,4 @@ export default class UpdatePage extends LitElement {
   }
 }
 
-customElements.define("demo-update-page", UpdatePage);
+customElements.define("demo-update-page", DemoUpdatePage);

@@ -16,7 +16,7 @@ const entityCode = "Demo";
 const entity = findEntity(config, entityCode);
 const properties = buildProperties(entity);
 const mappings = buildModelFields(entity);
-export default class NewPage extends NewPageTemplate {
+export default class DemoNewPage extends NewPageTemplate {
   static get properties() {
     return {
       ...super.properties,
@@ -37,4 +37,4 @@ export default class NewPage extends NewPageTemplate {
   }
 }
 
-customElements.define("demo-new-page", NewPage);
+customElements.define("demo-new-page", DemoNewPage);
