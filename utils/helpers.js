@@ -24,26 +24,32 @@ const toJSType = (fieldType) => {
   return type;
 };
 
-export const buildProperties = (entity) => {
-  return (entity.formFields || []).reduce(
-    (properties, field) => ({
-      ...properties,
-      [field.code]: {
-        type: toJSType(field.type),
-        attribute: false,
-        reflect: true,
-      },
-    }),
+export const buildProperties = (entity) =>
+  (entity.formFields || []).reduce(
+    (properties, group) =>
+      (group.fields || []).reduce(
+        (fields, field) => ({
+          ...fields,
+          [field.code]: {
+            type: toJSType(field.type),
+            attribute: false,
+            reflect: true,
+          },
+        }),
+        properties
+      ),
     {}
   );
-};
 
-export const buildModelFields = (entity) => {
-  return (entity.formFields || []).reduce(
-    (modelFields, field) => [
-      ...modelFields,
-      { property: field.code, value: field.code },
-    ],
+export const buildModelFields = (entity) =>
+  (entity.formFields || []).reduce(
+    (modelFields, group) =>
+      (group.fields || []).reduce(
+        (fields, field) => [
+          ...fields,
+          { property: field.code, value: field.code },
+        ],
+        modelFields
+      ),
     []
   );
-};

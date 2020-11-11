@@ -19,11 +19,11 @@ export default class InputField extends LitElement {
   }
 
   render() {
-    const { code, description, valueRequired } = this.field || {};
+    const { code, label, valueRequired } = this.field || {};
     return html`
       <mv-form-field
         name="${code}"
-        placeholder="${description || ""}"
+        placeholder="${label || ""}"
         label-position="none"
         ?required="${valueRequired}"
         .value="${this.value}"

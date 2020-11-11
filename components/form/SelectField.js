@@ -30,7 +30,7 @@ export default class SelectField extends LitElement {
   }
 
   render() {
-    const { code } = this.field;
+    const { code, label } = this.field;
 
     return html`
       <mv-form-field
@@ -40,6 +40,7 @@ export default class SelectField extends LitElement {
       >
         <mv-select
           slot="field"
+          placeholder="${label}"
           .value="${this.selected}"
           .options="${this.options}"
           @select-option="${this.changeSelected}"
@@ -56,7 +57,7 @@ export default class SelectField extends LitElement {
       label: listValues[key],
       value: key,
     }));
-    if(value) {
+    if (value) {
       this.selected = this.options.find((option) => option.value === value);
     }
   }

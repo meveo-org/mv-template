@@ -23,7 +23,7 @@ export default class DateField extends LitElement {
   }
 
   render() {
-    const { code, description } = this.field;
+    const { code, label } = this.field;
     return html`
       <mv-form-field
         name="${code}"
@@ -34,7 +34,7 @@ export default class DateField extends LitElement {
           dropdown
           slot="field"
           name="${code}"
-          placeholder="${description}"
+          placeholder="${label}"
           .selected="${this.selected}"
           @select-date="${this.changeDate}"
         ></mv-calendar>

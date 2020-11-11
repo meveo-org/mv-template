@@ -44,11 +44,15 @@ export default class NewPageTemplate extends MvElement {
             .refSchemas="${refSchemas}"
           >
             <div class="form-grid">
-              ${(formFields || []).map((formField) => {
-                const value = this[formField.code];
-                return html`
-                  <form-field .field="${{ ...formField, value }}"></form-field>
-                `;
+              ${(formFields || []).map((group) => {
+                return (group.fields || []).map((formField) => {
+                  const value = this[formField.code];
+                  return html`
+                    <form-field
+                      .field="${{ ...formField, value }}"
+                    ></form-field>
+                  `;
+                });
               })}
             </div>
 
