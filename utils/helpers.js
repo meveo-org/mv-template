@@ -29,7 +29,7 @@ export const buildProperties = (entity) => {
     (properties, field) => ({
       ...properties,
       [field.code]: {
-        type: toJSType(field.fieldType),
+        type: toJSType(field.type),
         attribute: false,
         reflect: true,
       },
