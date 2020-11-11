@@ -15,7 +15,7 @@ export default class FormField extends LitElement {
   }
 
   render() {
-    switch (this.field.fieldType) {
+    switch (this.field.type) {
       case "STRING":
         return html`<input-field .field="${this.field}"></input-field>`;
       case "DATE":
@@ -25,7 +25,7 @@ export default class FormField extends LitElement {
       default:
         console.error("Unsupported field");
         console.error(`Field: ${this.field.description || this.field.code}`);
-        console.error(`Type: ${this.field.fieldType}`);
+        console.error(`Type: ${this.field.type}`);
         return html``;
     }
   }
