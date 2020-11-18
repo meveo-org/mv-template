@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit-element";
 import * as config from "config";
-import { NULL_ENTITY, findEntity } from "utils";
+import { NULL_ENTITY, findEntity, toTitleName } from "utils";
 import { parseColumns } from "mv-table-utils";
 import "mv-button";
 import "mv-container";
@@ -78,7 +78,11 @@ export default class ListPageTemplate extends LitElement {
     this.entity = entity;
     const { properties } = entity.schema;
     const columnOrder = Object.keys(properties || {});
-    this.columns = this.columns || parseColumns(properties, columnOrder);
+    const columns = this.columns || parseColumns(properties, columnOrder);
+    this.columns = columns.map((column) => ({
+      ...column,
+      title: toTitleName(column.title),
+    }));
     this.loadList(1);
   }
 
