@@ -1,7 +1,5 @@
-import { LitElement, html, css } from "lit-element";
+import { css } from "lit-element";
 import * as config from "config";
-import { findEntity } from "utils";
-import { parseColumns } from "mv-table-utils";
 import "mv-button";
 import "mv-container";
 import "mv-font-awesome";
@@ -11,6 +9,7 @@ import "mv-tooltip";
 import "../../components/layout/PageLayout.js";
 import "../../components/page_templates/ListPageTemplate.js";
 import ListPageTemplate from "../../components/page_templates/ListPageTemplate.js";
+import ListService from "../../service/Demo/ListService.js";
 
 export default class DemoListPage extends ListPageTemplate {
   static get properties() {
@@ -31,6 +30,32 @@ export default class DemoListPage extends ListPageTemplate {
     this.rows = [];
     this.pages = 1;
     this.currentPage = page;
+    ListService.executeApiCall(
+      this,
+      {
+        noAuth: true,
+        config,
+        firstRow: 0,
+        numberOfRows: 20,
+        fetchFields: this.columns,
+      },
+      this.submitSuccess,
+      this.submitFailed
+    );
+  };
+
+  submitSuccess = (event) => {
+    const {
+      detail: { result },
+    } = event;
+    this.rows = result;
+  };
+
+  submitFailed = (event) => {
+    const {
+      detail: { error },
+    } = event;
+    console.log("error: ", error);
   };
 }
 

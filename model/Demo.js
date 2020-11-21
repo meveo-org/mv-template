@@ -1,62 +1,66 @@
+import * as config from "config";
+
+const DEMO_SCHEMA = {
+  storages: [],
+  default: "Demo for generating Web App from module",
+  $schema: "http://json-schema.org/draft-07/schema",
+  id: "Demo",
+  title: "Demo",
+  type: "object",
+  properties: {
+    firstName: {
+      storages: [],
+      nullable: false,
+      minLength: 1,
+      description: "First name",
+      readOnly: false,
+      versionable: false,
+      id: "CE_Demo_firstName",
+      title: "Demo.firstName",
+      type: "string",
+      maxLength: 255,
+    },
+    lastName: {
+      storages: [],
+      nullable: false,
+      minLength: 1,
+      description: "Last name",
+      readOnly: false,
+      versionable: false,
+      id: "CE_Demo_lastName",
+      title: "Demo.lastName",
+      type: "string",
+      maxLength: 255,
+    },
+    gender: {
+      storages: [],
+      nullable: true,
+      description: "Gender",
+      readOnly: false,
+      versionable: false,
+      id: "CE_Demo_gender",
+      title: "Demo.gender",
+      enum: ["other", "female", "male"],
+    },
+    birthDate: {
+      storages: [],
+      nullable: true,
+      format: "date-time",
+      description: "Birth date",
+      readOnly: false,
+      versionable: false,
+      id: "CE_Demo_birthDate",
+      title: "Demo.birthDate",
+      type: "string",
+    },
+  },
+  required: ["firstName", "lastName"],
+};
+
 export default class DemoEntity {
   code = "Demo";
   label = "Demo";
-  schema = {
-    storages: [],
-    default: "Demo for generating Web App from module",
-    $schema: "http://json-schema.org/draft-07/schema",
-    id: "Demo",
-    title: "Demo",
-    type: "object",
-    properties: {
-      firstName: {
-        storages: [],
-        nullable: false,
-        minLength: 1,
-        description: "First name",
-        readOnly: false,
-        versionable: false,
-        id: "CE_Demo_firstName",
-        title: "Demo.firstName",
-        type: "string",
-        maxLength: 255,
-      },
-      lastName: {
-        storages: [],
-        nullable: false,
-        minLength: 1,
-        description: "Last name",
-        readOnly: false,
-        versionable: false,
-        id: "CE_Demo_lastName",
-        title: "Demo.lastName",
-        type: "string",
-        maxLength: 255,
-      },
-      gender: {
-        storages: [],
-        nullable: true,
-        description: "Gender",
-        readOnly: false,
-        versionable: false,
-        id: "CE_Demo_gender",
-        title: "Demo.gender",
-        enum: ["other", "female", "male"],
-      },
-      birthDate: {
-        storages: [],
-        nullable: true,
-        format: "date-time",
-        description: "Birth date",
-        readOnly: false,
-        versionable: false,
-        id: "CE_Demo_birthDate",
-        title: "Demo.birthDate",
-        type: "string",
-      },
-    },
-    required: ["firstName", "lastName"],
-  };
+  schema = DEMO_SCHEMA;
   refSchemas = [];
   formFields = [
     {
@@ -101,8 +105,10 @@ export default class DemoEntity {
       override: null,
     },
     LIST: {
-      schema: null,
-      override: null,
+      schema: DEMO_SCHEMA,
+      getEndpointConfig: () => ({
+        OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
+      }),
     },
     NEW: {
       schema: null,

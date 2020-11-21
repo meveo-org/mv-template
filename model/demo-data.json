@@ -1,0 +1,20 @@
+[
+  {
+    "firstName": "Luke",
+    "lastName": "Skywalker",
+    "gender": "Male",
+    "birthDate": "09/25/1951"
+  },
+  {
+    "firstName": "Leia",
+    "lastName": "Organa",
+    "gender": "Female",
+    "birthDate": "10/21/1956"
+  },
+  {
+    "firstName": "Han",
+    "lastName": "Solo",
+    "gender": "Female",
+    "birthDate": "07/13/1942"
+  }
+]
