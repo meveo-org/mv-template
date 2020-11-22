@@ -246,10 +246,6 @@ class PostRequest extends ApiRequest {
     const { mock } = this.endpoint;
     const requestParameters = buildRequestParameters(parameters, this.endpoint);
     const apiUrl = buildApiUrl(this.endpoint, parameters);
-    console.log("this.endpoint: ", this.endpoint);
-    console.log("parameters: ", parameters);
-    console.log("config: ", config);
-    console.log("apiUrl: ", apiUrl);
     const requestUrl = new URL(apiUrl);
     if (mock) {
       requestUrl.searchParams.append("mock", true);
