@@ -9,7 +9,7 @@ import "mv-tooltip";
 import "../../components/layout/PageLayout.js";
 import "../../components/page_templates/ListPageTemplate.js";
 import ListPageTemplate from "../../components/page_templates/ListPageTemplate.js";
-import ListService from "../../service/Demo/ListService.js";
+import EndpointInterface from "../../service/EndpointInterface.js";
 
 export default class DemoListPage extends ListPageTemplate {
   static get properties() {
@@ -30,7 +30,8 @@ export default class DemoListPage extends ListPageTemplate {
     this.rows = [];
     this.pages = 1;
     this.currentPage = page;
-    ListService.executeApiCall(
+    const endpointInterface = new EndpointInterface("Demo", "GET", "LIST");
+    endpointInterface.executeApiCall(
       this,
       {
         noAuth: true,
