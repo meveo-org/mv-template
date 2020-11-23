@@ -59,6 +59,7 @@ export default class ListPageTemplate extends LitElement {
             .columns="${this.columns || []}"
             .rows="${this.rows}"
             .action-column="${this.actionColumn}"
+            @row-click="${this.editRow}"
           ></mv-table>
           <mv-pagination
             type="text"
@@ -108,6 +109,13 @@ export default class ListPageTemplate extends LitElement {
     const { rowsPerPage } = this.filter;
     this.rows = list;
     this.pages = count > 0 ? count / rowsPerPage : 0;
+  };
+
+  editRow = (event) => {
+    const {
+      detail: { row },
+    } = event;
+    history.pushState(null, "", `./${this.entity.code}/update/${row.uuid}`);
   };
 }
 
