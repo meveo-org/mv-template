@@ -36,7 +36,7 @@ class PageRoutes extends LitElement {
             ></mv-router>
             <mv-router
               route
-              path="${entity.code}/update"
+              path="${entity.code}/update/:id"
               name="${entity.code}"
               .entity="${entity}"
               storage-modes="local"
