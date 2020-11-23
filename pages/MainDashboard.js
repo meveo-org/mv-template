@@ -72,9 +72,6 @@ export default class MainDashboard extends LitElement {
         {
           noAuth: true,
           config,
-          firstRow: 0,
-          numberOfRows: 20,
-          fetchFields: this.columns,
         },
         this.submitSuccess(entity),
         this.submitFailed(entity)

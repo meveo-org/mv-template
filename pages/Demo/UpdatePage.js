@@ -1,23 +1,38 @@
-import { LitElement, html, css } from "lit-element";
+import * as config from "config";
+import { findEntity, buildProperties, buildModelFields } from "utils";
+import "mv-button";
 import "mv-container";
+import "mv-font-awesome";
+import "mv-form";
+import "mv-form-field";
+import "mv-tooltip";
+import "../../components/form/FormField.js";
 import "../../components/layout/PageLayout.js";
+import UpdatePageTemplate from "../../components/page_templates/UpdatePageTemplate.js";
 
-export default class DemoUpdatePage extends LitElement {
-  static properties() {
+const entityCode = "WebApplication";
+const entity = findEntity(config, entityCode);
+const properties = buildProperties(entity);
+const mappings = buildModelFields(entity);
+
+export default class DemoUpdatePage extends UpdatePageTemplate {
+  static get properties() {
     return {
-      entity: { type: Object, attribute: false, reflect: true },
+      ...super.properties,
+      ...properties,
     };
   }
-  static get styles() {
-    return css``;
+
+  static get model() {
+    return {
+      modelClass: entity.schema,
+      mappings: [...mappings],
+    };
   }
 
-  render() {
-    return html`
-      <page-layout>
-        <mv-container>Update Demo</mv-container>
-      </page-layout>
-    `;
+  constructor() {
+    super();
+    this.entity = entity;
   }
 }
 
