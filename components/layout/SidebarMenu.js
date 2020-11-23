@@ -148,7 +148,7 @@ class SidebarMenu extends LitElement {
               >
                 <router-link path="./${entity.code}/list">
                   <div class="text">
-                    <mv-fa icon="user-secret"></mv-fa>
+                    <mv-fa icon="database"></mv-fa>
                     ${this.expanded ? html`<span>${entity.label}</span>` : html``}
                   </div>
                 </router-link>
