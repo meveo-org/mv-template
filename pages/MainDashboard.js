@@ -4,6 +4,7 @@ import { extractEntities } from "utils";
 import "mv-container";
 import "../components/DashboardTile.js";
 import "../components/layout/PageLayout.js";
+import EndpointInterface from "../service/EndpointInterface.js";
 
 export default class MainDashboard extends LitElement {
   static get properties() {
