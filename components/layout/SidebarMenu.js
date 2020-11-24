@@ -126,17 +126,17 @@ class SidebarMenu extends LitElement {
             </div>
           </mv-menu-panel>
 
-          <!-- <mv-menu-panel
+          <mv-menu-panel
             item
-            .value="${{ selected: "favorites" }}"
-            ?selected="${this.selected === "favorites"}"
+            .value="${{ selected: "dashboard" }}"
+            ?selected="${this.selected === "dashboard"}"
             @select-item="${this.selectItem}"
           >
             <div class="text">
-              <mv-fa icon="star"></mv-fa>
-              ${this.expanded ? html`<span>Favorites</span>` : html``}
+              <mv-fa icon="home"></mv-fa>
+              <span>Dashboard</span>
             </div>
-          </mv-menu-panel> -->
+          </mv-menu-panel>
 
           ${entityList.map(
             (entity) => html`
@@ -149,7 +149,9 @@ class SidebarMenu extends LitElement {
                 <router-link path="./${entity.code}/list">
                   <div class="text">
                     <mv-fa icon="database"></mv-fa>
-                    ${this.expanded ? html`<span>${entity.label}</span>` : html``}
+                    ${this.expanded
+                      ? html`<span>${entity.label}</span>`
+                      : html``}
                   </div>
                 </router-link>
               </mv-menu-panel>
