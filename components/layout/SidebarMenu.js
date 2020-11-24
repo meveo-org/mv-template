@@ -132,10 +132,12 @@ class SidebarMenu extends LitElement {
             ?selected="${this.selected === "dashboard"}"
             @select-item="${this.selectItem}"
           >
-            <div class="text">
-              <mv-fa icon="home"></mv-fa>
-              <span>Dashboard</span>
-            </div>
+            <router-link path="./dashboard">
+              <div class="text">
+                <mv-fa icon="home"></mv-fa>
+                <span>Dashboard</span>
+              </div>
+            </router-link>
           </mv-menu-panel>
 
           ${entityList.map(
