@@ -92,6 +92,37 @@ export default class ListPageTemplate extends LitElement {
     this.rows = [];
     this.pages = 1;
     this.currentPage = page;
+    const endpointInterface = new EndpointInterface(
+      this.entity.code,
+      "POST",
+      "LIST"
+    );
+    endpointInterface.executeApiCall(
+      this,
+      {
+        noAuth: true,
+        config,
+        firstRow: 0,
+        numberOfRows: 20,
+        fetchFields: this.columns,
+      },
+      this.retrieveSuccess,
+      this.retrieveFailed
+    );
+  };
+
+  retrieveSuccess = (event) => {
+    const {
+      detail: { result },
+    } = event;
+    this.rows = result;
+  };
+
+  retrieveFailed = (event) => {
+    const {
+      detail: { error },
+    } = event;
+    console.log("error: ", error);
   };
 
   gotoPage = (event) => {

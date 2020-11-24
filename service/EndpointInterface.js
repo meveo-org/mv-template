@@ -71,15 +71,17 @@ function buildEndpointConfig(endpoint, parameters) {
  * @returns an object with only the parameter values that are defined
  * in the schema properties
  */
-function buildRequestParameters(parameters, endpoint) {
-  const { requestSchema, refSchemas } = endpoint;
-  if (requestSchema) {
-    const keys = getSchemaKeys(requestSchema, refSchemas);
-    const endpointConfig = buildEndpointConfig(endpoint, parameters);
-    const { decorateProperties } = endpointConfig;
+function buildRequestParameters(endpoint, parameters) {
+  const { entity, type } = endpoint;
+  const { schema, refSchemas } = entity;
+  if (schema) {
+    const keys = getSchemaKeys(schema, refSchemas);
+    const { decorateProperties } = (entity.endpoints || {})[type] || {
+      decorateProperties: () => ({}),
+    };
     const props = keys.reduce(mapProperties(parameters), {});
     const properties = !!decorateProperties
-      ? decorateProperties(props, parameters, endpoint)
+      ? decorateProperties({ props, parameters, endpoint })
       : props;
     return properties;
   }
@@ -209,7 +211,7 @@ class GetRequest extends ApiRequest {
    */
   executeRequest(parameters) {
     const { mock } = this.endpoint;
-    const requestParameters = buildRequestParameters(parameters, this.endpoint);
+    const requestParameters = buildRequestParameters(this.endpoint, parameters);
     const parameterKeys = Object.keys(requestParameters || {});
     const hasParameters = requestParameters && parameterKeys.length > 0;
     const apiUrl = buildApiUrl(this.endpoint, parameters);
@@ -244,7 +246,7 @@ class PostRequest extends ApiRequest {
    */
   executeRequest(parameters) {
     const { mock } = this.endpoint;
-    const requestParameters = buildRequestParameters(parameters, this.endpoint);
+    const requestParameters = buildRequestParameters(this.endpoint, parameters);
     const apiUrl = buildApiUrl(this.endpoint, parameters);
     const requestUrl = new URL(apiUrl);
     if (mock) {
@@ -276,7 +278,7 @@ class DeleteRequest extends ApiRequest {
    */
   executeRequest(parameters) {
     const { mock } = this.endpoint;
-    const requestParameters = buildRequestParameters(parameters, this.endpoint);
+    const requestParameters = buildRequestParameters(this.endpoint, parameters);
     const parameterKeys = Object.keys(requestParameters || {});
     const hasParameters = requestParameters && parameterKeys.length > 0;
     const apiUrl = buildApiUrl(this.endpoint, parameters);
@@ -311,7 +313,7 @@ class PutRequest extends ApiRequest {
    */
   executeRequest(parameters) {
     const { mock } = this.endpoint;
-    const requestParameters = buildRequestParameters(parameters, this.endpoint);
+    const requestParameters = buildRequestParameters(this.endpoint, parameters);
     const apiUrl = buildApiUrl(this.endpoint, parameters);
     const requestUrl = new URL(apiUrl);
     if (mock) {

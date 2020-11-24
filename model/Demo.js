@@ -82,7 +82,7 @@ export default class DemoEntity {
           code: "birthDate",
           label: "Birth Date",
           description: "Birth date",
-          type: "DATE",    
+          type: "DATE",
         },
         {
           code: "gender",
@@ -95,14 +95,15 @@ export default class DemoEntity {
             other: "Other",
           },
         },
-
       ],
-    },    
+    },
   ];
   endpoints = {
     DETAIL: {
-      schema: null,
-      override: null,
+      schema: DEMO_SCHEMA,
+      getEndpointConfig: () => ({
+        OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
+      }),
     },
     LIST: {
       schema: DEMO_SCHEMA,
@@ -111,12 +112,16 @@ export default class DemoEntity {
       }),
     },
     NEW: {
-      schema: null,
-      override: null,
+      schema: DEMO_SCHEMA,
+      getEndpointConfig: () => ({
+        OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
+      }),
     },
     UPDATE: {
-      schema: null,
-      override: null,
+      schema: DEMO_SCHEMA,
+      getEndpointConfig: () => ({
+        OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
+      }),
     },
   };
 }
