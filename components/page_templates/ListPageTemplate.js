@@ -17,6 +17,7 @@ export default class ListPageTemplate extends LitElement {
       filter: { type: Object, attribute: false, reflect: true },
       pages: { type: Number },
       currentPage: { type: Number },
+      rowsPerPage: {type: Number},
       columns: { type: Array },
       rows: { type: Array },
     };
@@ -35,6 +36,7 @@ export default class ListPageTemplate extends LitElement {
     this.entity = { ...NULL_ENTITY };
     this.pages = 1;
     this.currentPage = 1;
+    this.rowsPerPage = 20;
     this.rows = [];
     this.filter = {
       rowsPerPage: 10,
@@ -87,11 +89,9 @@ export default class ListPageTemplate extends LitElement {
     this.loadList(1);
   }
 
-  // override this in child component
-  loadList = (page) => {
-    this.rows = [];
-    this.pages = 1;
-    this.currentPage = page;
+  loadList = (page) => {    
+    this.currentPage = page < 1 ? 1 : page;
+    const firstRow = (this.currentPage - 1) * this.rowsPerPage;
     const endpointInterface = new EndpointInterface(
       this.entity.code,
       "POST",
@@ -102,8 +102,8 @@ export default class ListPageTemplate extends LitElement {
       {
         noAuth: true,
         config,
-        firstRow: 0,
-        numberOfRows: 20,
+        firstRow,
+        numberOfRows: this.rowsPerPage,
         fetchFields: this.columns,
       },
       this.retrieveSuccess,
@@ -113,9 +113,13 @@ export default class ListPageTemplate extends LitElement {
 
   retrieveSuccess = (event) => {
     const {
-      detail: { result },
+      detail: {
+        result: { result, count },
+      },
     } = event;
+
     this.rows = result;
+    this.pages = this.rowsPerPage > 0 ? Math.ceil(count / this.rowsPerPage) : 1;
   };
 
   retrieveFailed = (event) => {
@@ -132,14 +136,6 @@ export default class ListPageTemplate extends LitElement {
 
   newItem = () => {
     history.pushState(null, "", `./${this.entity.code}/new`);
-  };
-
-  updateRows = (event) => {
-    const { detail } = event;
-    const { list, count } = detail;
-    const { rowsPerPage } = this.filter;
-    this.rows = list;
-    this.pages = count > 0 ? count / rowsPerPage : 0;
   };
 
   editRow = (event) => {
