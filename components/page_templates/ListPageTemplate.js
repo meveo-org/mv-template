@@ -9,6 +9,7 @@ import "mv-pagination";
 import "mv-table";
 import "mv-tooltip";
 import "../../components/layout/PageLayout.js";
+import EndpointInterface from "../../service/EndpointInterface.js";
 
 export default class ListPageTemplate extends LitElement {
   static get properties() {
