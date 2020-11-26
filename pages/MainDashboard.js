@@ -84,7 +84,7 @@ export default class MainDashboard extends LitElement {
   submitSuccess = (entity) => (event) => {
     this.count = {
       ...this.count,
-      [entity.code]: event.detail.result.length || 0,
+      [entity.code]: event.detail.result.count || 0,
     };
   };
 
