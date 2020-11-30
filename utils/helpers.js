@@ -54,6 +54,71 @@ export const buildModelFields = (entity) =>
     []
   );
 
+export const getEndpoints = (schema) => ({
+  DETAIL: {
+    schema,
+    getEndpointConfig: ({ endpoint, parameters }) => {
+      const {
+        entity: { code },
+      } = endpoint;
+      const { uuid } = parameters;
+      return {
+        OVERRIDE_URL: `http://localhost:8080/meveo/api/rest/default/persistence/${code}/${uuid}`,
+      };
+    },
+  },
+  LIST: {
+    schema,
+    getEndpointConfig: ({ endpoint }) => {
+      const {
+        entity: { code },
+      } = endpoint;
+      return {
+        OVERRIDE_URL: `http://localhost:8080/meveo/api/rest/default/persistence/${code}/list?withCount=true`,
+      };
+    },
+    decorateProperties: ({ parameters }) => {
+      const { firstRow, numberOfRows, fetchFields } = parameters;
+      return { firstRow, numberOfRows, fetchFields };
+    },
+  },
+  NEW: {
+    schema,
+    getEndpointConfig: () => {
+      return {
+        OVERRIDE_URL:
+          "http://localhost:8080/meveo/api/rest/default/persistence",
+      };
+    },
+    decorateProperties: ({ endpoint, props }) => {
+      const {
+        entity: { code },
+      } = endpoint;
+      return [
+        {
+          name: `${toPascalName(code)} (${generateHash()})`,
+          type: code,
+          properties: {
+            ...props,
+          },
+        },
+      ];
+    },
+  },
+  UPDATE: {
+    schema,
+    getEndpointConfig: ({ endpoint, parameters }) => {
+      const {
+        entity: { code },
+      } = endpoint;
+      const { uuid } = parameters;
+      return {
+        OVERRIDE_URL: `http://localhost:8080/meveo/api/rest/default/persistence/${code}/${uuid}`,
+      };
+    },
+  },
+});
+
 const REGEX_PATTERN = /(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])|_|\\s|-/gm;
 const EMPTY = "";
 const SPACE = " ";
