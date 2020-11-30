@@ -54,7 +54,7 @@ export const buildModelFields = (entity) =>
     []
   );
 
-export const getEndpoints = (schema) => ({
+export const getEndpoints = (schema, baseUrl) => ({
   DETAIL: {
     schema,
     getEndpointConfig: ({ endpoint, parameters }) => {
@@ -63,7 +63,7 @@ export const getEndpoints = (schema) => ({
       } = endpoint;
       const { uuid } = parameters;
       return {
-        OVERRIDE_URL: `http://localhost:8080/meveo/api/rest/default/persistence/${code}/${uuid}`,
+        OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence/${code}/${uuid}`,
       };
     },
   },
@@ -74,7 +74,7 @@ export const getEndpoints = (schema) => ({
         entity: { code },
       } = endpoint;
       return {
-        OVERRIDE_URL: `http://localhost:8080/meveo/api/rest/default/persistence/${code}/list?withCount=true`,
+        OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence/${code}/list?withCount=true`,
       };
     },
     decorateProperties: ({ parameters }) => {
@@ -86,8 +86,7 @@ export const getEndpoints = (schema) => ({
     schema,
     getEndpointConfig: () => {
       return {
-        OVERRIDE_URL:
-          "http://localhost:8080/meveo/api/rest/default/persistence",
+        OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence`,
       };
     },
     decorateProperties: ({ endpoint, props }) => {
@@ -113,7 +112,7 @@ export const getEndpoints = (schema) => ({
       } = endpoint;
       const { uuid } = parameters;
       return {
-        OVERRIDE_URL: `http://localhost:8080/meveo/api/rest/default/persistence/${code}/${uuid}`,
+        OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence/${code}/${uuid}`,
       };
     },
   },
