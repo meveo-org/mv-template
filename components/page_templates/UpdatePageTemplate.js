@@ -1,16 +1,23 @@
 import { html, css } from "lit-element";
 import { MvElement } from "mv-element";
 import * as config from "config";
-import { findEntity, buildProperties, buildModelFields } from "utils";
 import { validate, clearForm } from "mv-form-utils";
 import "mv-button";
 import "mv-container";
+import "mv-dialog";
 import "mv-font-awesome";
 import "mv-form";
 import "mv-form-field";
 import "mv-tooltip";
 import "../../components/form/FormField.js";
 import "../../components/layout/PageLayout.js";
+import EndpointInterface from "../../service/EndpointInterface.js";
+
+const EMPTY_DIALOG = {
+  title: "",
+  message: "",
+  open: false,
+};
 
 export default class UpdatePageTemplate extends MvElement {
   static get properties() {
@@ -20,6 +27,7 @@ export default class UpdatePageTemplate extends MvElement {
       schema: { type: Object, attribute: false, reflect: true },
       refSchemas: { type: Array, attribute: false, reflect: true },
       errors: { type: Array, attribute: false, reflect: true },
+      dialog: { type: Object, attribute: false, reflect: true },
     };
   }
 
@@ -31,6 +39,11 @@ export default class UpdatePageTemplate extends MvElement {
         grid-column-gap: 20px;
       }
     `;
+  }
+
+  constructor() {
+    super();
+    this.dialog = EMPTY_DIALOG;
   }
 
   render() {
@@ -72,27 +85,88 @@ export default class UpdatePageTemplate extends MvElement {
             </div>
           </mv-form>
         </mv-container>
+        <mv-dialog
+          class="dialog-size"
+          header-label="${this.dialog.title}"
+          ?open="${this.dialog.open}"
+          @close-dialog="${this.closeDialog}"
+          no-left-button
+          closeable
+        >
+          <p>${this.dialog.message}</p>
+          <span slot="footer">
+            <mv-button
+              no-left-button
+              @button-clicked="${this.closeDialog}"
+              button-style="error"
+              >Close</mv-button
+            >
+          </span>
+        </mv-dialog>
       </page-layout>
     `;
   }
 
   connectedCallback() {
     super.connectedCallback();
+    this.addEventListener("update-errors", this.handleErrors);
+    this.addEventListener("clear-errors", this.clearErrors);
+
+    this.loadFormData();
+  }
+
+  loadFormData = () => {
     const {
       parameters: { pathParameters },
     } = this;
     const { id } = pathParameters;
-    console.log("id: ", id);
-    this.addEventListener("update-errors", this.handleErrors);
-    this.addEventListener("clear-errors", this.clearErrors);
-  }
+
+    const endpointInterface = new EndpointInterface(
+      this.entity.code,
+      "GET",
+      "DETAIL"
+    );
+    endpointInterface.executeApiCall(
+      this,
+      {
+        noAuth: true,
+        config,
+        uuid: id,
+      },
+      this.detailRetrieved,
+      this.handleErrors
+    );
+  };
+
+  detailRetrieved = (event) => {
+    const {
+      detail: { result },
+    } = event;
+    const { schema } = this.entity;
+
+    const { properties } = schema;
+    Object.getOwnPropertyNames(properties).forEach((name) => {
+      const value = result[name];
+      this.store.updateValue(name, value);
+    });
+    this.store.dispatch("");
+  };
 
   clearErrors = () => {
     this.errors = null;
   };
 
   handleErrors = (event) => {
-    this.errors = event.detail.errors;
+    const {
+      detail: { error },
+    } = event;
+    console.log("error: ", error);
+    const [message, statusCode] = error;
+    this.dialog = {
+      title: "Error",
+      message: html`<span>${message}</span><br /><small>${statusCode}</small>`,
+      open: true,
+    };
   };
 
   cancel = (event) => {
@@ -113,9 +187,43 @@ export default class UpdatePageTemplate extends MvElement {
     if (hasError) {
       console.log("errors :", errors);
     } else {
+      const {
+        parameters: { pathParameters },
+      } = this;
+      const { id } = pathParameters;
       const item = this.store.state;
-      console.log("item: ", item);
+      const endpointInterface = new EndpointInterface(
+        this.entity.code,
+        "PUT",
+        "UPDATE"
+      );
+      endpointInterface.executeApiCall(
+        this,
+        {
+          noAuth: true,
+          config,
+          uuid: id,
+          ...item,
+        },
+        this.submitSuccess,
+        this.handleErrors
+      );
     }
+  };
+
+  submitSuccess = (event) => {
+    const {
+      detail: { result },
+    } = event;
+    this.dialog = {
+      title: "Success",
+      message: html`<span>Item updated.</small>`,
+      open: true,
+    };
+  };
+
+  closeDialog = () => {
+    this.dialog = EMPTY_DIALOG;
   };
 }
 

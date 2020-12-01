@@ -135,7 +135,7 @@ class SidebarMenu extends LitElement {
             <router-link path="./dashboard">
               <div class="text">
                 <mv-fa icon="home"></mv-fa>
-                <span>Dashboard</span>
+                ${this.expanded ? html`<span>Dashboard</span>` : html``}
               </div>
             </router-link>
           </mv-menu-panel>
@@ -159,18 +159,6 @@ class SidebarMenu extends LitElement {
               </mv-menu-panel>
             `
           )}
-
-          <!-- <mv-menu-panel
-            item
-            .value="${{ selected: "settings" }}"
-            ?selected="${this.selected === "settings"}"
-            @select-item="${this.selectItem}"
-          >
-            <div class="text">
-              <mv-fa icon="cog"></mv-fa>
-              ${this.expanded ? html`<span>Settings</span>` : html``}
-            </div>
-          </mv-menu-panel> -->
         </mv-menu-panel>
       </div>
     `;
