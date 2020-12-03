@@ -185,7 +185,7 @@ export default class NewPageTemplate extends MvElement {
     const {
       detail: { error },
     } = event;
-    console.log("error: ", error);
+    console.error("error: ", error);
     const [message, statusCode] = error;
     this.dialog = {
       title: "Error",

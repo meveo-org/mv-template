@@ -59,7 +59,6 @@ export default class UpdatePageTemplate extends MvElement {
               ${(formFields || []).map((group) => {
                 return (group.fields || []).map((formField) => {
                   const value = this[formField.code];
-                  console.log(`${formField.code}: `, value);
                   return html`
                     <form-field
                       .field="${formField}"
@@ -191,7 +190,7 @@ export default class UpdatePageTemplate extends MvElement {
     );
     const hasError = errors && Object.keys(errors).some((key) => !!errors[key]);
     if (hasError) {
-      console.log("errors :", errors);
+      console.error("errors :", errors);
     } else {
       const {
         parameters: { pathParameters },
