@@ -7,6 +7,7 @@ export default class FormField extends LitElement {
   static get properties() {
     return {
       field: { type: Object, attribute: false, reflect: true },
+      value: { type: Object, attribute: false, reflect: true },
     };
   }
 
@@ -17,11 +18,20 @@ export default class FormField extends LitElement {
   render() {
     switch (this.field.type) {
       case "STRING":
-        return html`<input-field .field="${this.field}"></input-field>`;
+        return html`<input-field
+          .field="${this.field}"
+          .value="${this.value}"
+        ></input-field>`;
       case "DATE":
-        return html`<date-field .field="${this.field}"></date-field>`;
+        return html`<date-field
+          .field="${this.field}"
+          .value="${this.value}"
+        ></date-field>`;
       case "LIST":
-        return html`<select-field .field="${this.field}"></select-field>`;
+        return html`<select-field
+          .field="${this.field}"
+          .value="${this.value}"
+        ></select-field>`;
       default:
         console.error("Unsupported field");
         console.error(`Field: ${this.field.description || this.field.code}`);

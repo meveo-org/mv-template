@@ -6,6 +6,7 @@ export default class InputField extends LitElement {
     return {
       field: { type: Object, attribute: false, reflect: true },
       errors: { type: Object, attribute: false, reflect: true },
+      value: { type: Object, attribute: false, reflect: true },
     };
   }
 
@@ -30,14 +31,6 @@ export default class InputField extends LitElement {
         .error="${matchError(this.errors, code)}"
       ></mv-form-field>
     `;
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    const { value } = this.field;
-    if (value) {
-      this.value = value;
-    }
   }
 }
 

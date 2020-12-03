@@ -9,6 +9,7 @@ export default class DateField extends LitElement {
     return {
       field: { type: Object, attribute: false, reflect: true },
       selected: { type: Object, attribute: false, reflect: true },
+      value: { type: Object, attribute: false, reflect: true },
     };
   }
 
@@ -44,8 +45,8 @@ export default class DateField extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    if (this.field.value) {
-      const date = new Date(this.field.value);
+    if (this.value) {
+      const date = new Date(this.value);
       this.selected = parseDate({ date });
     }
   }

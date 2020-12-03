@@ -23,7 +23,6 @@ export default class NewPageTemplate extends MvElement {
   static get properties() {
     return {
       entity: { type: Object, attribute: false, reflect: true },
-      formFields: { type: Array, attribute: false, reflect: true },
       schema: { type: Object, attribute: false, reflect: true },
       refSchemas: { type: Array, attribute: false, reflect: true },
       errors: { type: Array, attribute: false, reflect: true },
@@ -116,6 +115,11 @@ export default class NewPageTemplate extends MvElement {
     super.connectedCallback();
     this.addEventListener("update-errors", this.handleErrors);
     this.addEventListener("clear-errors", this.clearErrors);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.store.resetState(true);
   }
 
   clearErrors = () => {

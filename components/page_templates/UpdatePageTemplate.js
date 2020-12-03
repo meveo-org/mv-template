@@ -23,7 +23,6 @@ export default class UpdatePageTemplate extends MvElement {
   static get properties() {
     return {
       entity: { type: Object, attribute: false, reflect: true },
-      formFields: { type: Array, attribute: false, reflect: true },
       schema: { type: Object, attribute: false, reflect: true },
       refSchemas: { type: Array, attribute: false, reflect: true },
       errors: { type: Array, attribute: false, reflect: true },
@@ -60,9 +59,11 @@ export default class UpdatePageTemplate extends MvElement {
               ${(formFields || []).map((group) => {
                 return (group.fields || []).map((formField) => {
                   const value = this[formField.code];
+                  console.log(`${formField.code}: `, value);
                   return html`
                     <form-field
-                      .field="${{ ...formField, value }}"
+                      .field="${formField}"
+                      .value="${value}"
                     ></form-field>
                   `;
                 });
@@ -113,6 +114,11 @@ export default class UpdatePageTemplate extends MvElement {
     this.addEventListener("clear-errors", this.clearErrors);
 
     this.loadFormData();
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.store.resetState(true);
   }
 
   loadFormData = () => {
