@@ -152,8 +152,6 @@ export default class ListPageTemplate extends LitElement {
       },
     } = event;
 
-    console.log("result: ", result);
-
     this.rows = result;
     this.pages = this.rowsPerPage > 0 ? Math.ceil(count / this.rowsPerPage) : 1;
   };
@@ -204,7 +202,7 @@ export default class ListPageTemplate extends LitElement {
         config,
         uuid,
       },
-      this.retrieveSuccess,
+      this.deleteSuccess,
       this.handleErrors
     );
   };
@@ -215,6 +213,7 @@ export default class ListPageTemplate extends LitElement {
       message: html`<span>Item deleted.</span>`,
       open: true,
     };
+    
   };
 
   closeDialog = () => {
