@@ -2,6 +2,7 @@ import { html, css } from "lit-element";
 import { MvElement } from "mv-element";
 import * as config from "config";
 import { validate, clearForm } from "mv-form-utils";
+import { EMPTY_DIALOG } from "utils";
 import "mv-button";
 import "mv-container";
 import "mv-dialog";
@@ -12,12 +13,6 @@ import "mv-tooltip";
 import "../../components/form/FormField.js";
 import "../../components/layout/PageLayout.js";
 import EndpointInterface from "../../service/EndpointInterface.js";
-
-const EMPTY_DIALOG = {
-  title: "",
-  message: "",
-  open: false,
-};
 
 export default class UpdatePageTemplate extends MvElement {
   static get properties() {
@@ -95,12 +90,9 @@ export default class UpdatePageTemplate extends MvElement {
         >
           <p>${this.dialog.message}</p>
           <span slot="footer">
-            <mv-button
-              no-left-button
-              @button-clicked="${this.closeDialog}"
-              button-style="error"
-              >Close</mv-button
-            >
+            <mv-button no-left-button @button-clicked="${this.closeDialog}">
+              Close
+            </mv-button>
           </span>
         </mv-dialog>
       </page-layout>
@@ -165,7 +157,7 @@ export default class UpdatePageTemplate extends MvElement {
     const {
       detail: { error },
     } = event;
-    console.log("error: ", error);
+    console.error("error: ", error);
     const [message, statusCode] = error;
     this.dialog = {
       title: "Error",
@@ -216,13 +208,10 @@ export default class UpdatePageTemplate extends MvElement {
     }
   };
 
-  submitSuccess = (event) => {
-    const {
-      detail: { result },
-    } = event;
+  submitSuccess = () => {
     this.dialog = {
       title: "Success",
-      message: html`<span>Item updated.</small>`,
+      message: html`<span>Item updated.</span>`,
       open: true,
     };
   };

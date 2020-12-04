@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit-element";
 import * as config from "config";
-import { NULL_ENTITY, findEntity, toTitleName } from "utils";
+import { NULL_ENTITY, EMPTY_DIALOG, findEntity, toTitleName } from "utils";
 import { parseColumns } from "mv-table-utils";
 import "mv-button";
 import "mv-container";
@@ -9,16 +9,27 @@ import "mv-pagination";
 import "mv-table";
 import "mv-tooltip";
 import "../../components/layout/PageLayout.js";
+import "../../components/TableActions.js";
 import EndpointInterface from "../../service/EndpointInterface.js";
+
+const DEFAULT_FILTER = {
+  rowsPerPage: 10,
+  sortFields: [],
+  search: {
+    field: null,
+    value: null,
+  },
+};
 
 export default class ListPageTemplate extends LitElement {
   static get properties() {
     return {
       entity: { type: Object, attribute: false, reflect: true },
       filter: { type: Object, attribute: false, reflect: true },
+      dialog: { type: Object, attribute: false, reflect: true },
       pages: { type: Number },
       currentPage: { type: Number },
-      rowsPerPage: {type: Number},
+      rowsPerPage: { type: Number },
       columns: { type: Array },
       rows: { type: Array },
     };
@@ -28,6 +39,11 @@ export default class ListPageTemplate extends LitElement {
     return css`
       h1 {
         margin-top: 0;
+      }
+
+      .dialog-size {
+        --mv-dialog-width: 500px;
+        --mv-dialog-max-height: 300px;
       }
     `;
   }
@@ -39,13 +55,16 @@ export default class ListPageTemplate extends LitElement {
     this.currentPage = 1;
     this.rowsPerPage = 5;
     this.rows = [];
-    this.filter = {
-      rowsPerPage: 10,
-      sortFields: [],
-      search: {
-        field: null,
-        value: null,
-      },
+    this.dialog = { ...EMPTY_DIALOG };
+    this.filter = { DEFAULT_FILTER };
+    this.actionColumn = {
+      getActionComponent: (row) => html`
+        <table-actions
+          .row="${row}"
+          @edit="${this.editRow}"
+          @delete="${this.deleteRow}"
+        ></table-actions>
+      `,
     };
   }
 
@@ -62,7 +81,6 @@ export default class ListPageTemplate extends LitElement {
             .columns="${this.columns || []}"
             .rows="${this.rows}"
             .action-column="${this.actionColumn}"
-            @row-click="${this.editRow}"
           ></mv-table>
           <mv-pagination
             type="text"
@@ -71,6 +89,21 @@ export default class ListPageTemplate extends LitElement {
             @change-page="${this.gotoPage}"
           ></mv-pagination>
         </mv-container>
+        <mv-dialog
+          class="dialog-size"
+          header-label="${this.dialog.title}"
+          ?open="${this.dialog.open}"
+          @close-dialog="${this.closeDialog}"
+          no-left-button
+          closeable
+        >
+          <p>${this.dialog.message}</p>
+          <span slot="footer">
+            <mv-button no-left-button @button-clicked="${this.closeDialog}">
+              Close
+            </mv-button>
+          </span>
+        </mv-dialog>
       </page-layout>
     `;
   }
@@ -90,7 +123,7 @@ export default class ListPageTemplate extends LitElement {
     this.loadList(1);
   }
 
-  loadList = (page) => {    
+  loadList = (page) => {
     this.currentPage = page < 1 ? 1 : page;
     const firstRow = (this.currentPage - 1) * this.rowsPerPage;
     const endpointInterface = new EndpointInterface(
@@ -105,10 +138,10 @@ export default class ListPageTemplate extends LitElement {
         config,
         firstRow,
         numberOfRows: this.rowsPerPage,
-        fetchFields: this.columns.map(column => column.name),
+        fetchFields: this.columns.map((column) => column.name),
       },
       this.retrieveSuccess,
-      this.retrieveFailed
+      this.handleErrors
     );
   };
 
@@ -119,15 +152,23 @@ export default class ListPageTemplate extends LitElement {
       },
     } = event;
 
+    console.log("result: ", result);
+
     this.rows = result;
     this.pages = this.rowsPerPage > 0 ? Math.ceil(count / this.rowsPerPage) : 1;
   };
 
-  retrieveFailed = (event) => {
+  handleErrors = (event) => {
     const {
       detail: { error },
     } = event;
-    console.log("error: ", error);
+    console.error("error: ", error);
+    const [message, statusCode] = error;
+    this.dialog = {
+      title: "Error",
+      message: html`<span>${message}</span><br /><small>${statusCode}</small>`,
+      open: true,
+    };
   };
 
   gotoPage = (event) => {
@@ -144,6 +185,40 @@ export default class ListPageTemplate extends LitElement {
       detail: { row },
     } = event;
     history.pushState(null, "", `./${this.entity.code}/update/${row.uuid}`);
+  };
+
+  deleteRow = (event) => {
+    const {
+      detail: { row },
+    } = event;
+    const { uuid } = row;
+    const endpointInterface = new EndpointInterface(
+      this.entity.code,
+      "DELETE",
+      "DELETE"
+    );
+    endpointInterface.executeApiCall(
+      this,
+      {
+        noAuth: true,
+        config,
+        uuid,
+      },
+      this.retrieveSuccess,
+      this.handleErrors
+    );
+  };
+
+  deleteSuccess = () => {
+    this.dialog = {
+      title: "Success",
+      message: html`<span>Item deleted.</span>`,
+      open: true,
+    };
+  };
+
+  closeDialog = () => {
+    this.dialog = { ...EMPTY_DIALOG };
   };
 }
 

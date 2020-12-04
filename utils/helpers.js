@@ -116,6 +116,18 @@ export const getEndpoints = (schema, baseUrl) => ({
       };
     },
   },
+  DELETE: {
+    schema,
+    getEndpointConfig: ({ endpoint, parameters }) => {
+      const {
+        entity: { code },
+      } = endpoint;
+      const { uuid } = parameters;
+      return {
+        OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence/${code}/${uuid}`,
+      };
+    },
+  },
 });
 
 const REGEX_PATTERN = /(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])|_|\\s|-/gm;

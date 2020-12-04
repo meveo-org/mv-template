@@ -179,7 +179,10 @@ class ApiRequest {
             `Status code: ${response.status} [${response.statusText}]`,
           ];
         }
-        return response.json();
+        const type = response.headers.get("Content-Type");
+        return type === "application/json"
+          ? response.json()
+          : { status: response.statusText };
       })
       .then(function (result) {
         component.dispatchEvent(

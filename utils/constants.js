@@ -23,3 +23,9 @@ export const NULL_ENTITY = {
     },
   },
 };
+
+export const EMPTY_DIALOG = {
+  title: "",
+  message: "",
+  open: false,
+};
