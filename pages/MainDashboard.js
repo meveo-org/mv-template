@@ -69,7 +69,6 @@ export default class MainDashboard extends LitElement {
         "LIST"
       );
       endpointInterface.executeApiCall(
-        this,
         {
           noAuth: true,
           config,
@@ -89,9 +88,9 @@ export default class MainDashboard extends LitElement {
   };
 
   submitFailed = (entity) => (event) => {
-    console.log("Encountered error while retrieving list details.");
-    console.log("entity: ", entity);
-    console.log("event.detail: ", JSON.stringify(event.detail, null, 2));
+    console.error("Encountered error while retrieving list details.");
+    console.error("entity: ", entity);
+    console.error("event.detail: ", JSON.stringify(event.detail, null, 2));
   };
 }
 

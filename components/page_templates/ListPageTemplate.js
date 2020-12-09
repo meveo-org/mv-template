@@ -4,6 +4,7 @@ import { NULL_ENTITY, EMPTY_DIALOG, findEntity, toTitleName } from "utils";
 import { parseColumns } from "mv-table-utils";
 import "mv-button";
 import "mv-container";
+import "mv-dialog";
 import "mv-font-awesome";
 import "mv-pagination";
 import "mv-table";
@@ -26,7 +27,8 @@ export default class ListPageTemplate extends LitElement {
     return {
       entity: { type: Object, attribute: false, reflect: true },
       filter: { type: Object, attribute: false, reflect: true },
-      dialog: { type: Object, attribute: false, reflect: true },
+      messageDialog: { type: Object, attribute: false, reflect: true },
+      confirmDialog: { type: Object, attribute: false, reflect: true },
       pages: { type: Number },
       currentPage: { type: Number },
       rowsPerPage: { type: Number },
@@ -55,14 +57,15 @@ export default class ListPageTemplate extends LitElement {
     this.currentPage = 1;
     this.rowsPerPage = 5;
     this.rows = [];
-    this.dialog = { ...EMPTY_DIALOG };
+    this.messageDialog = { ...EMPTY_DIALOG };
+    this.confirmDialog = { ...EMPTY_DIALOG };
     this.filter = { DEFAULT_FILTER };
     this.actionColumn = {
       getActionComponent: (row) => html`
         <table-actions
           .row="${row}"
           @edit="${this.editRow}"
-          @delete="${this.deleteRow}"
+          @delete="${this.confirmDelete}"
         ></table-actions>
       `,
     };
@@ -90,19 +93,24 @@ export default class ListPageTemplate extends LitElement {
           ></mv-pagination>
         </mv-container>
         <mv-dialog
-          class="dialog-size"
-          header-label="${this.dialog.title}"
-          ?open="${this.dialog.open}"
-          @close-dialog="${this.closeDialog}"
+          class="message-dialog dialog-size"
+          header-label="${this.messageDialog.title}"
+          ?open="${this.messageDialog.open}"
+          @ok-dialog="${this.closeDialog("messageDialog")}"
           no-left-button
           closeable
         >
-          <p>${this.dialog.message}</p>
-          <span slot="footer">
-            <mv-button no-left-button @button-clicked="${this.closeDialog}">
-              Close
-            </mv-button>
-          </span>
+          <p>${this.messageDialog.message}</p>
+        </mv-dialog>
+        <mv-dialog
+          class="confirm dialog dialog-size"
+          header-label="${this.confirmDialog.title}"
+          ?open="${this.confirmDialog.open}"
+          @close-dialog="${this.closeDialog("confirmDialog")}"
+          @ok-dialog="${this.confirmDialog.okAction}"
+          closeable
+        >
+          <p>${this.confirmDialog.message}</p>
         </mv-dialog>
       </page-layout>
     `;
@@ -132,7 +140,6 @@ export default class ListPageTemplate extends LitElement {
       "LIST"
     );
     endpointInterface.executeApiCall(
-      this,
       {
         noAuth: true,
         config,
@@ -152,8 +159,13 @@ export default class ListPageTemplate extends LitElement {
       },
     } = event;
 
-    this.rows = result;
-    this.pages = this.rowsPerPage > 0 ? Math.ceil(count / this.rowsPerPage) : 1;
+    if (count > 0 && result.length < 1 && this.currentPage > 1) {
+      this.loadList(this.currentPage - 1);
+    } else {
+      this.rows = result;
+      this.pages =
+        this.rowsPerPage > 0 ? Math.ceil(count / this.rowsPerPage) : 1;
+    }
   };
 
   handleErrors = (event) => {
@@ -162,7 +174,7 @@ export default class ListPageTemplate extends LitElement {
     } = event;
     console.error("error: ", error);
     const [message, statusCode] = error;
-    this.dialog = {
+    this.messageDialog = {
       title: "Error",
       message: html`<span>${message}</span><br /><small>${statusCode}</small>`,
       open: true,
@@ -185,10 +197,19 @@ export default class ListPageTemplate extends LitElement {
     history.pushState(null, "", `./${this.entity.code}/update/${row.uuid}`);
   };
 
-  deleteRow = (event) => {
+  confirmDelete = (event) => {
     const {
       detail: { row },
     } = event;
+    this.confirmDialog = {
+      title: "Confirm delete",
+      message: html`<span>Delete item?</span>`,
+      open: true,
+      okAction: this.deleteRow(row),
+    };
+  };
+
+  deleteRow = (row) => () => {
     const { uuid } = row;
     const endpointInterface = new EndpointInterface(
       this.entity.code,
@@ -196,7 +217,6 @@ export default class ListPageTemplate extends LitElement {
       "DELETE"
     );
     endpointInterface.executeApiCall(
-      this,
       {
         noAuth: true,
         config,
@@ -208,16 +228,17 @@ export default class ListPageTemplate extends LitElement {
   };
 
   deleteSuccess = () => {
-    this.dialog = {
+    this.confirmDialog = { ...EMPTY_DIALOG };
+    this.messageDialog = {
       title: "Success",
       message: html`<span>Item deleted.</span>`,
       open: true,
     };
-    
+    this.loadList(this.currentPage);
   };
 
-  closeDialog = () => {
-    this.dialog = { ...EMPTY_DIALOG };
+  closeDialog = (name) => () => {
+    this[name] = { ...EMPTY_DIALOG };
   };
 }
 

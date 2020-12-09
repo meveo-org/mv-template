@@ -88,19 +88,6 @@ function buildRequestParameters(endpoint, parameters) {
   return null;
 }
 /**
- * Generate a normalized string made up of capital letters
- * with no spaces and special characters
- *
- * @param {*} text string to be normalized
- * @returns normalized string
- */
-function normalize(text) {
-  return (text || "")
-    .toUpperCase()
-    .replace(/\s+/g, "_")
-    .replace(/[^ -~]+/g, "");
-}
-/**
  * Generate the api URL using the base endpoint URL and then appending
  * any included path parameters
  *
@@ -170,7 +157,7 @@ class ApiRequest {
    * @memberof ApiRequest
    */
   callApi(requestUrl, options) {
-    const { component, endpointUrl, successEvent, errorEvent } = this.endpoint;
+    const { endpointUrl, successCallback, errorCallback } = this.endpoint;
     fetch(requestUrl, options)
       .then(function (response) {
         if (!response.ok) {
@@ -185,14 +172,18 @@ class ApiRequest {
           : { status: response.statusText };
       })
       .then(function (result) {
-        component.dispatchEvent(
-          new CustomEvent(successEvent, { detail: { result }, bubbles: true })
-        );
+        if (successCallback) {
+          successCallback({ detail: { result } });
+        } else {
+          console.log("result: ", result);
+        }
       })
       .catch(function (error) {
-        component.dispatchEvent(
-          new CustomEvent(errorEvent, { detail: { error }, bubbles: true })
-        );
+        if (errorCallback) {
+          errorCallback({ detail: { error } });
+        } else {
+          console.error(error);
+        }
       });
   }
 }
@@ -346,19 +337,17 @@ const REQUEST_TYPE = {
  */
 export default class EndpointInterface {
   constructor(name, method = "GET", type) {
-    const eventName = normalize(name);
     this.name = name;
     this.endpointUrl = `http://localhost:8080/meveo/rest/${name}`;
-    this.successEvent = `${eventName}_SUCCESS`;
-    this.errorEvent = `${eventName}_ERROR`;
     this.method = method;
     this.type = type;
     this.entity = findEntity(config, name);
+    this.successCallback = null;
+    this.errorCallback = null;
   }
   /**
    * The main method to call an API.
    *
-   * @param {*} component the web component that will listen and dispatch the events for this api call
    * @param {*} params the parameters used for calling the API, main properties is token or noAuth.
    * All other parameters passed into this object are considered endpoint parameters which will be
    * parsed based on the request schema
@@ -368,31 +357,20 @@ export default class EndpointInterface {
    * @param {*} errorCallback the function to be called when an api call throws an error
    * @memberof EndpointInterface
    */
-  executeApiCall(component, params, successCallback, errorCallback) {
-    const { name, method, successEvent, errorEvent, mockResult } = this;
-    // Register event listeners
-    if (successCallback) {
-      component.addEventListener(successEvent, successCallback);
-    }
-    if (errorCallback) {
-      component.addEventListener(errorEvent, errorCallback);
-    }
+  executeApiCall(params, successCallback, errorCallback) {
+    const { name, method, mockResult } = this;
     const parameters = params || {};
     const endpointConfig = buildEndpointConfig(this, parameters);
     const { USE_MOCK = false } = endpointConfig;
+    this.successCallback = successCallback;
+    this.errorCallback = errorCallback;
     if (USE_MOCK === "OFFLINE") {
-      component.dispatchEvent(
-        new CustomEvent(successEvent, {
-          detail: { result: mockResult },
-          bubbles: true,
-        })
-      );
+      successCallback({ detail: { result: mockResult } });
     } else if (USE_MOCK === "ENDPOINT") {
       // Fetch from endpoint mock
       const endpointRequest = new REQUEST_TYPE[method]({
         ...this,
         mock: true,
-        component,
       });
       endpointRequest.executeRequest(parameters);
     } else {
@@ -401,13 +379,12 @@ export default class EndpointInterface {
         const endpointRequest = new REQUEST_TYPE[method]({
           ...this,
           name,
-          component,
         });
         endpointRequest.executeRequest(parameters);
       } catch (error) {
-        component.dispatchEvent(
-          new CustomEvent(errorEvent, { detail: { error }, bubbles: true })
-        );
+        if (!!errorCallback) {
+          errorCallback({ error });
+        }
       }
     }
   }

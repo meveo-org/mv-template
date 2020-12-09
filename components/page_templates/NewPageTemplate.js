@@ -139,7 +139,7 @@ export default class NewPageTemplate extends MvElement {
     const hasError = errors && Object.keys(errors).some((key) => !!errors[key]);
     if (hasError) {
       this.errors = errors;
-      console.log("errors :", errors);
+      console.error("errors :", errors);
     } else {
       const item = this.store.state;
       const endpointInterface = new EndpointInterface(
@@ -148,7 +148,6 @@ export default class NewPageTemplate extends MvElement {
         "NEW"
       );
       endpointInterface.executeApiCall(
-        this,
         {
           noAuth: true,
           config,

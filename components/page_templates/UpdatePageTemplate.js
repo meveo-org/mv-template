@@ -124,7 +124,6 @@ export default class UpdatePageTemplate extends MvElement {
       "DETAIL"
     );
     endpointInterface.executeApiCall(
-      this,
       {
         noAuth: true,
         config,
@@ -195,7 +194,6 @@ export default class UpdatePageTemplate extends MvElement {
         "UPDATE"
       );
       endpointInterface.executeApiCall(
-        this,
         {
           noAuth: true,
           config,
