@@ -36,10 +36,9 @@ export class TableActions extends LitElement {
   }
 
   render() {
-    const { row } = this;
     return html`
       <div class="action-container">
-        <mv-tooltip>
+        <mv-tooltip position="left">
           <mv-button
             class="action-button"
             type="outline"
@@ -51,7 +50,7 @@ export class TableActions extends LitElement {
           <span slot="tooltip-content">Edit</span>
         </mv-tooltip>
 
-        <mv-tooltip>
+        <mv-tooltip position="left">
           <mv-button
             class="action-button"
             type="outline"

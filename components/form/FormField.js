@@ -1,6 +1,7 @@
 import { LitElement, html, css } from "lit-element";
-import "./InputField.js";
 import "./DateField.js";
+import "./EntityField.js";
+import "./InputField.js";
 import "./SelectField.js";
 
 export default class FormField extends LitElement {
@@ -32,6 +33,11 @@ export default class FormField extends LitElement {
           .field="${this.field}"
           .value="${this.value}"
         ></select-field>`;
+      case "ENTITY":
+        return html`<entity-field
+          .field="${this.field}"
+          .value="${this.value}"
+        ></entity-field>`;
       default:
         console.error("Unsupported field");
         console.error(`Field: ${this.field.description || this.field.code}`);
