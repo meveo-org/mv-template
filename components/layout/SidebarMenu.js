@@ -130,6 +130,7 @@ class SidebarMenu extends LitElement {
             item
             .value="${{ selected: "dashboard" }}"
             ?selected="${this.selected === "dashboard"}"
+            ?popout="${!this.expanded}"
             @select-item="${this.selectItem}"
           >
             <router-link path="./dashboard">
@@ -146,6 +147,7 @@ class SidebarMenu extends LitElement {
                 item
                 .value="${{ selected: entity.code }}"
                 ?selected="${this.selected === entity.code}"
+                ?popout="${!this.expanded}"
                 @select-item="${this.selectItem}"
               >
                 <router-link path="./${entity.code}/list">
