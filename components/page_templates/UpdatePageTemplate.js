@@ -90,7 +90,7 @@ export default class UpdatePageTemplate extends MvElement {
         >
           <p>${this.dialog.message}</p>
           <span slot="footer">
-            <mv-button no-left-button @button-clicked="${this.closeDialog}">
+            <mv-button @button-clicked="${this.closeDialog}">
               Close
             </mv-button>
           </span>
