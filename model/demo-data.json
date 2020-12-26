@@ -1,20 +1,26 @@
-[
-  {
-    "firstName": "Luke",
-    "lastName": "Skywalker",
-    "gender": "Male",
-    "birthDate": "09/25/1951"
-  },
-  {
-    "firstName": "Leia",
-    "lastName": "Organa",
-    "gender": "Female",
-    "birthDate": "10/21/1956"
-  },
-  {
-    "firstName": "Han",
-    "lastName": "Solo",
-    "gender": "Female",
-    "birthDate": "07/13/1942"
-  }
-]
+{
+  "result": [
+    {
+      "uuid": "1",
+      "firstName": "Luke",
+      "lastName": "Skywalker",
+      "gender": "Male",
+      "birthDate": "09/25/1951"
+    },
+    {
+      "uuid": "2",
+      "firstName": "Leia",
+      "lastName": "Organa",
+      "gender": "Female",
+      "birthDate": "10/21/1956"
+    },
+    {
+      "uuid": "3",
+      "firstName": "Han",
+      "lastName": "Solo",
+      "gender": "Female",
+      "birthDate": "07/13/1942"
+    }
+  ],
+  "count": 3
+}

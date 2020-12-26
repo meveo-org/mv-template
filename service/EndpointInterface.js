@@ -167,7 +167,7 @@ class ApiRequest {
           ];
         }
         const type = response.headers.get("Content-Type");
-        return type === "application/json"
+        return type.includes("application/json")
           ? response.json()
           : { status: response.statusText };
       })
@@ -175,7 +175,7 @@ class ApiRequest {
         if (successCallback) {
           successCallback({ detail: { result } });
         } else {
-          console.log("result: ", result);
+          console.info("result: ", result);
         }
       })
       .catch(function (error) {
@@ -336,12 +336,12 @@ const REQUEST_TYPE = {
  * @class EndpointInterface
  */
 export default class EndpointInterface {
-  constructor(name, method = "GET", type) {
+  constructor(name, method = "GET", type, entity) {
     this.name = name;
     this.endpointUrl = `http://localhost:8080/meveo/rest/${name}`;
     this.method = method;
     this.type = type;
-    this.entity = findEntity(config, name);
+    this.entity = entity || findEntity(config, name);
     this.successCallback = null;
     this.errorCallback = null;
   }

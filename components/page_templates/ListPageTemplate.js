@@ -11,7 +11,6 @@ import "mv-table";
 import "mv-tooltip";
 import "../../components/layout/PageLayout.js";
 import "../../components/TableActions.js";
-import EndpointInterface from "../../service/EndpointInterface.js";
 
 const DEFAULT_FILTER = {
   rowsPerPage: 10,
@@ -132,13 +131,11 @@ export default class ListPageTemplate extends LitElement {
   }
 
   loadList = (page) => {
+    const { entity, rowsPerPage } = this;
     this.currentPage = page < 1 ? 1 : page;
-    const firstRow = (this.currentPage - 1) * this.rowsPerPage;
-    const endpointInterface = new EndpointInterface(
-      this.entity.code,
-      "POST",
-      "LIST"
-    );
+    const firstRow = (this.currentPage - 1) * rowsPerPage;
+    const { endpoints } = entity;
+    const { endpointInterface } = endpoints.LIST;
     endpointInterface.executeApiCall(
       {
         noAuth: true,
@@ -155,7 +152,7 @@ export default class ListPageTemplate extends LitElement {
   retrieveSuccess = (event) => {
     const {
       detail: {
-        result: { result, count },
+        result: { result = [], count = 0 },
       },
     } = event;
 

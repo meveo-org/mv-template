@@ -65,7 +65,7 @@ export default class MainDashboard extends LitElement {
     this.entities.forEach((entity) => {
       const endpointInterface = new EndpointInterface(
         entity.code,
-        "POST",
+        "GET",
         "LIST"
       );
       endpointInterface.executeApiCall(

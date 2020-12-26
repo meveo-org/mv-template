@@ -1,4 +1,5 @@
 import * as config from "config";
+import EndpointInterface from "../service/EndpointInterface.js";
 
 const DEMO_SCHEMA = {
   storages: [],
@@ -100,24 +101,40 @@ export default class DemoEntity {
   ];
   endpoints = {
     DETAIL: {
+      endpointInterface: new EndpointInterface("Demo", "GET", "DETAIL", this),
       schema: DEMO_SCHEMA,
       getEndpointConfig: () => ({
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
       }),
     },
     LIST: {
+      endpointInterface: new EndpointInterface("Demo", "GET", "LIST", this),
       schema: DEMO_SCHEMA,
       getEndpointConfig: () => ({
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
       }),
     },
     NEW: {
+      endpointInterface: new EndpointInterface("Demo", "POST", "NEW", this),
       schema: DEMO_SCHEMA,
       getEndpointConfig: () => ({
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
       }),
     },
     UPDATE: {
+      endpointInterface: new EndpointInterface("Demo", "PUT", "UPDATE", this),
+      schema: DEMO_SCHEMA,
+      getEndpointConfig: () => ({
+        OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
+      }),
+    },
+    DELETE: {
+      endpointInterface: new EndpointInterface(
+        "DemoEntity",
+        "DELETE",
+        "DELETE",
+        this
+      ),
       schema: DEMO_SCHEMA,
       getEndpointConfig: () => ({
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
