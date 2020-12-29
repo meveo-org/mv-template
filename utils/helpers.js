@@ -1,3 +1,5 @@
+import EndpointInterface from "../service/EndpointInterface.js";
+
 export const extractEntities = (config) => {
   const { ENTITIES } = config || {};
   return Object.keys(ENTITIES || {}).map((key) => ENTITIES[key]) || [];
@@ -55,13 +57,13 @@ export const buildModelFields = (entity) =>
     []
   );
 
-export const getEndpoints = (schema, baseUrl) => ({
+export const getEndpoints = (model, baseUrl) => { 
+  const {code, schema} = model;
+  return {
   DETAIL: {
     schema,
-    getEndpointConfig: ({ endpoint, parameters }) => {
-      const {
-        entity: { code },
-      } = endpoint;
+    endpointInterface: new EndpointInterface(code, "GET", "DETAIL", model),
+    getEndpointConfig: ({ parameters }) => {
       const { uuid } = parameters;
       return {
         OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence/${code}/${uuid}`,
@@ -70,10 +72,8 @@ export const getEndpoints = (schema, baseUrl) => ({
   },
   LIST: {
     schema,
-    getEndpointConfig: ({ endpoint }) => {
-      const {
-        entity: { code },
-      } = endpoint;
+    endpointInterface: new EndpointInterface(code, "GET", "LIST", model),
+    getEndpointConfig: () => {
       return {
         OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence/${code}/list?withCount=true`,
       };
@@ -85,15 +85,13 @@ export const getEndpoints = (schema, baseUrl) => ({
   },
   NEW: {
     schema,
+    endpointInterface: new EndpointInterface(code, "POST", "NEW", model),
     getEndpointConfig: () => {
       return {
         OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence`,
       };
     },
-    decorateProperties: ({ endpoint, props }) => {
-      const {
-        entity: { code },
-      } = endpoint;
+    decorateProperties: ({ props }) => {
       return [
         {
           name: `${toPascalName(code)} (${generateHash()})`,
@@ -107,10 +105,8 @@ export const getEndpoints = (schema, baseUrl) => ({
   },
   UPDATE: {
     schema,
-    getEndpointConfig: ({ endpoint, parameters }) => {
-      const {
-        entity: { code },
-      } = endpoint;
+    endpointInterface: new EndpointInterface(code, "PUT", "UPDATE", model),
+    getEndpointConfig: ({ parameters }) => {
       const { uuid } = parameters;
       return {
         OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence/${code}/${uuid}`,
@@ -119,17 +115,15 @@ export const getEndpoints = (schema, baseUrl) => ({
   },
   DELETE: {
     schema,
-    getEndpointConfig: ({ endpoint, parameters }) => {
-      const {
-        entity: { code },
-      } = endpoint;
+    endpointInterface: new EndpointInterface(code, "DELETE", "DELETE", model),
+    getEndpointConfig: ({ parameters }) => {
       const { uuid } = parameters;
       return {
         OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence/${code}/${uuid}`,
       };
     },
   },
-});
+}};
 
 const REGEX_PATTERN = /(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])|_|\\s|-/gm;
 const EMPTY = "";
