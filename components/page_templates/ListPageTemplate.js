@@ -208,11 +208,8 @@ export default class ListPageTemplate extends LitElement {
 
   deleteRow = (row) => () => {
     const { uuid } = row;
-    const endpointInterface = new EndpointInterface(
-      this.entity.code,
-      "DELETE",
-      "DELETE"
-    );
+    const { endpoints } = this.entity;
+    const { endpointInterface } = endpoints.DELETE;
     endpointInterface.executeApiCall(
       {
         noAuth: true,

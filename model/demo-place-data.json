@@ -1,0 +1,17 @@
+{
+  "result": [
+    {
+      "uuid": "place-1",
+      "city": "Liberty City",
+      "state": "AllState",
+      "country": "Here"
+    },
+    {
+      "uuid": "place-2",
+      "city": "Los Santos",
+      "state": "Cool State",
+      "country": "There"
+    }
+  ],
+  "count": 2
+}

@@ -10,12 +10,12 @@ import "../../components/form/FormField.js";
 import "../../components/layout/PageLayout.js";
 import UpdatePageTemplate from "../../components/page_templates/UpdatePageTemplate.js";
 
-const entityCode = "Demo";
+const entityCode = "DemoPlace";
 const entity = findEntity(config, entityCode);
 const properties = buildProperties(entity);
 const mappings = buildModelFields(entity);
 
-export default class DemoUpdatePage extends UpdatePageTemplate {
+export default class DemoPlaceUpdatePage extends UpdatePageTemplate {
   static get properties() {
     return {
       ...super.properties,
@@ -36,4 +36,4 @@ export default class DemoUpdatePage extends UpdatePageTemplate {
   }
 }
 
-customElements.define("demo-update-page", DemoUpdatePage);
+customElements.define("demo-place-update-page", DemoPlaceUpdatePage);

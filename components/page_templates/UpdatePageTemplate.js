@@ -90,9 +90,7 @@ export default class UpdatePageTemplate extends MvElement {
         >
           <p>${this.dialog.message}</p>
           <span slot="footer">
-            <mv-button @button-clicked="${this.closeDialog}">
-              Close
-            </mv-button>
+            <mv-button @button-clicked="${this.closeDialog}"> Close </mv-button>
           </span>
         </mv-dialog>
       </page-layout>
@@ -114,15 +112,13 @@ export default class UpdatePageTemplate extends MvElement {
 
   loadFormData = () => {
     const {
+      entity,
       parameters: { pathParameters },
     } = this;
     const { id } = pathParameters;
 
-    const endpointInterface = new EndpointInterface(
-      this.entity.code,
-      "GET",
-      "DETAIL"
-    );
+    const { endpoints } = entity;
+    const { endpointInterface } = endpoints.DETAIL;
     endpointInterface.executeApiCall(
       {
         noAuth: true,
@@ -139,7 +135,6 @@ export default class UpdatePageTemplate extends MvElement {
       detail: { result },
     } = event;
     const { schema } = this.entity;
-
     const { properties } = schema;
     Object.getOwnPropertyNames(properties).forEach((name) => {
       const value = result[name];
@@ -184,15 +179,13 @@ export default class UpdatePageTemplate extends MvElement {
       console.error("errors :", errors);
     } else {
       const {
+        entity,
         parameters: { pathParameters },
       } = this;
       const { id } = pathParameters;
       const item = this.store.state;
-      const endpointInterface = new EndpointInterface(
-        this.entity.code,
-        "PUT",
-        "UPDATE"
-      );
+      const { endpoints } = entity;
+      const { endpointInterface } = endpoints.UPDATE;
       endpointInterface.executeApiCall(
         {
           noAuth: true,

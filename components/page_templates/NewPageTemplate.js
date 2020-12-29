@@ -94,9 +94,7 @@ export default class NewPageTemplate extends MvElement {
         >
           <p>${this.dialog.message}</p>
           <span slot="footer">
-            <mv-button @button-clicked="${this.closeDialog}">
-              Close
-            </mv-button>
+            <mv-button @button-clicked="${this.closeDialog}"> Close </mv-button>
           </span>
         </mv-dialog>
       </page-layout>
@@ -142,11 +140,8 @@ export default class NewPageTemplate extends MvElement {
       console.error("errors :", errors);
     } else {
       const item = this.store.state;
-      const endpointInterface = new EndpointInterface(
-        this.entity.code,
-        "POST",
-        "NEW"
-      );
+      const { endpoints } = this.entity;
+      const { endpointInterface } = endpoints.NEW;
       endpointInterface.executeApiCall(
         {
           noAuth: true,

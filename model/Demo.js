@@ -58,6 +58,52 @@ const DEMO_SCHEMA = {
   required: ["firstName", "lastName"],
 };
 
+const DEMO_PLACE_SCHEMA = {
+  storages: [],
+  default: "Demo Place for generating Web App from module",
+  $schema: "http://json-schema.org/draft-07/schema",
+  id: "DemoPlace",
+  title: "Demo Place",
+  type: "object",
+  properties: {
+    city: {
+      storages: [],
+      nullable: false,
+      minLength: 1,
+      description: "City",
+      readOnly: false,
+      versionable: false,
+      id: "CE_DemoPlace_city",
+      title: "DemoPlace.city",
+      type: "string",
+      maxLength: 255,
+    },
+    state: {
+      storages: [],
+      nullable: false,
+      minLength: 1,
+      description: "State",
+      readOnly: false,
+      versionable: false,
+      id: "CE_DemoPlace_state",
+      title: "DemoPlace.state",
+      type: "string",
+      maxLength: 255,
+    },
+    country: {
+      storages: [],
+      nullable: true,
+      description: "Country",
+      readOnly: false,
+      versionable: false,
+      id: "CE_DemoPlace_country",
+      title: "DemoPlace.country",
+      enum: ["here", "there", "everywhere"],
+    },
+  },
+  required: ["city", "country"],
+};
+
 export default class DemoEntity {
   code = "Demo";
   label = "Demo";
@@ -96,6 +142,15 @@ export default class DemoEntity {
             other: "Other",
           },
         },
+        {
+					code: "place",
+					label: "Place",
+					description: "Place",
+					type: "ENTITY",
+					editable: true,
+					hideOnNew: false,
+					entitySchema: DEMO_PLACE_SCHEMA,
+				},
       ],
     },
   ];
@@ -103,8 +158,8 @@ export default class DemoEntity {
     DETAIL: {
       endpointInterface: new EndpointInterface("Demo", "GET", "DETAIL", this),
       schema: DEMO_SCHEMA,
-      getEndpointConfig: () => ({
-        OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
+      getEndpointConfig: ({ parameters }) => ({
+        OVERRIDE_URL: `${config.BASE_URL}/model/${parameters.uuid}.json`,
       }),
     },
     LIST: {
@@ -130,7 +185,7 @@ export default class DemoEntity {
     },
     DELETE: {
       endpointInterface: new EndpointInterface(
-        "DemoEntity",
+        "Demo",
         "DELETE",
         "DELETE",
         this
