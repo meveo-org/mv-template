@@ -118,7 +118,7 @@ export default class UpdatePageTemplate extends MvElement {
     const { id } = pathParameters;
 
     const { endpoints } = entity;
-    const { endpointInterface } = endpoints.DETAIL;
+    const endpointInterface = endpoints.DETAIL.getEndpointInterface(entity)
     endpointInterface.executeApiCall(
       {
         noAuth: true,
@@ -185,7 +185,7 @@ export default class UpdatePageTemplate extends MvElement {
       const { id } = pathParameters;
       const item = this.store.state;
       const { endpoints } = entity;
-      const { endpointInterface } = endpoints.UPDATE;
+      const endpointInterface = endpoints.UPDATE.getEndpointInterface(entity);
       endpointInterface.executeApiCall(
         {
           noAuth: true,

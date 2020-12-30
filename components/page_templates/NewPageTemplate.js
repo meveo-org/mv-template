@@ -141,7 +141,7 @@ export default class NewPageTemplate extends MvElement {
     } else {
       const item = this.store.state;
       const { endpoints } = this.entity;
-      const { endpointInterface } = endpoints.NEW;
+      const endpointInterface = endpoints.NEW.getEndpointInterface(entity)
       endpointInterface.executeApiCall(
         {
           noAuth: true,

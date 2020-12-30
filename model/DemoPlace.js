@@ -84,41 +84,41 @@ export default class DemoPlaceEntity {
   ];
   endpoints = {
     DETAIL: {
-      endpointInterface: new EndpointInterface("DemoPlace", "GET", "DETAIL", this),
       schema: DEMO_PLACE_SCHEMA,
+      getEndpointInterface: (model) =>
+        new EndpointInterface(model.code, "GET", "DETAIL", model),
       getEndpointConfig: ({ parameters }) => ({
         OVERRIDE_URL: `${config.BASE_URL}/model/${parameters.uuid}.json`,
       }),
     },
     LIST: {
-      endpointInterface: new EndpointInterface("DemoPlace", "GET", "LIST", this),
       schema: DEMO_PLACE_SCHEMA,
+      getEndpointInterface: (model) =>
+        new EndpointInterface(model.code, "GET", "LIST", model),
       getEndpointConfig: () => ({
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-place-data.json`,
       }),
     },
     NEW: {
-      endpointInterface: new EndpointInterface("DemoPlace", "POST", "NEW", this),
       schema: DEMO_PLACE_SCHEMA,
+      getEndpointInterface: (model) =>
+        new EndpointInterface(model.code, "POST", "NEW", model),
       getEndpointConfig: () => ({
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-place-data.json`,
       }),
     },
     UPDATE: {
-      endpointInterface: new EndpointInterface("DemoPlace", "PUT", "UPDATE", this),
       schema: DEMO_PLACE_SCHEMA,
+      getEndpointInterface: (model) =>
+        new EndpointInterface(model.code, "PUT", "UPDATE", model),
       getEndpointConfig: () => ({
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-place-data.json`,
       }),
     },
     DELETE: {
-      endpointInterface: new EndpointInterface(
-        "DemoEntity",
-        "DELETE",
-        "DELETE",
-        this
-      ),
       schema: DEMO_PLACE_SCHEMA,
+      getEndpointInterface: (model) =>
+        new EndpointInterface(model.code, "DELETE", "DELETE", model),
       getEndpointConfig: () => ({
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-place-data.json`,
       }),

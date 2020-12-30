@@ -135,7 +135,7 @@ export default class ListPageTemplate extends LitElement {
     this.currentPage = page < 1 ? 1 : page;
     const firstRow = (this.currentPage - 1) * rowsPerPage;
     const { endpoints } = entity;
-    const { endpointInterface } = endpoints.LIST;
+    const endpointInterface = endpoints.LIST.getEndpointInterface(entity);
     endpointInterface.executeApiCall(
       {
         noAuth: true,
@@ -209,7 +209,7 @@ export default class ListPageTemplate extends LitElement {
   deleteRow = (row) => () => {
     const { uuid } = row;
     const { endpoints } = this.entity;
-    const { endpointInterface } = endpoints.DELETE;
+    const endpointInterface = endpoints.DELETE.getEndpointInterface(entity);
     endpointInterface.executeApiCall(
       {
         noAuth: true,
