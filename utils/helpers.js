@@ -59,18 +59,18 @@ export const getEndpoints = (schema, baseUrl) => {
   return {
     DETAIL: {
       schema,
-      getEndpointConfig: ({ endpoint, parameters }) => {
+      getEndpointConfig: ({ entity, parameters }) => {
         const { uuid } = parameters;
         return {
-          OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence/${endpoint.code}/${uuid}`,
+          OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence/${entity.code}/${uuid}`,
         };
       },
     },
     LIST: {
       schema,
-      getEndpointConfig: ({ endpoint }) => {
+      getEndpointConfig: ({ entity }) => {
         return {
-          OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence/${endpoint.code}/list?withCount=true`,
+          OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence/${entity.code}/list?withCount=true`,
         };
       },
       decorateProperties: ({ parameters }) => {
@@ -85,10 +85,10 @@ export const getEndpoints = (schema, baseUrl) => {
           OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence`,
         };
       },
-      decorateProperties: ({ endpoint, props }) => {
+      decorateProperties: ({ entity, props }) => {
         return [
           {
-            name: `${toPascalName(endpoint.code)} (${generateHash()})`,
+            name: `${toPascalName(entity.code)} (${generateHash()})`,
             type: code,
             properties: {
               ...props,
@@ -99,19 +99,19 @@ export const getEndpoints = (schema, baseUrl) => {
     },
     UPDATE: {
       schema,
-      getEndpointConfig: ({ endpoint, parameters }) => {
+      getEndpointConfig: ({ entity, parameters }) => {
         const { uuid } = parameters;
         return {
-          OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence/${endpoint.code}/${uuid}`,
+          OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence/${entity.code}/${uuid}`,
         };
       },
     },
     DELETE: {
       schema,
-      getEndpointConfig: ({ endpoint, parameters }) => {
+      getEndpointConfig: ({ entity, parameters }) => {
         const { uuid } = parameters;
         return {
-          OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence/${endpoint.code}/${uuid}`,
+          OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence/${entity.code}/${uuid}`,
         };
       },
     },

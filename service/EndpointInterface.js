@@ -56,6 +56,7 @@ function buildEndpointConfig(endpoint, parameters) {
     getEndpointConfig: () => ({}),
   };
   const endpointConfig = getEndpointConfig({
+    entity,
     endpoint,
     parameters,
   });
@@ -180,6 +181,7 @@ class ApiRequest {
       })
       .catch(function (error) {
         if (errorCallback) {
+          console.log("error: ", error);
           errorCallback({ detail: { error } });
         } else {
           console.error(error);
@@ -209,6 +211,7 @@ class GetRequest extends ApiRequest {
     const parameterKeys = Object.keys(requestParameters || {});
     const hasParameters = requestParameters && parameterKeys.length > 0;
     const apiUrl = buildApiUrl(this.endpoint, parameters);
+    console.log("apiUrl: ", apiUrl);
     const requestUrl = new URL(apiUrl);
     if (hasParameters) {
       parameterKeys.forEach(function (key) {
@@ -383,7 +386,7 @@ export default class EndpointInterface {
         endpointRequest.executeRequest(parameters);
       } catch (error) {
         if (!!errorCallback) {
-          errorCallback({ error });
+          errorCallback({ detail: { error } });
         }
       }
     }
@@ -392,7 +395,7 @@ export default class EndpointInterface {
 
 export const modelInterfaces = (model) => ({
   DETAIL: new EndpointInterface(model.code, "GET", "DETAIL", model),
-  LIST: new EndpointInterface(model.code, "GET", "LIST", model),
+  LIST: new EndpointInterface(model.code, "POST", "LIST", model),
   NEW: new EndpointInterface(model.code, "POST", "NEW", model),
   UPDATE: new EndpointInterface(model.code, "PUT", "UPDATE", model),
   DELETE: new EndpointInterface(model.code, "DELETE", "DELETE", model),
