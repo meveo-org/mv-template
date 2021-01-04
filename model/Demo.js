@@ -57,12 +57,12 @@ const DEMO_SCHEMA = {
   required: ["firstName", "lastName"],
 };
 
-const DEMO_PLACE_SCHEMA = {
+const ADDRESS_SCHEMA = {
   storages: [],
-  default: "Demo Place for generating Web App from module",
+  default: "Address for generating Web App from module",
   $schema: "http://json-schema.org/draft-07/schema",
-  id: "DemoPlace",
-  title: "Demo Place",
+  id: "Address",
+  title: "Address",
   type: "object",
   properties: {
     city: {
@@ -72,8 +72,8 @@ const DEMO_PLACE_SCHEMA = {
       description: "City",
       readOnly: false,
       versionable: false,
-      id: "CE_DemoPlace_city",
-      title: "DemoPlace.city",
+      id: "CE_Address_city",
+      title: "Address.city",
       type: "string",
       maxLength: 255,
     },
@@ -84,8 +84,8 @@ const DEMO_PLACE_SCHEMA = {
       description: "State",
       readOnly: false,
       versionable: false,
-      id: "CE_DemoPlace_state",
-      title: "DemoPlace.state",
+      id: "CE_Address_state",
+      title: "Address.state",
       type: "string",
       maxLength: 255,
     },
@@ -95,8 +95,8 @@ const DEMO_PLACE_SCHEMA = {
       description: "Country",
       readOnly: false,
       versionable: false,
-      id: "CE_DemoPlace_country",
-      title: "DemoPlace.country",
+      id: "CE_Address_country",
+      title: "Address.country",
       enum: ["here", "there", "everywhere"],
     },
   },
@@ -142,44 +142,44 @@ export default class DemoEntity {
           },
         },
         {
-          code: "place",
-          label: "Place",
-          description: "Place",
+          code: "address",
+          label: "Address",
+          description: "Address",
           type: "ENTITY",
           editable: true,
           hideOnNew: false,
-          entitySchema: DEMO_PLACE_SCHEMA,
+          entitySchema: ADDRESS_SCHEMA,
         },
       ],
     },
   ];
   endpoints = {
     DETAIL: {
-      schema: DEMO_PLACE_SCHEMA,
+      schema: DEMO_SCHEMA,
       getEndpointConfig: ({ parameters }) => ({
         OVERRIDE_URL: `${config.BASE_URL}/model/${parameters.uuid}.json`,
       }),
     },
     LIST: {
-      schema: DEMO_PLACE_SCHEMA,
+      schema: DEMO_SCHEMA,
       getEndpointConfig: () => ({
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
       }),
     },
     NEW: {
-      schema: DEMO_PLACE_SCHEMA,
+      schema: DEMO_SCHEMA,
       getEndpointConfig: () => ({
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
       }),
     },
     UPDATE: {
-      schema: DEMO_PLACE_SCHEMA,
+      schema: DEMO_SCHEMA,
       getEndpointConfig: () => ({
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
       }),
     },
     DELETE: {
-      schema: DEMO_PLACE_SCHEMA,
+      schema: DEMO_SCHEMA,
       getEndpointConfig: () => ({
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
       }),

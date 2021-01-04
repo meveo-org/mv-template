@@ -1,5 +1,5 @@
 import Demo from "./Demo.js";
-import DemoPlace from "./DemoPlace.js";
+import Address from "./Address.js";
 
 export const DemoEntity = new Demo();
-export const DemoPlaceEntity = new DemoPlace();
+export const AddressEntity = new Address();

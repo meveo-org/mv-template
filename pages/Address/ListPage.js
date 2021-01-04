@@ -9,7 +9,7 @@ import "../../components/layout/PageLayout.js";
 import "../../components/page_templates/ListPageTemplate.js";
 import ListPageTemplate from "../../components/page_templates/ListPageTemplate.js";
 
-export default class DemoPlaceListPage extends ListPageTemplate {
+export default class AddressListPage extends ListPageTemplate {
   static get properties() {
     return {
       ...super.properties,
@@ -21,4 +21,4 @@ export default class DemoPlaceListPage extends ListPageTemplate {
   }
 }
 
-customElements.define("demo-place-list-page", DemoPlaceListPage);
+customElements.define("address-list-page", AddressListPage);

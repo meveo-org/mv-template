@@ -2,6 +2,6 @@
   "uuid": "1",
   "firstName": "Luke",
   "lastName": "Skywalker",
-  "gender": "Male",
+  "gender": "male",
   "birthDate": "09/25/1951"
 }

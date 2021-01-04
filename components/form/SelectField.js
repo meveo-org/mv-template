@@ -59,7 +59,11 @@ export default class SelectField extends LitElement {
       value: key,
     }));
     if (this.value) {
-      this.selected = this.options.find((option) => option.value === this.value);
+      console.log("this.options: ", this.options);
+      console.log("this.value: ", this.value);
+      this.selected = this.options.find(
+        (option) => option.value === this.value
+      );
     }
   }
 

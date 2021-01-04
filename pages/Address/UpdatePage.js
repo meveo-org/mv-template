@@ -1,7 +1,5 @@
-import { html, css } from "lit-element";
 import * as config from "config";
 import { findEntity, buildProperties, buildModelFields } from "utils";
-import { validate, clearForm } from "mv-form-utils";
 import "mv-button";
 import "mv-container";
 import "mv-font-awesome";
@@ -10,13 +8,14 @@ import "mv-form-field";
 import "mv-tooltip";
 import "../../components/form/FormField.js";
 import "../../components/layout/PageLayout.js";
-import NewPageTemplate from "../../components/page_templates/NewPageTemplate.js";
+import UpdatePageTemplate from "../../components/page_templates/UpdatePageTemplate.js";
 
-const entityCode = "DemoPlace";
+const entityCode = "Address";
 const entity = findEntity(config, entityCode);
 const properties = buildProperties(entity);
 const mappings = buildModelFields(entity);
-export default class DemoPlaceNewPage extends NewPageTemplate {
+
+export default class AddressUpdatePage extends UpdatePageTemplate {
   static get properties() {
     return {
       ...super.properties,
@@ -37,4 +36,4 @@ export default class DemoPlaceNewPage extends NewPageTemplate {
   }
 }
 
-customElements.define("demo-place-new-page", DemoPlaceNewPage);
+customElements.define("address-update-page", AddressUpdatePage);

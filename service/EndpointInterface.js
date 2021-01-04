@@ -211,7 +211,6 @@ class GetRequest extends ApiRequest {
     const parameterKeys = Object.keys(requestParameters || {});
     const hasParameters = requestParameters && parameterKeys.length > 0;
     const apiUrl = buildApiUrl(this.endpoint, parameters);
-    console.log("apiUrl: ", apiUrl);
     const requestUrl = new URL(apiUrl);
     if (hasParameters) {
       parameterKeys.forEach(function (key) {
@@ -395,7 +394,7 @@ export default class EndpointInterface {
 
 export const modelInterfaces = (model) => ({
   DETAIL: new EndpointInterface(model.code, "GET", "DETAIL", model),
-  LIST: new EndpointInterface(model.code, "POST", "LIST", model),
+  LIST: new EndpointInterface(model.code, "GET", "LIST", model),
   NEW: new EndpointInterface(model.code, "POST", "NEW", model),
   UPDATE: new EndpointInterface(model.code, "PUT", "UPDATE", model),
   DELETE: new EndpointInterface(model.code, "DELETE", "DELETE", model),

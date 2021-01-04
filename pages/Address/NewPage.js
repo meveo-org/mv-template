@@ -8,14 +8,13 @@ import "mv-form-field";
 import "mv-tooltip";
 import "../../components/form/FormField.js";
 import "../../components/layout/PageLayout.js";
-import UpdatePageTemplate from "../../components/page_templates/UpdatePageTemplate.js";
+import NewPageTemplate from "../../components/page_templates/NewPageTemplate.js";
 
-const entityCode = "DemoPlace";
+const entityCode = "Address";
 const entity = findEntity(config, entityCode);
 const properties = buildProperties(entity);
 const mappings = buildModelFields(entity);
-
-export default class DemoPlaceUpdatePage extends UpdatePageTemplate {
+export default class AddressNewPage extends NewPageTemplate {
   static get properties() {
     return {
       ...super.properties,
@@ -36,4 +35,4 @@ export default class DemoPlaceUpdatePage extends UpdatePageTemplate {
   }
 }
 
-customElements.define("demo-place-update-page", DemoPlaceUpdatePage);
+customElements.define("address-new-page", AddressNewPage);

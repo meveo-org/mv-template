@@ -2,6 +2,6 @@
   "uuid": "2",
   "firstName": "Leia",
   "lastName": "Organa",
-  "gender": "Female",
+  "gender": "female",
   "birthDate": "10/21/1956"
 }

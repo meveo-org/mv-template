@@ -4,21 +4,21 @@
       "uuid": "demo-1",
       "firstName": "Luke",
       "lastName": "Skywalker",
-      "gender": "Male",
+      "gender": "male",
       "birthDate": "09/25/1951"
     },
     {
       "uuid": "demo-2",
       "firstName": "Leia",
       "lastName": "Organa",
-      "gender": "Female",
+      "gender": "female",
       "birthDate": "10/21/1956"
     },
     {
       "uuid": "demo-3",
       "firstName": "Han",
       "lastName": "Solo",
-      "gender": "Female",
+      "gender": "male",
       "birthDate": "07/13/1942"
     }
   ],
