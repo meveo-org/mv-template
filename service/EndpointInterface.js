@@ -389,3 +389,11 @@ export default class EndpointInterface {
     }
   }
 }
+
+export const modelInterfaces = (model) => ({
+  DETAIL: new EndpointInterface(model.code, "GET", "DETAIL", model),
+  LIST: new EndpointInterface(model.code, "GET", "LIST", model),
+  NEW: new EndpointInterface(model.code, "POST", "NEW", model),
+  UPDATE: new EndpointInterface(model.code, "PUT", "UPDATE", model),
+  DELETE: new EndpointInterface(model.code, "DELETE", "DELETE", model),
+});

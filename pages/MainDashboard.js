@@ -1,10 +1,10 @@
 import { LitElement, html, css } from "lit-element";
 import * as config from "config";
 import { extractEntities } from "utils";
+import { modelInterfaces } from "../service/EndpointInterface.js";
 import "mv-container";
 import "../components/DashboardTile.js";
 import "../components/layout/PageLayout.js";
-import EndpointInterface from "../service/EndpointInterface.js";
 
 export default class MainDashboard extends LitElement {
   static get properties() {
@@ -63,11 +63,7 @@ export default class MainDashboard extends LitElement {
     this.entities = extractEntities(config) || [];
     // call api to load entity counts
     this.entities.forEach((entity) => {
-      const endpointInterface = new EndpointInterface(
-        entity.code,
-        "GET",
-        "LIST"
-      );
+      const endpointInterface = modelInterfaces(entity).LIST;
       endpointInterface.executeApiCall(
         {
           noAuth: true,

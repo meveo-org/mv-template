@@ -1,5 +1,4 @@
 import * as config from "config";
-import EndpointInterface from "../service/EndpointInterface.js";
 
 const DEMO_SCHEMA = {
   storages: [],
@@ -156,41 +155,31 @@ export default class DemoEntity {
   ];
   endpoints = {
     DETAIL: {
-      schema: DEMO_SCHEMA,
-      getEndpointInterface: (model) =>
-        new EndpointInterface(model.code, "GET", "DETAIL", model),
+      schema: DEMO_PLACE_SCHEMA,
       getEndpointConfig: ({ parameters }) => ({
         OVERRIDE_URL: `${config.BASE_URL}/model/${parameters.uuid}.json`,
       }),
     },
     LIST: {
-      schema: DEMO_SCHEMA,
-      getEndpointInterface: (model) =>
-        new EndpointInterface(model.code, "GET", "LIST", model),
+      schema: DEMO_PLACE_SCHEMA,
       getEndpointConfig: () => ({
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
       }),
     },
     NEW: {
-      schema: DEMO_SCHEMA,
-      getEndpointInterface: (model) =>
-        new EndpointInterface(model.code, "POST", "NEW", model),
+      schema: DEMO_PLACE_SCHEMA,
       getEndpointConfig: () => ({
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
       }),
     },
     UPDATE: {
-      schema: DEMO_SCHEMA,
-      getEndpointInterface: (model) =>
-        new EndpointInterface(model.code, "PUT", "UPDATE", model),
+      schema: DEMO_PLACE_SCHEMA,
       getEndpointConfig: () => ({
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
       }),
     },
     DELETE: {
-      schema: DEMO_SCHEMA,
-      getEndpointInterface: (model) =>
-        new EndpointInterface(model.code, "DELETE", "DELETE", model),
+      schema: DEMO_PLACE_SCHEMA,
       getEndpointConfig: () => ({
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
       }),

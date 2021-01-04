@@ -1,5 +1,3 @@
-import EndpointInterface from "../service/EndpointInterface.js";
-
 export const extractEntities = (config) => {
   const { ENTITIES } = config || {};
   return Object.keys(ENTITIES || {}).map((key) => ENTITIES[key]) || [];
@@ -61,8 +59,6 @@ export const getEndpoints = (schema, baseUrl) => {
   return {
     DETAIL: {
       schema,
-      getEndpointInterface: (model) =>
-        new EndpointInterface(model.code, "GET", "DETAIL", model),
       getEndpointConfig: ({ endpoint, parameters }) => {
         const { uuid } = parameters;
         return {
@@ -72,8 +68,6 @@ export const getEndpoints = (schema, baseUrl) => {
     },
     LIST: {
       schema,
-      getEndpointInterface: (model) =>
-        new EndpointInterface(model.code, "GET", "LIST", model),
       getEndpointConfig: ({ endpoint }) => {
         return {
           OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence/${endpoint.code}/list?withCount=true`,
@@ -86,17 +80,15 @@ export const getEndpoints = (schema, baseUrl) => {
     },
     NEW: {
       schema,
-      getEndpointInterface: (model) =>
-        new EndpointInterface(model.code, "POST", "NEW", model),
       getEndpointConfig: () => {
         return {
           OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence`,
         };
       },
-      decorateProperties: ({ props }) => {
+      decorateProperties: ({ endpoint, props }) => {
         return [
           {
-            name: `${toPascalName(code)} (${generateHash()})`,
+            name: `${toPascalName(endpoint.code)} (${generateHash()})`,
             type: code,
             properties: {
               ...props,
@@ -107,8 +99,6 @@ export const getEndpoints = (schema, baseUrl) => {
     },
     UPDATE: {
       schema,
-      getEndpointInterface: (model) =>
-        new EndpointInterface(model.code, "PUT", "UPDATE", model),
       getEndpointConfig: ({ endpoint, parameters }) => {
         const { uuid } = parameters;
         return {
@@ -118,8 +108,6 @@ export const getEndpoints = (schema, baseUrl) => {
     },
     DELETE: {
       schema,
-      getEndpointInterface: (model) =>
-        new EndpointInterface(model.code, "DELETE", "DELETE", model),
       getEndpointConfig: ({ endpoint, parameters }) => {
         const { uuid } = parameters;
         return {

@@ -1,4 +1,5 @@
 import { LitElement, html, css } from "lit-element";
+import { modelInterfaces } from "../../service/EndpointInterface.js";
 import * as config from "config";
 import { NULL_ENTITY, EMPTY_DIALOG, findEntity, toTitleName } from "utils";
 import { parseColumns } from "mv-table-utils";
@@ -134,8 +135,7 @@ export default class ListPageTemplate extends LitElement {
     const { entity, rowsPerPage } = this;
     this.currentPage = page < 1 ? 1 : page;
     const firstRow = (this.currentPage - 1) * rowsPerPage;
-    const { endpoints } = entity;
-    const endpointInterface = endpoints.LIST.getEndpointInterface(entity);
+    const endpointInterface = modelInterfaces(entity).LIST;
     endpointInterface.executeApiCall(
       {
         noAuth: true,
@@ -208,8 +208,7 @@ export default class ListPageTemplate extends LitElement {
 
   deleteRow = (row) => () => {
     const { uuid } = row;
-    const { endpoints } = this.entity;
-    const endpointInterface = endpoints.DELETE.getEndpointInterface(entity);
+    const endpointInterface = modelInterfaces(this.entity).DELETE;
     endpointInterface.executeApiCall(
       {
         noAuth: true,

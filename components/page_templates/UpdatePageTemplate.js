@@ -3,6 +3,7 @@ import { MvElement } from "mv-element";
 import * as config from "config";
 import { validate, clearForm } from "mv-form-utils";
 import { EMPTY_DIALOG } from "utils";
+import { modelInterfaces } from "../../service/EndpointInterface.js";
 import "mv-button";
 import "mv-container";
 import "mv-dialog";
@@ -12,7 +13,6 @@ import "mv-form-field";
 import "mv-tooltip";
 import "../../components/form/FormField.js";
 import "../../components/layout/PageLayout.js";
-import EndpointInterface from "../../service/EndpointInterface.js";
 
 export default class UpdatePageTemplate extends MvElement {
   static get properties() {
@@ -116,9 +116,7 @@ export default class UpdatePageTemplate extends MvElement {
       parameters: { pathParameters },
     } = this;
     const { id } = pathParameters;
-
-    const { endpoints } = entity;
-    const endpointInterface = endpoints.DETAIL.getEndpointInterface(entity)
+    const endpointInterface = modelInterfaces(entity).DETAIL;
     endpointInterface.executeApiCall(
       {
         noAuth: true,
@@ -184,8 +182,7 @@ export default class UpdatePageTemplate extends MvElement {
       } = this;
       const { id } = pathParameters;
       const item = this.store.state;
-      const { endpoints } = entity;
-      const endpointInterface = endpoints.UPDATE.getEndpointInterface(entity);
+      const endpointInterface = modelInterfaces(entity).UPDATE;
       endpointInterface.executeApiCall(
         {
           noAuth: true,
