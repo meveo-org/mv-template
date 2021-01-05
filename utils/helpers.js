@@ -89,7 +89,7 @@ export const getEndpoints = (schema, baseUrl) => {
         return [
           {
             name: `${toPascalName(entity.code)} (${generateHash()})`,
-            type: code,
+            type: entity.code,
             properties: {
               ...props,
             },

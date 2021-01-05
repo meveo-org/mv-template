@@ -82,7 +82,7 @@ function buildRequestParameters(endpoint, parameters) {
     };
     const props = keys.reduce(mapProperties(parameters), {});
     const properties = !!decorateProperties
-      ? decorateProperties({ props, parameters, endpoint })
+      ? decorateProperties({ props, parameters, endpoint, entity })
       : props;
     return properties;
   }
