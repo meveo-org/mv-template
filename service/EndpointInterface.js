@@ -363,7 +363,6 @@ export default class EndpointInterface {
     const { name, method, mockResult } = this;
     const parameters = params || {};
     const endpointConfig = buildEndpointConfig(this, parameters);
-    console.log("endpointConfig: ", endpointConfig);
     const { USE_MOCK = false, OVERRIDE_METHOD } = endpointConfig;
     this.successCallback = successCallback;
     this.errorCallback = errorCallback;
