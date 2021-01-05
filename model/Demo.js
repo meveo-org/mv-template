@@ -163,6 +163,7 @@ export default class DemoEntity {
     LIST: {
       schema: DEMO_SCHEMA,
       getEndpointConfig: () => ({
+        OVERRIDE_METHOD: "GET",
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
       }),
     },

@@ -363,14 +363,15 @@ export default class EndpointInterface {
     const { name, method, mockResult } = this;
     const parameters = params || {};
     const endpointConfig = buildEndpointConfig(this, parameters);
-    const { USE_MOCK = false } = endpointConfig;
+    console.log("endpointConfig: ", endpointConfig);
+    const { USE_MOCK = false, OVERRIDE_METHOD } = endpointConfig;
     this.successCallback = successCallback;
     this.errorCallback = errorCallback;
     if (USE_MOCK === "OFFLINE") {
       successCallback({ detail: { result: mockResult } });
     } else if (USE_MOCK === "ENDPOINT") {
       // Fetch from endpoint mock
-      const endpointRequest = new REQUEST_TYPE[method]({
+      const endpointRequest = new REQUEST_TYPE[OVERRIDE_METHOD || method]({
         ...this,
         mock: true,
       });
@@ -378,7 +379,7 @@ export default class EndpointInterface {
     } else {
       // Fetch from actual endpoint
       try {
-        const endpointRequest = new REQUEST_TYPE[method]({
+        const endpointRequest = new REQUEST_TYPE[OVERRIDE_METHOD || method]({
           ...this,
           name,
         });
@@ -394,7 +395,7 @@ export default class EndpointInterface {
 
 export const modelInterfaces = (model) => ({
   DETAIL: new EndpointInterface(model.code, "GET", "DETAIL", model),
-  LIST: new EndpointInterface(model.code, "GET", "LIST", model),
+  LIST: new EndpointInterface(model.code, "POST", "LIST", model),
   NEW: new EndpointInterface(model.code, "POST", "NEW", model),
   UPDATE: new EndpointInterface(model.code, "PUT", "UPDATE", model),
   DELETE: new EndpointInterface(model.code, "DELETE", "DELETE", model),
