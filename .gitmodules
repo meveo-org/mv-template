@@ -91,3 +91,6 @@
 [submodule "web_modules/mv-pagination"]
 	path = web_modules/mv-pagination
 	url = https://github.com/meveo-org/mv-pagination.git
+[submodule "web_modules/mv-keycloak"]
+	path = web_modules/mv-keycloak
+	url = https://github.com/meveo-org/mv-keycloak.git
