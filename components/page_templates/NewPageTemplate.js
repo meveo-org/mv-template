@@ -1,8 +1,8 @@
 import { html, css } from "lit-element";
-import { MvElement } from "mv-element";
 import * as config from "config";
 import { validate, clearForm } from "mv-form-utils";
 import { EMPTY_DIALOG } from "utils";
+import { SecurePageTemplate } from "./SecurePageTemplate.js";
 import {modelInterfaces} from "../../service/EndpointInterface.js";
 import "mv-button";
 import "mv-container";
@@ -14,7 +14,7 @@ import "mv-tooltip";
 import "../../components/form/FormField.js";
 import "../../components/layout/PageLayout.js";
 
-export default class NewPageTemplate extends MvElement {
+export default class NewPageTemplate extends SecurePageTemplate {
   static get properties() {
     return {
       entity: { type: Object, attribute: false, reflect: true },
@@ -22,6 +22,7 @@ export default class NewPageTemplate extends MvElement {
       refSchemas: { type: Array, attribute: false, reflect: true },
       errors: { type: Array, attribute: false, reflect: true },
       dialog: { type: Object, attribute: false, reflect: true },
+      auth: { type: Object, attribute: false, reflect: true },
     };
   }
 

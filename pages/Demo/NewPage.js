@@ -8,6 +8,7 @@ import "mv-font-awesome";
 import "mv-form";
 import "mv-form-field";
 import "mv-tooltip";
+import "mv-keycloak";
 import "../../components/form/FormField.js";
 import "../../components/layout/PageLayout.js";
 import NewPageTemplate from "../../components/page_templates/NewPageTemplate.js";
@@ -34,6 +35,20 @@ export default class DemoNewPage extends NewPageTemplate {
   constructor() {
     super();
     this.entity = entity;
+  }
+
+  render() {
+    return html`
+      <mv-keycloak
+        ?offline="${config.OFFLINE}"
+        settingsPath="./keycloak.json"
+        @auth-success="${super.login}"
+        @auth-fail="${super.loginFailed}"
+        @auth-init-fail="${super.loginFailed}"
+      >
+        ${super.render()}
+      </mv-keycloak>
+    `;
   }
 }
 

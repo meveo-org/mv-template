@@ -10,3 +10,5 @@ export const ENTITIES = Object.keys(models).reduce(
   }),
   {}
 );
+
+export const OFFLINE = false;
