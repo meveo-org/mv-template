@@ -1,15 +1,63 @@
 import { LitElement, html, css } from "lit-element";
+import { MvElement } from "mv-element";
+import * as config from "config";
 import "mv-header";
+import "mv-keycloak";
 import "mv-main";
 import "mv-footer";
 import "./TopbarMenu.js";
 import "./SidebarMenu.js";
 
-export default class PageLayout extends LitElement {
+const APP_SCHEMA = {
+  storages: [],
+  default: "Secure Page data schema",
+  $schema: "http://json-schema.org/draft-07/schema",
+  id: "SecurePage",
+  title: "Secure Page Schema",
+  type: "object",
+  properties: {
+    sidebarExpanded: {
+      minLength: 1,
+      description: "Sidebar is open",
+      id: "sidebarExpanded",
+      title: "Sidebar is open",
+      type: "boolean",
+    },
+    theme: {
+      minLength: 1,
+      description: "Theme",
+      id: "theme",
+      title: "Theme",
+      type: "string",
+    },
+    auth: {
+      minLength: 1,
+      description: "Authorization object",
+      id: "auth",
+      title: "Authorization",
+      type: "object",
+    },
+  },
+};
+
+export default class PageLayout extends MvElement {
   static get properties() {
     return {
-      sidebarExpanded: { type: Boolean, attribute: false },
-      theme: { type: String, attribute: true },
+      sidebarExpanded: { type: Boolean, attribute: false, reflect: true },
+      theme: { type: String, attribute: true, reflect: true },
+      auth: { type: Object, attribute: false, reflect: true },
+    };
+  }
+
+  static get model() {
+    return {
+      modelClass: APP_SCHEMA,
+      sidebarExpanded: {
+        property: "sidebarExpanded",
+        value: "sidebarExpanded",
+      },
+      theme: { property: "theme", value: "theme" },
+      token: { property: "token", value: "token" },
     };
   }
 
@@ -77,31 +125,40 @@ export default class PageLayout extends LitElement {
     super();
     this.theme = "light";
     this.sidebarExpanded = true;
+    this.auth = null;
   }
 
   render() {
     const collapse = this.sidebarExpanded ? "" : " sidebar-collapse";
 
     return html`
-      <div class="sidebar${collapse}">
-        <mv-main>
-          <topbar-menu slot="header"></topbar-menu>
-          <sidebar-menu
-            ?expanded="${this.sidebarExpanded}"
-            @sidebar-item-clicked="${this.sidebarItemClicked}"
-          ></sidebar-menu>
-          <div class="main-section">
-            <div class="main-container">
-              <slot></slot>
+      <mv-keycloak
+        ?offline="${config.OFFLINE}"
+        settingsPath="./keycloak.json"
+        @auth-success="${this.login}"
+        @auth-fail="${this.loginFailed}"
+        @auth-init-fail="${this.loginFailed}"
+      >
+        <div class="sidebar${collapse}">
+          <mv-main>
+            <topbar-menu slot="header"></topbar-menu>
+            <sidebar-menu
+              ?expanded="${this.sidebarExpanded}"
+              @sidebar-item-clicked="${this.sidebarItemClicked}"
+            ></sidebar-menu>
+            <div class="main-section">
+              <div class="main-container">
+                <slot></slot>
+              </div>
             </div>
-          </div>
-          <mv-footer slot="footer" .theme="${this.theme}">
-            <mv-footer item>
-              <small> Meveo&copy; 2020 </small>
+            <mv-footer slot="footer" .theme="${this.theme}">
+              <mv-footer item>
+                <small> Meveo&copy; 2020 </small>
+              </mv-footer>
             </mv-footer>
-          </mv-footer>
-        </mv-main>
-      </div>
+          </mv-main>
+        </div>
+      </mv-keycloak>
     `;
   }
 
@@ -109,6 +166,16 @@ export default class PageLayout extends LitElement {
     super.connectedCallback();
     document.addEventListener("toggle-sidebar", this.toggleSidebar);
   }
+
+  login = (event) => {
+    const { detail } = event;
+    console.log("login detail: ", detail);
+  };
+
+  loginFailed = (event) => {
+    const { detail } = event;
+    console.log("login failed detail: ", detail);
+  };
 
   disconnectedCallback() {
     super.disconnectedCallback();

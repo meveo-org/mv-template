@@ -1,9 +1,9 @@
 import { html, css } from "lit-element";
+import { MvElement } from "mv-element";
 import * as config from "config";
 import { validate, clearForm } from "mv-form-utils";
 import { EMPTY_DIALOG } from "utils";
-import { SecurePageTemplate } from "./SecurePageTemplate.js";
-import {modelInterfaces} from "../../service/EndpointInterface.js";
+import { modelInterfaces } from "../../service/EndpointInterface.js";
 import "mv-button";
 import "mv-container";
 import "mv-dialog";
@@ -14,7 +14,7 @@ import "mv-tooltip";
 import "../../components/form/FormField.js";
 import "../../components/layout/PageLayout.js";
 
-export default class NewPageTemplate extends SecurePageTemplate {
+export default class NewPageTemplate extends MvElement {
   static get properties() {
     return {
       entity: { type: Object, attribute: false, reflect: true },
@@ -128,7 +128,7 @@ export default class NewPageTemplate extends SecurePageTemplate {
   };
 
   save = () => {
-    const {store, entity} = this;
+    const { store, entity } = this;
     const errors = validate(
       entity.schema,
       store.state,
