@@ -10,6 +10,8 @@ export default class MainDashboard extends LitElement {
   static get properties() {
     return {
       ...super.properties,
+      name: { type: String },
+      storageModes: { type: String, attribute: "storage-modes" },
       entities: { type: Array, attribute: false, reflect: true },
       count: { type: Object, attribute: false, reflect: true },
     };
@@ -40,7 +42,7 @@ export default class MainDashboard extends LitElement {
 
   render() {
     return html`
-      <page-layout>
+      <page-layout name="${this.name}" storage-modes="${this.storageModes}">
         <mv-container>
           <h1>Dashboard</h1>
           <div class="tiles">

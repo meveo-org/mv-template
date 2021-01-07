@@ -1,8 +1,5 @@
 import * as models from "./model/index.js";
 
-const URL = window.location;
-export const BASE_URL = URL.protocol + "//" + URL.host;
-
 export const ENTITIES = Object.keys(models).reduce(
   (list, key) => ({
     ...list,
@@ -11,4 +8,9 @@ export const ENTITIES = Object.keys(models).reduce(
   {}
 );
 
-export const OFFLINE = false;
+export const OFFLINE = true;
+export const APP_NAME = "CUSTOM_ENTITIES";
+
+const URL = window.location;
+export const BASE_URL =
+  URL.protocol + "//" + URL.host + "/meveo/rest/webapp/mv-template";
