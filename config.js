@@ -8,7 +8,7 @@ export const ENTITIES = Object.keys(models).reduce(
   {}
 );
 
-export const OFFLINE = true;
+export const OFFLINE = false;
 export const APP_NAME = "CUSTOM_ENTITIES";
 
 const URL = window.location;

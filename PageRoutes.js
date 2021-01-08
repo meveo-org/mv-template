@@ -47,6 +47,8 @@ class PageRoutes extends MvElement {
     return html`
       <mv-keycloak
         settingsPath="./keycloak.json"
+        .auth="${this.auth}"
+        ?offline="${config.OFFLINE}"
         @auth-success="${this.login}"
         @auth-fail="${this.loginFailed}"
         @auth-init-fail="${this.loginFailed}"
@@ -97,9 +99,11 @@ class PageRoutes extends MvElement {
   }
 
   login = (event) => {
+    console.log(">>>>>>>>>>>login");
     if (!config.OFFLINE) {
       const { detail } = event;
       const { auth } = detail;
+      this.auth = auth;
       this.store.updateValue("auth", auth);
     }
   };
