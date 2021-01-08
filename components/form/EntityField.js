@@ -1,9 +1,9 @@
 import { LitElement, html, css } from "lit-element";
-import { matchError } from "mv-form-utils";
+import { toPascalName } from "utils";
 import "mv-button";
 import "mv-form-field";
 import "mv-dialog";
-
+import "../page_templates/ListPageTemplate.js";
 export default class EntityField extends LitElement {
   static get properties() {
     return {
@@ -59,9 +59,14 @@ export default class EntityField extends LitElement {
       }
 
       .entity-dialog {
-        --mv-dialog-width: 120rem;
-        --mv-dialog-min-height: 50rem;
-        --mv-dialog-max-height: 50rem;
+        --mv-dialog-max-height: 100%;
+        --mv-dialog-width: calc(100% - 40px);
+        --mv-dialog-content-height: 100%;
+      }
+
+      .dialog-content {
+        padding-top: 40px;
+        width: 100%;
       }
     `;
   }
@@ -72,11 +77,13 @@ export default class EntityField extends LitElement {
     this.options = [];
     this.dialog = {
       open: false,
-      message: html`<div>This is a test</div>`,
+      content: html``,
     };
   }
 
   render() {
+    console.log("this.value: ", this.value);
+    console.log("this.field", this.field);
     const hasValue = !!this.value;
     const selectionClass = hasValue ? "" : " no-selection";
     const fieldClass = `field-entry${selectionClass}`;
@@ -95,20 +102,26 @@ export default class EntityField extends LitElement {
         no-right-button
         closeable
       >
-        ${this.dialog.message}
+        ${this.dialog.content}
       </mv-dialog>
     `;
   }
 
   openDialog = () => {
     console.log("opening dialog");
-    this.dialog = { ...this.dialog, open: true };
+    const { code } = this.field;
+    const listComponent = html`
+      <div class="dialog-content">
+        <list-page-template code="${toPascalName(code)}"></list-page-template>
+      </div>
+    `;
+    this.dialog = { ...this.dialog, open: true, content: listComponent };
   };
   closeDialog = () => {
     this.dialog = { ...this.dialog, open: false };
   };
   searchOptions = () => {};
-  cleareSelected = () => {};
+  clearSelected = () => {};
 }
 
 customElements.define("entity-field", EntityField);

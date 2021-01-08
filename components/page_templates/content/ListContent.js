@@ -1,5 +1,5 @@
 import { LitElement, html, css } from "lit-element";
-import { modelInterfaces } from "../../service/EndpointInterface.js";
+import { modelInterfaces } from "../../../service/EndpointInterface.js";
 import * as config from "config";
 import { NULL_ENTITY, EMPTY_DIALOG, findEntity, toTitleName } from "utils";
 import { parseColumns } from "mv-table-utils";
@@ -10,7 +10,7 @@ import "mv-font-awesome";
 import "mv-pagination";
 import "mv-table";
 import "mv-tooltip";
-import "../../components/TableActions.js";
+import "../../../components/TableActions.js";
 
 const DEFAULT_FILTER = {
   rowsPerPage: 10,
@@ -21,7 +21,7 @@ const DEFAULT_FILTER = {
   },
 };
 
-export default class ListPageTemplate extends LitElement {
+export default class ListContent extends LitElement {
   static get properties() {
     return {
       code: { type: String },
@@ -79,7 +79,6 @@ export default class ListPageTemplate extends LitElement {
           <mv-fa icon="plus"></mv-fa>New
         </mv-button>
         <mv-table
-          with-checkbox
           .columns="${this.columns || []}"
           .rows="${this.rows}"
           .action-column="${this.actionColumn}"
@@ -122,8 +121,6 @@ export default class ListPageTemplate extends LitElement {
         ? this.entity
         : findEntity(config, code);
     this.entity = entity;
-    console.log("this.entity: ", this.entity);
-    console.log("this.code: ", this.code);
     const { properties } = entity.schema;
     const columnOrder = Object.keys(properties || {});
     const columns = this.columns || parseColumns(properties, columnOrder);
@@ -238,4 +235,4 @@ export default class ListPageTemplate extends LitElement {
   };
 }
 
-customElements.define("list-page-template", ListPageTemplate);
+customElements.define("list-content", ListContent);
