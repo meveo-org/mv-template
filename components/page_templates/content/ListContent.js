@@ -184,14 +184,20 @@ export default class ListContent extends LitElement {
   };
 
   newItem = () => {
-    history.pushState(null, "", `./${this.entity.code}/new`);
+    this.dispatchEvent(new CustomEvent("new-item"));
   };
 
   editRow = (event) => {
     const {
       detail: { row },
     } = event;
-    history.pushState(null, "", `./${this.entity.code}/update/${row.uuid}`);
+    this.dispatchEvent(
+      new CustomEvent("edit-item", {
+        detail: {
+          row,
+        },
+      })
+    );
   };
 
   confirmDelete = (event) => {

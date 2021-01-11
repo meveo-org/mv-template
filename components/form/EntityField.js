@@ -107,19 +107,61 @@ export default class EntityField extends LitElement {
     `;
   }
 
+  getListComponent = (code) => html`
+    <div class="dialog-content">
+      <list-content
+        code="${toPascalName(code)}"
+        @edit-item="${this.editItem}"
+        @new-item="${this.newItem}"
+      ></list-content>
+    </div>
+  `;
+
+  getNewItemComponent = (code) => html`
+    <div class="dialog-content">
+      <list-content
+        code="${toPascalName(code)}"
+        @edit-item="${this.editItem}"
+        @new-item="${this.newItem}"
+      ></list-content>
+    </div>
+  `;
+
+  getUpdateItemComponent = (code) => html`
+    <div class="dialog-content">
+      <list-content
+        code="${toPascalName(code)}"
+        @edit-item="${this.editItem}"
+        @new-item="${this.newItem}"
+      ></list-content>
+    </div>
+  `;
+
   openDialog = () => {
     console.log("opening dialog");
     const { code } = this.field;
-    const listComponent = html`
-      <div class="dialog-content">
-        <list-page-template code="${toPascalName(code)}"></list-page-template>
-      </div>
-    `;
-    this.dialog = { ...this.dialog, open: true, content: listComponent };
+    this.dialog = {
+      ...this.dialog,
+      open: true,
+      content: this.getListComponent(code),
+    };
   };
+
   closeDialog = () => {
     this.dialog = { ...this.dialog, open: false };
   };
+
+  editItem = (event) => {
+    const {
+      detail: { row },
+    } = event;
+    console.log("editing row: ", row);
+  };
+
+  newItem = () => {
+    console.log("create new item");
+  };
+
   searchOptions = () => {};
   clearSelected = () => {};
 }

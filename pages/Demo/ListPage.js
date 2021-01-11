@@ -18,10 +18,6 @@ export default class DemoListPage extends ListPageTemplate {
   static get styles() {
     return [super.styles, css``];
   }
-
-  render() {
-    return html`<page-layout> ${super.render()} </page-layout>`;
-  }
 }
 
 customElements.define("demo-list-page", DemoListPage);
