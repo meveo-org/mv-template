@@ -1,9 +1,9 @@
-import { html, css } from "lit-element";
+import { LitElement, html, css } from "lit-element";
 import { MvElement } from "mv-element";
 import * as config from "config";
 import { validate, clearForm } from "mv-form-utils";
 import { EMPTY_DIALOG } from "utils";
-import {modelInterfaces} from "../../service/EndpointInterface.js";
+import { modelInterfaces } from "../../service/EndpointInterface.js";
 import "mv-button";
 import "mv-container";
 import "mv-dialog";
@@ -12,16 +12,15 @@ import "mv-form";
 import "mv-form-field";
 import "mv-tooltip";
 import "../../components/form/FormField.js";
-import "../../components/layout/PageLayout.js";
+import "../layout/PageLayout.js";
+import "../page_templates/content/NewContent.js";
 
-export default class NewPageTemplate extends MvElement {
+export default class NewPageTemplate extends LitElement {
   static get properties() {
     return {
+      name: { type: String, attribute: true },
+      storageModes: { type: String, attribute: "storage-modes" },
       entity: { type: Object, attribute: false, reflect: true },
-      schema: { type: Object, attribute: false, reflect: true },
-      refSchemas: { type: Array, attribute: false, reflect: true },
-      errors: { type: Array, attribute: false, reflect: true },
-      dialog: { type: Object, attribute: false, reflect: true },
     };
   }
 
@@ -46,57 +45,17 @@ export default class NewPageTemplate extends MvElement {
   }
 
   render() {
-    const { schema, refSchemas, formFields } = this.entity;
+    const { code } = this.entity;
     return html`
       <page-layout>
-        <mv-container>
-          <mv-form
-            .store="${this.store}"
-            .schema="${schema}"
-            .refSchemas="${refSchemas}"
-          >
-            <div class="form-grid">
-              ${(formFields || []).map((group) => {
-                return (group.fields || []).map((formField) => {
-                  const value = this[formField.code];
-                  return html`
-                    <form-field
-                      .field="${{ ...formField, value }}"
-                    ></form-field>
-                  `;
-                });
-              })}
-            </div>
-
-            <div class="button-grid">
-              <mv-button
-                @button-clicked="${clearForm(null)}"
-                button-style="info"
-              >
-                <mv-fa icon="undo"></mv-fa>Clear
-              </mv-button>
-              <mv-button @button-clicked="${this.cancel}" button-style="cancel">
-                <mv-fa icon="ban"></mv-fa>Cancel
-              </mv-button>
-              <mv-button @button-clicked="${this.save}">
-                <mv-fa icon="save"></mv-fa>Save
-              </mv-button>
-            </div>
-          </mv-form>
-        </mv-container>
-        <mv-dialog
-          class="dialog-size"
-          header-label="${this.dialog.title}"
-          ?open="${this.dialog.open}"
-          @close-dialog="${this.closeDialog}"
-          no-left-button
-          closeable
-        >
-          <p>${this.dialog.message}</p>
-          <span slot="footer">
-            <mv-button @button-clicked="${this.closeDialog}"> Close </mv-button>
-          </span>
-        </mv-dialog>
+        <new-content
+          name="${code}"
+          storage-modes="${this.storageModes}"
+          .entity="${this.entity}"
+          @failed="${this.submitFailed}"
+          @submitted="${this.submitSuccess}"
+          @cancel="${this.cancel}"
+        ></new-content>
       </page-layout>
     `;
   }
@@ -123,11 +82,11 @@ export default class NewPageTemplate extends MvElement {
   cancel = (event) => {
     this.errors = null;
     clearForm(null)(event);
-    history.pushState(null, "", `./${this.entity.code}/list`);
+    this.dispatchEvent(new CustomEvent("cancel"));
   };
 
   save = () => {
-    const {store, entity} = this;
+    const { store, entity } = this;
     const errors = validate(
       entity.schema,
       store.state,
@@ -158,13 +117,17 @@ export default class NewPageTemplate extends MvElement {
     const {
       detail: { result },
     } = event;
-    const [{ uuid }] = result;
     this.dialog = {
       title: "Success",
       message: html`<span>Item saved.</span>`,
       open: true,
     };
-    history.pushState(null, "", `./${this.entity.code}/update/${uuid}`);
+    this.dispatchEvent(
+      new CustomEvent("submitted", {
+        detail: { result },
+      })
+    );
+    // history.pushState(null, "", `./${this.entity.code}/update/${uuid}`);
   };
 
   submitFailed = (event) => {
@@ -178,6 +141,11 @@ export default class NewPageTemplate extends MvElement {
       message: html`<span>${message}</span><br /><small>${statusCode}</small>`,
       open: true,
     };
+    this.dispatchEvent(
+      new CustomEvent("failed", {
+        detail: { error },
+      })
+    );
   };
 
   closeDialog = () => {

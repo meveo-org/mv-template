@@ -82,12 +82,10 @@ export default class EntityField extends LitElement {
   }
 
   render() {
-    console.log("this.value: ", this.value);
-    console.log("this.field", this.field);
     const hasValue = !!this.value;
     const selectionClass = hasValue ? "" : " no-selection";
     const fieldClass = `field-entry${selectionClass}`;
-    const { code, label, valueRequired } = this.field || {};
+    const { label } = this.field || {};
     const value = hasValue ? this.value : label;
     return html`
       <button class="${fieldClass}" @click="${this.openDialog}">
@@ -119,21 +117,21 @@ export default class EntityField extends LitElement {
 
   getNewItemComponent = (code) => html`
     <div class="dialog-content">
-      <list-content
+      <new-content
         code="${toPascalName(code)}"
         @edit-item="${this.editItem}"
         @new-item="${this.newItem}"
-      ></list-content>
+      ></new-content>
     </div>
   `;
 
   getUpdateItemComponent = (code) => html`
     <div class="dialog-content">
-      <list-content
+      <update-content
         code="${toPascalName(code)}"
         @edit-item="${this.editItem}"
         @new-item="${this.newItem}"
-      ></list-content>
+      ></update-content>
     </div>
   `;
 
