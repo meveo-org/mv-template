@@ -1,5 +1,4 @@
 import { LitElement, html, css } from "lit-element";
-import { MvElement } from "mv-element";
 import * as config from "config";
 import { validate, clearForm } from "mv-form-utils";
 import { EMPTY_DIALOG } from "utils";

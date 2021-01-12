@@ -25,6 +25,8 @@ export default class ListContent extends LitElement {
   static get properties() {
     return {
       code: { type: String },
+      selectable: { type: Boolean },
+      selectOne: { type: Boolean, attribute: "select-one", reflect: true },
       entity: { type: Object, attribute: false, reflect: true },
       filter: { type: Object, attribute: false, reflect: true },
       messageDialog: { type: Object, attribute: false, reflect: true },
@@ -52,6 +54,8 @@ export default class ListContent extends LitElement {
 
   constructor() {
     super();
+    this.selectable = false;
+    this.selectOne = false;
     this.entity = { ...NULL_ENTITY };
     this.pages = 1;
     this.currentPage = 1;
@@ -82,7 +86,12 @@ export default class ListContent extends LitElement {
           .columns="${this.columns || []}"
           .rows="${this.rows}"
           .action-column="${this.actionColumn}"
-        ></mv-table>
+          ?selectable="${this.selectable}"
+          ?select-one="${this.selectOne}"
+          @row-click="${this.selectRow}"
+        >
+          ></mv-table
+        >
         <mv-pagination
           type="text"
           .page="${this.currentPage}"
@@ -234,6 +243,17 @@ export default class ListContent extends LitElement {
       open: true,
     };
     this.loadList(this.currentPage);
+  };
+
+  selectRow = (event) => {
+    const {
+      detail: { row },
+    } = event;
+    this.dispatchEvent(
+      new CustomEvent("row-click", {
+        detail: { row },
+      })
+    );
   };
 
   closeDialog = (name) => () => {
