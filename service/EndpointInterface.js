@@ -343,7 +343,7 @@ export default class EndpointInterface {
     this.endpointUrl = `http://localhost:8080/meveo/rest/${name}`;
     this.method = method;
     this.type = type;
-    this.entity = entity || findEntity(config, name);
+    this.entity = !!entity && entity.code ? entity : findEntity(config, name);
     this.successCallback = null;
     this.errorCallback = null;
   }
