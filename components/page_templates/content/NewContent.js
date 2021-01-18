@@ -58,14 +58,17 @@ export default class NewContent extends MvElement {
               return (group.fields || []).map((formField) => {
                 const value = this[formField.code];
                 return html`
-                  <form-field .field="${{ ...formField, value }}"></form-field>
+                  <form-field
+                    .field="${formField}"
+                    .value="${value}"
+                  ></form-field>
                 `;
               });
             })}
           </div>
 
           <div class="button-grid">
-            <mv-button @button-clicked="${clearForm(null)}" button-style="info">
+            <mv-button @button-clicked="${clearForm()}" button-style="info">
               <mv-fa icon="undo"></mv-fa>Clear
             </mv-button>
             <mv-button @button-clicked="${this.cancel}" button-style="cancel">
@@ -104,6 +107,15 @@ export default class NewContent extends MvElement {
     this.store.resetState(true);
   }
 
+  //override this in child class
+  cancelCallback = () => {};
+
+  //override this in child class
+  successCallback = (event) => {};
+
+  //override this in child class
+  failCallback = (event) => {};
+
   clearErrors = () => {
     this.errors = null;
   };
@@ -114,8 +126,8 @@ export default class NewContent extends MvElement {
 
   cancel = (event) => {
     this.errors = null;
-    clearForm(null)(event);
-    this.dispatchEvent(new CustomEvent("cancel"));
+    clearForm()(event);
+    this.cancelCallback();
   };
 
   save = () => {
@@ -155,12 +167,11 @@ export default class NewContent extends MvElement {
       message: html`<span>Item saved.</span>`,
       open: true,
     };
-    this.dispatchEvent(
+    this.successCallback(
       new CustomEvent("submitted", {
         detail: { result },
       })
     );
-    // history.pushState(null, "", `./${this.entity.code}/update/${uuid}`);
   };
 
   submitFailed = (event) => {
@@ -174,7 +185,7 @@ export default class NewContent extends MvElement {
       message: html`<span>${message}</span><br /><small>${statusCode}</small>`,
       open: true,
     };
-    this.dispatchEvent(
+    this.failCallback(
       new CustomEvent("failed", {
         detail: { error },
       })

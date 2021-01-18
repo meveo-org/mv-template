@@ -9,7 +9,7 @@ export default class DateField extends LitElement {
     return {
       field: { type: Object, attribute: false, reflect: true },
       selected: { type: Object, attribute: false, reflect: true },
-      value: { type: Object, attribute: false, reflect: true },
+      value: { type: String, attribute: true, reflect: true },
     };
   }
 
@@ -20,7 +20,8 @@ export default class DateField extends LitElement {
   constructor() {
     super();
     this.field = {};
-    this.selected = EMPTY_DATE;
+    this.selected = { ...EMPTY_DATE };
+    this.value = "";
   }
 
   render() {
@@ -43,12 +44,14 @@ export default class DateField extends LitElement {
     `;
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    if (this.value) {
-      const date = new Date(this.value);
-      this.selected = parseDate({ date });
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === "value") {
+      const date = new Date(newValue);
+      this.selected = !!date.getTime()
+        ? parseDate({ date })
+        : { ...EMPTY_DATE };
     }
+    super.attributeChangedCallback(name, oldValue, newValue);
   }
 
   changeDate = (event) => {

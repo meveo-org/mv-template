@@ -87,7 +87,6 @@ export default class EntityField extends LitElement {
   }
 
   render() {
-    console.log("this.value: ", this.value);
     const hasValue = !!this.value;
     const selectionClass = hasValue ? "" : " no-selection";
     const fieldClass = `field-entry${selectionClass}`;

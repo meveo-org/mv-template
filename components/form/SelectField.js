@@ -9,7 +9,7 @@ export default class SelectField extends LitElement {
       field: { type: Object, attribute: false, reflect: true },
       options: { type: Array, attribute: false, reflect: true },
       selected: { type: Object, attribute: false, reflect: true },
-      value: { type: Object, attribute: false, reflect: true },
+      value: { type: String, attribute: true, reflect: true },
     };
   }
 
@@ -63,6 +63,19 @@ export default class SelectField extends LitElement {
         (option) => option.value === this.value
       );
     }
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === "value") {
+      if (!!newValue) {
+        this.selected = this.options.find(
+          (option) => option.value === this.value
+        );
+      } else {
+        this.selected = {};
+      }
+    }
+    super.attributeChangedCallback(name, oldValue, newValue);
   }
 
   changeSelected = (event) => {

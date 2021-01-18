@@ -3,7 +3,7 @@ import { MvElement } from "mv-element";
 import * as config from "config";
 import { validate, clearForm } from "mv-form-utils";
 import { EMPTY_DIALOG } from "utils";
-import { modelInterfaces } from "../../service/EndpointInterface.js";
+import { modelInterfaces } from "../../../service/EndpointInterface.js";
 import "mv-button";
 import "mv-container";
 import "mv-dialog";
@@ -11,13 +11,13 @@ import "mv-font-awesome";
 import "mv-form";
 import "mv-form-field";
 import "mv-tooltip";
-import "../../components/form/FormField.js";
-import "../../components/layout/PageLayout.js";
+import "../../../components/form/FormField.js";
 
 export default class UpdateContent extends MvElement {
   static get properties() {
     return {
       entity: { type: Object, attribute: false, reflect: true },
+      parameters: { type: Object, attribute: false, reflect: true },
       schema: { type: Object, attribute: false, reflect: true },
       refSchemas: { type: Array, attribute: false, reflect: true },
       errors: { type: Array, attribute: false, reflect: true },
@@ -43,57 +43,52 @@ export default class UpdateContent extends MvElement {
   render() {
     const { schema, refSchemas, formFields } = this.entity;
     return html`
-      <page-layout>
-        <mv-container>
-          <mv-form
-            .store="${this.store}"
-            .schema="${schema}"
-            .refSchemas="${refSchemas}"
-          >
-            <div class="form-grid">
-              ${(formFields || []).map((group) => {
-                return (group.fields || []).map((formField) => {
-                  const value = this[formField.code];
-                  return html`
-                    <form-field
-                      .field="${formField}"
-                      .value="${value}"
-                    ></form-field>
-                  `;
-                });
-              })}
-            </div>
-
-            <div class="button-grid">
-              <mv-button
-                @button-clicked="${clearForm(null)}"
-                button-style="info"
-              >
-                <mv-fa icon="undo"></mv-fa>Clear
-              </mv-button>
-              <mv-button @button-clicked="${this.cancel}" button-style="cancel">
-                <mv-fa icon="ban"></mv-fa>Cancel
-              </mv-button>
-              <mv-button @button-clicked="${this.save}">
-                <mv-fa icon="save"></mv-fa>Save
-              </mv-button>
-            </div>
-          </mv-form>
-        </mv-container>
-        <mv-dialog
-          class="dialog-size"
-          header-label="${this.dialog.title}"
-          ?open="${this.dialog.open}"
-          @close-dialog="${this.closeDialog}"
-          no-left-button
-          closeable
+      <mv-container>
+        <mv-form
+          .store="${this.store}"
+          .schema="${schema}"
+          .refSchemas="${refSchemas}"
         >
-          <p>${this.dialog.message}</p>
-          <span slot="footer">
-            <mv-button @button-clicked="${this.closeDialog}"> Close </mv-button>
-          </span>
-        </mv-dialog>
-      </page-layout>
+          <div class="form-grid">
+            ${(formFields || []).map((group) => {
+              return (group.fields || []).map((formField) => {
+                const value = this[formField.code];
+                return html`
+                  <form-field
+                    .field="${formField}"
+                    .value="${value}"
+                  ></form-field>
+                `;
+              });
+            })}
+          </div>
+
+          <div class="button-grid">
+            <mv-button @button-clicked="${clearForm(null)}" button-style="info">
+              <mv-fa icon="undo"></mv-fa>Clear
+            </mv-button>
+            <mv-button @button-clicked="${this.cancel}" button-style="cancel">
+              <mv-fa icon="ban"></mv-fa>Cancel
+            </mv-button>
+            <mv-button @button-clicked="${this.save}">
+              <mv-fa icon="save"></mv-fa>Save
+            </mv-button>
+          </div>
+        </mv-form>
+      </mv-container>
+      <mv-dialog
+        class="dialog-size"
+        header-label="${this.dialog.title}"
+        ?open="${this.dialog.open}"
+        @close-dialog="${this.closeDialog}"
+        no-left-button
+        closeable
+      >
+        <p>${this.dialog.message}</p>
+        <span slot="footer">
+          <mv-button @button-clicked="${this.closeDialog}"> Close </mv-button>
+        </span>
+      </mv-dialog>
     `;
   }
 
@@ -109,6 +104,9 @@ export default class UpdateContent extends MvElement {
     super.disconnectedCallback();
     this.store.resetState(true);
   }
+
+  // override this on child class
+  cancelCallback = () => {};
 
   loadFormData = () => {
     const {
@@ -156,12 +154,17 @@ export default class UpdateContent extends MvElement {
       message: html`<span>${message}</span><br /><small>${statusCode}</small>`,
       open: true,
     };
+    this.dispatchEvent(
+      new CustomEvent("failed", {
+        detail: { error },
+      })
+    );
   };
 
   cancel = (event) => {
     this.errors = null;
     clearForm(null)(event);
-    history.pushState(null, "", `./${this.entity.code}/list`);
+    this.cancelCallback();
   };
 
   save = () => {
@@ -202,6 +205,7 @@ export default class UpdateContent extends MvElement {
       message: html`<span>Item updated.</span>`,
       open: true,
     };
+    this.dispatchEvent(new CustomEvent("submitted"));
   };
 
   closeDialog = () => {

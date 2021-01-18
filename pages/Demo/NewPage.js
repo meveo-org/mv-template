@@ -1,7 +1,5 @@
-import { html, css } from "lit-element";
 import * as config from "config";
 import { findEntity, buildProperties, buildModelFields } from "utils";
-import { validate, clearForm } from "mv-form-utils";
 import "mv-button";
 import "mv-container";
 import "mv-font-awesome";
