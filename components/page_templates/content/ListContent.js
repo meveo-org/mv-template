@@ -27,6 +27,11 @@ export default class ListContent extends LitElement {
       code: { type: String },
       selectable: { type: Boolean },
       selectOne: { type: Boolean, attribute: "select-one", reflect: true },
+      withCheckbox: {
+        type: Boolean,
+        attribute: "with-checkbox",
+        reflect: true,
+      },
       entity: { type: Object, attribute: false, reflect: true },
       filter: { type: Object, attribute: false, reflect: true },
       messageDialog: { type: Object, attribute: false, reflect: true },
@@ -88,10 +93,9 @@ export default class ListContent extends LitElement {
           .action-column="${this.actionColumn}"
           ?selectable="${this.selectable}"
           ?select-one="${this.selectOne}"
-          @row-click="${this.selectRow}"
-        >
-          ></mv-table
-        >
+          ?with-checkbox="${this.withCheckbox}"
+          @select-row="${this.selectRow}"
+        ></mv-table>
         <mv-pagination
           type="text"
           .page="${this.currentPage}"
@@ -192,7 +196,7 @@ export default class ListContent extends LitElement {
     this.loadList(detail.page || 1);
   };
 
-  newItem = () => {
+  newItem = (event) => {
     this.dispatchEvent(new CustomEvent("new-item"));
   };
 
@@ -200,13 +204,7 @@ export default class ListContent extends LitElement {
     const {
       detail: { row },
     } = event;
-    this.dispatchEvent(
-      new CustomEvent("edit-item", {
-        detail: {
-          row,
-        },
-      })
-    );
+    this.dispatchEvent(new CustomEvent("edit-item", { detail: { row } }));
   };
 
   confirmDelete = (event) => {
@@ -247,13 +245,10 @@ export default class ListContent extends LitElement {
 
   selectRow = (event) => {
     const {
-      detail: { row },
+      detail: { selected },
     } = event;
-    this.dispatchEvent(
-      new CustomEvent("row-click", {
-        detail: { row },
-      })
-    );
+    const [row] = selected || [];
+    this.dispatchEvent(new CustomEvent("row-click", { detail: { row } }));
   };
 
   closeDialog = (name) => () => {

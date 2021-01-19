@@ -11,7 +11,7 @@ export default class EntityField extends LitElement {
     return {
       field: { type: Object, attribute: false, reflect: true },
       errors: { type: Object, attribute: false, reflect: true },
-      value: { type: Object, attribute: false, reflect: true },
+      value: { type: Object, attribute: true, reflect: true },
       dialog: { type: Object, attribute: false, reflect: true },
       selectedItem: { type: Object, attribute: false, reflect: true },
     };
@@ -91,7 +91,6 @@ export default class EntityField extends LitElement {
     const selectionClass = hasValue ? "" : " no-selection";
     const fieldClass = `field-entry${selectionClass}`;
     const { code, label } = this.field || {};
-    const value = hasValue ? this.value : label;
     return html`
       <mv-form-field
         name="${code}"
@@ -100,7 +99,11 @@ export default class EntityField extends LitElement {
       >
         <div slot="field">
           <button class="${fieldClass}" @click="${this.openDialog}">
-            ${value}
+            ${hasValue
+              ? Object.getOwnPropertyNames(this.value)
+                  .map((key) => this.value[key])
+                  .join(" | ")
+              : label}
           </button>
           <mv-dialog
             class="entity-dialog"
@@ -108,7 +111,7 @@ export default class EntityField extends LitElement {
             ?open="${this.dialog.open}"
             @close-dialog="${this.closeDialog}"
             @ok-dialog="${this.saveSelected}"
-            right-label="Select"
+            right-label="Done"
             closeable
           >
             ${this.dialog.content}
@@ -122,6 +125,7 @@ export default class EntityField extends LitElement {
     <div class="dialog-content">
       <list-content
         select-one
+        with-checkbox
         code="${toPascalName(code)}"
         @edit-item="${this.editItem}"
         @new-item="${this.newItem}"
