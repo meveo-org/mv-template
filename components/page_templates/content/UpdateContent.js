@@ -18,6 +18,7 @@ export default class UpdateContent extends MvElement {
     return {
       entity: { type: Object, attribute: false, reflect: true },
       parameters: { type: Object, attribute: false, reflect: true },
+      formValues: { type: Object, attribute: false, reflect: true },
       schema: { type: Object, attribute: false, reflect: true },
       refSchemas: { type: Array, attribute: false, reflect: true },
       errors: { type: Array, attribute: false, reflect: true },
@@ -105,15 +106,28 @@ export default class UpdateContent extends MvElement {
     this.store.resetState(true);
   }
 
-  // override this on child class
-  cancelCallback = () => {};
+  // override this in child class if extending this class
+  // instead of using component directly
+  cancelCallback = (event) => {
+    this.dispatchEvent(event);
+  };
+
+  // override this in child class if extending this class
+  // instead of using component directly
+  successCallback = (event) => {
+    this.dispatchEvent(event);
+  };
+
+  // override this in child class if extending this class
+  // instead of using component directly
+  failCallback = (event) => {
+    this.dispatchEvent(event);
+  };
 
   loadFormData = () => {
-    const {
-      entity,
-      parameters: { pathParameters },
-    } = this;
-    const { id } = pathParameters;
+    const { entity, parameters } = this;
+    const { pathParameters } = parameters || {};
+    const { id } = pathParameters || {};
     const endpointInterface = modelInterfaces(entity).DETAIL;
     endpointInterface.executeApiCall(
       {
@@ -136,35 +150,10 @@ export default class UpdateContent extends MvElement {
       const value = result[name];
       this.store.updateValue(name, value);
     });
-    this.store.dispatch("");
   };
 
   clearErrors = () => {
     this.errors = null;
-  };
-
-  handleErrors = (event) => {
-    const {
-      detail: { error },
-    } = event;
-    console.error("error: ", error);
-    const [message, statusCode] = error;
-    this.dialog = {
-      title: "Error",
-      message: html`<span>${message}</span><br /><small>${statusCode}</small>`,
-      open: true,
-    };
-    this.dispatchEvent(
-      new CustomEvent("failed", {
-        detail: { error },
-      })
-    );
-  };
-
-  cancel = (event) => {
-    this.errors = null;
-    clearForm(null)(event);
-    this.cancelCallback();
   };
 
   save = () => {
@@ -199,17 +188,41 @@ export default class UpdateContent extends MvElement {
     }
   };
 
+  cancel = (event) => {
+    this.errors = null;
+    clearForm(null)(event);
+    this.cancelCallback(new CustomEvent("cancel"));
+  };
+
   submitSuccess = () => {
     this.dialog = {
       title: "Success",
       message: html`<span>Item updated.</span>`,
       open: true,
     };
-    this.dispatchEvent(new CustomEvent("submitted"));
+    this.successCallback(new CustomEvent("submitted"));
   };
 
   closeDialog = () => {
     this.dialog = EMPTY_DIALOG;
+  };
+
+  submitFailed = (event) => {
+    const {
+      detail: { error },
+    } = event;
+    console.error("error: ", error);
+    const [message, statusCode] = error;
+    this.dialog = {
+      title: "Error",
+      message: html`<span>${message}</span><br /><small>${statusCode}</small>`,
+      open: true,
+    };
+    this.failCallback(
+      new CustomEvent("failed", {
+        detail: { error },
+      })
+    );
   };
 }
 

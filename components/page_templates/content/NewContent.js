@@ -107,14 +107,23 @@ export default class NewContent extends MvElement {
     this.store.resetState(true);
   }
 
-  //override this in child class
-  cancelCallback = () => {};
+  // override this in child class if extending this class
+  // instead of using component directly
+  cancelCallback = (event) => {
+    this.dispatchEvent(event);
+  };
 
-  //override this in child class
-  successCallback = (event) => {};
+  // override this in child class if extending this class
+  // instead of using component directly
+  successCallback = (event) => {
+    this.dispatchEvent(event);
+  };
 
-  //override this in child class
-  failCallback = (event) => {};
+  // override this in child class if extending this class
+  // instead of using component directly
+  failCallback = (event) => {
+    this.dispatchEvent(event);
+  };
 
   clearErrors = () => {
     this.errors = null;
@@ -122,12 +131,6 @@ export default class NewContent extends MvElement {
 
   handleErrors = (event) => {
     this.errors = event.detail.errors;
-  };
-
-  cancel = (event) => {
-    this.errors = null;
-    clearForm()(event);
-    this.cancelCallback();
   };
 
   save = () => {
@@ -156,6 +159,12 @@ export default class NewContent extends MvElement {
         this.submitFailed
       );
     }
+  };
+
+  cancel = (event) => {
+    this.errors = null;
+    clearForm()(event);
+    this.cancelCallback(new CustomEvent("cancel"));
   };
 
   submitSuccess = (event) => {

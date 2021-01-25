@@ -1,11 +1,15 @@
 import { LitElement, html, css } from "lit-element";
-import { toPascalName } from "utils";
+import { findEntity, toPascalName } from "utils";
 import { changeField, matchError } from "mv-form-utils";
+import * as config from "config";
 import "mv-button";
 import "mv-form-field";
 import "mv-dialog";
 import "mv-form-field";
-import "../page_templates/ListPageTemplate.js";
+import "../page_templates/content/ListContent.js";
+import "../page_templates/content/NewContent.js";
+import "../page_templates/content/UpdateContent.js";
+
 export default class EntityField extends LitElement {
   static get properties() {
     return {
@@ -87,7 +91,8 @@ export default class EntityField extends LitElement {
   }
 
   render() {
-    const hasValue = !!this.value;
+    const hasValue =
+      !!this.value && Object.getOwnPropertyNames(this.value).length > 0;
     const selectionClass = hasValue ? "" : " no-selection";
     const fieldClass = `field-entry${selectionClass}`;
     const { code, label } = this.field || {};
@@ -98,7 +103,7 @@ export default class EntityField extends LitElement {
         .error="${matchError(this.errors, code)}"
       >
         <div slot="field">
-          <button class="${fieldClass}" @click="${this.openDialog}">
+          <button class="${fieldClass}" @click="${this.openList}">
             ${hasValue
               ? Object.getOwnPropertyNames(this.value)
                   .map((key) => this.value[key])
@@ -109,6 +114,7 @@ export default class EntityField extends LitElement {
             class="entity-dialog"
             header-label="${label}"
             ?open="${this.dialog.open}"
+            ?no-footer="${this.dialog.noFooter}"
             @close-dialog="${this.closeDialog}"
             @ok-dialog="${this.saveSelected}"
             right-label="Done"
@@ -134,34 +140,48 @@ export default class EntityField extends LitElement {
     </div>
   `;
 
-  getNewItemComponent = (code) => html`
-    <div class="dialog-content">
-      <new-content
-        code="${toPascalName(code)}"
-        @edit-item="${this.editItem}"
-        @new-item="${this.newItem}"
-      ></new-content>
-    </div>
-  `;
+  getNewItemComponent = (code) => {
+    const name = toPascalName(code);
+    const entity = findEntity(config, name);
+    return html`
+      <div class="dialog-content">
+        <new-content
+          name="${name}"
+          storage-modes="local"
+          .entity="${entity}"
+          @submitted="${this.submitNew}"
+          @failed="${this.failNew}"
+          @cancel="${this.openList}"
+        ></new-content>
+      </div>
+    `;
+  };
 
-  getUpdateItemComponent = (code) => html`
-    <div class="dialog-content">
-      <update-content
-        code="${toPascalName(code)}"
-        @edit-item="${this.editItem}"
-        @new-item="${this.newItem}"
-      ></update-content>
-    </div>
-  `;
+  getUpdateItemComponent = (code) => {
+    const name = toPascalName(code);
+    const entity = findEntity(config, name);
+    return html`
+      <div class="dialog-content">
+        <update-content
+          name="${name}"
+          storage-modes="local"
+          .entity="${entity}"
+          @submitted="${this.submitUpdate}"
+          @failed="${this.failUpdate}"
+          @cancel="${this.openList}"
+        ></update-content>
+      </div>
+    `;
+  };
 
-  openDialog = () => {
+  openList = () => {
     console.log("opening dialog");
     const { code } = this.field;
     this.dialog = {
       ...this.dialog,
       open: true,
       content: this.getListComponent(code),
-      footer: html`<button slot="footer"`,
+      noFooter: false,
     };
   };
 
@@ -174,10 +194,24 @@ export default class EntityField extends LitElement {
       detail: { row },
     } = event;
     console.log("editing row: ", row);
+    const { code } = this.field;
+    this.dialog = {
+      ...this.dialog,
+      open: true,
+      content: this.getUpdateItemComponent(code),
+      noFooter: true,
+    };
   };
 
   newItem = () => {
     console.log("create new item");
+    const { code } = this.field;
+    this.dialog = {
+      ...this.dialog,
+      open: true,
+      content: this.getNewItemComponent(code),
+      noFooter: true,
+    };
   };
 
   selectRow = (event) => {
@@ -196,6 +230,23 @@ export default class EntityField extends LitElement {
     });
     this.closeDialog();
   };
+
+  submitNew = (event) => {
+    console.log(">>>>>>>>>>>>submitNew", event.detail);
+  };
+
+  failNew = (event) => {
+    console.log(">>>>>>>>>>>>failNew", event.detail);
+  };
+
+  submitUpdate = (event) => {
+    console.log(">>>>>>>>>>>>submitUpdate", event.detail);
+  };
+
+  failUpdate = (event) => {
+    console.log(">>>>>>>>>>>>failUpdate", event.detail);
+  };
+
 
   searchOptions = () => {};
   clearSelected = () => {};
