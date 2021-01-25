@@ -1,50 +1,5 @@
 import * as config from "config";
-
-const ADDRESS_SCHEMA = {
-  storages: [],
-  default: "Address for generating Web App from module",
-  $schema: "http://json-schema.org/draft-07/schema",
-  id: "Address",
-  title: "Demo Place",
-  type: "object",
-  properties: {
-    city: {
-      storages: [],
-      nullable: false,
-      minLength: 1,
-      description: "City",
-      readOnly: false,
-      versionable: false,
-      id: "CE_Address_city",
-      title: "Address.city",
-      type: "string",
-      maxLength: 255,
-    },
-    state: {
-      storages: [],
-      nullable: false,
-      minLength: 1,
-      description: "State",
-      readOnly: false,
-      versionable: false,
-      id: "CE_Address_state",
-      title: "Address.state",
-      type: "string",
-      maxLength: 255,
-    },
-    country: {
-      storages: [],
-      nullable: true,
-      description: "Country",
-      readOnly: false,
-      versionable: false,
-      id: "CE_Address_country",
-      title: "Address.country",
-      enum: ["here", "there", "everywhere"],
-    },
-  },
-  required: ["city", "country"],
-};
+import { ADDRESS_SCHEMA } from "./Schema.js";
 
 export default class AddressEntity {
   code = "Address";
@@ -98,18 +53,21 @@ export default class AddressEntity {
     NEW: {
       schema: ADDRESS_SCHEMA,
       getEndpointConfig: () => ({
+        OVERRIDE_METHOD: "GET",
         OVERRIDE_URL: `${config.BASE_URL}/model/address-data.json`,
       }),
     },
     UPDATE: {
       schema: ADDRESS_SCHEMA,
       getEndpointConfig: () => ({
+        OVERRIDE_METHOD: "GET",
         OVERRIDE_URL: `${config.BASE_URL}/model/address-data.json`,
       }),
     },
     DELETE: {
       schema: ADDRESS_SCHEMA,
       getEndpointConfig: () => ({
+        OVERRIDE_METHOD: "GET",
         OVERRIDE_URL: `${config.BASE_URL}/model/address-data.json`,
       }),
     },

@@ -22,12 +22,6 @@ class PageRoutes extends LitElement {
           (entity) => html`
             <mv-router
               route
-              path="${entity.code}/view"
-              .entity="${entity}"
-              component="${PAGES_PATH}/${entity.code}/ViewPage.js"
-            ></mv-router>
-            <mv-router
-              route
               path="${entity.code}/new"
               name="${entity.code}"
               .entity="${entity}"
