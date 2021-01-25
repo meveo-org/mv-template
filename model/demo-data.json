@@ -5,7 +5,13 @@
       "firstName": "Luke",
       "lastName": "Skywalker",
       "gender": "male",
-      "birthDate": "09/25/1951"
+      "birthDate": "09/25/1951",
+      "address": {
+        "uuid": "address-1",
+        "city": "Los Santos",
+        "state": "Cool State",
+        "country": "there"
+      }
     },
     {
       "uuid": "demo-2",

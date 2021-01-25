@@ -68,18 +68,21 @@ export default class DemoEntity {
     NEW: {
       schema: DEMO_SCHEMA,
       getEndpointConfig: () => ({
+        OVERRIDE_METHOD: "GET",
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
       }),
     },
     UPDATE: {
       schema: DEMO_SCHEMA,
       getEndpointConfig: () => ({
+        OVERRIDE_METHOD: "GET",
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
       }),
     },
     DELETE: {
       schema: DEMO_SCHEMA,
       getEndpointConfig: () => ({
+        OVERRIDE_METHOD: "GET",
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
       }),
     },

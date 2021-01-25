@@ -5,7 +5,6 @@ import * as config from "config";
 import "mv-button";
 import "mv-form-field";
 import "mv-dialog";
-import "mv-form-field";
 import "../page_templates/content/ListContent.js";
 import "../page_templates/content/NewContent.js";
 import "../page_templates/content/UpdateContent.js";
@@ -110,20 +109,20 @@ export default class EntityField extends LitElement {
                   .join(" | ")
               : label}
           </button>
-          <mv-dialog
-            class="entity-dialog"
-            header-label="${label}"
-            ?open="${this.dialog.open}"
-            ?no-footer="${this.dialog.noFooter}"
-            @close-dialog="${this.closeDialog}"
-            @ok-dialog="${this.saveSelected}"
-            right-label="Done"
-            closeable
-          >
-            ${this.dialog.content}
-          </mv-dialog>
         </div>
       </mv-form-field>
+      <mv-dialog
+        class="entity-dialog"
+        header-label="${label}"
+        ?open="${this.dialog.open}"
+        ?no-footer="${this.dialog.noFooter}"
+        @close-dialog="${this.closeDialog}"
+        @ok-dialog="${this.saveSelected}"
+        right-label="Done"
+        closeable
+      >
+        ${this.dialog.content}
+      </mv-dialog>
     `;
   }
 
@@ -246,7 +245,6 @@ export default class EntityField extends LitElement {
   failUpdate = (event) => {
     console.log(">>>>>>>>>>>>failUpdate", event.detail);
   };
-
 
   searchOptions = () => {};
   clearSelected = () => {};

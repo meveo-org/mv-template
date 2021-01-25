@@ -53,18 +53,21 @@ export default class AddressEntity {
     NEW: {
       schema: ADDRESS_SCHEMA,
       getEndpointConfig: () => ({
+        OVERRIDE_METHOD: "GET",
         OVERRIDE_URL: `${config.BASE_URL}/model/address-data.json`,
       }),
     },
     UPDATE: {
       schema: ADDRESS_SCHEMA,
       getEndpointConfig: () => ({
+        OVERRIDE_METHOD: "GET",
         OVERRIDE_URL: `${config.BASE_URL}/model/address-data.json`,
       }),
     },
     DELETE: {
       schema: ADDRESS_SCHEMA,
       getEndpointConfig: () => ({
+        OVERRIDE_METHOD: "GET",
         OVERRIDE_URL: `${config.BASE_URL}/model/address-data.json`,
       }),
     },
