@@ -338,12 +338,13 @@ const REQUEST_TYPE = {
  * @class EndpointInterface
  */
 export default class EndpointInterface {
-  constructor(name, method = "GET", type, entity) {
-    this.name = name;
+  constructor(method = "GET", type, entity) {
+    this.name = entity.code;
     this.endpointUrl = `http://localhost:8080/meveo/rest/${name}`;
     this.method = method;
     this.type = type;
-    this.entity = !!entity && entity.code ? entity : findEntity(config, name);
+    this.entity =
+      !!entity && entity.code ? entity : findEntity(config, entity.name);
     this.successCallback = null;
     this.errorCallback = null;
   }
@@ -393,9 +394,9 @@ export default class EndpointInterface {
 }
 
 export const modelInterfaces = (model) => ({
-  DETAIL: new EndpointInterface(model.code, "GET", "DETAIL", model),
-  LIST: new EndpointInterface(model.code, "POST", "LIST", model),
-  NEW: new EndpointInterface(model.code, "POST", "NEW", model),
-  UPDATE: new EndpointInterface(model.code, "PUT", "UPDATE", model),
-  DELETE: new EndpointInterface(model.code, "DELETE", "DELETE", model),
+  DETAIL: new EndpointInterface("GET", "DETAIL", model),
+  LIST: new EndpointInterface("POST", "LIST", model),
+  NEW: new EndpointInterface("POST", "NEW", model),
+  UPDATE: new EndpointInterface("PUT", "UPDATE", model),
+  DELETE: new EndpointInterface("DELETE", "DELETE", model),
 });

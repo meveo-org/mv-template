@@ -10,8 +10,8 @@ import "../../components/form/FormField.js";
 import "../../components/layout/PageLayout.js";
 import UpdatePageTemplate from "../../components/page_templates/UpdatePageTemplate.js";
 
-const entityCode = "Demo";
-const entity = findEntity(config, entityCode);
+const name = "DemoEntity";
+const entity = findEntity(config, name);
 const properties = buildProperties(entity);
 const mappings = buildModelFields(entity);
 

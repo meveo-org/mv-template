@@ -1,4 +1,4 @@
-export const DEMO_SCHEMA = {
+export const DemoSchema = {
   storages: [],
   default: "Demo for generating Web App from module",
   $schema: "http://json-schema.org/draft-07/schema",
@@ -65,7 +65,7 @@ export const DEMO_SCHEMA = {
   required: ["firstName", "lastName"],
 };
 
-export const ADDRESS_SCHEMA = {
+export const AddressSchema = {
   storages: [],
   default: "Address for generating Web App from module",
   $schema: "http://json-schema.org/draft-07/schema",

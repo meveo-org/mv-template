@@ -1,10 +1,11 @@
 import * as config from "config";
-import { ADDRESS_SCHEMA } from "./Schema.js";
+import { AddressSchema } from "./Schema.js";
 
 export default class AddressEntity {
   code = "Address";
+  name = "AddressEntity";
   label = "Address";
-  schema = ADDRESS_SCHEMA;
+  schema = AddressSchema;
   refSchemas = [];
   formFields = [
     {
@@ -38,34 +39,34 @@ export default class AddressEntity {
   ];
   endpoints = {
     DETAIL: {
-      schema: ADDRESS_SCHEMA,
+      schema: AddressSchema,
       getEndpointConfig: ({ parameters }) => ({
         OVERRIDE_URL: `${config.BASE_URL}/model/${parameters.uuid}.json`,
       }),
     },
     LIST: {
-      schema: ADDRESS_SCHEMA,
+      schema: AddressSchema,
       getEndpointConfig: () => ({
         OVERRIDE_METHOD: "GET",
         OVERRIDE_URL: `${config.BASE_URL}/model/address-data.json`,
       }),
     },
     NEW: {
-      schema: ADDRESS_SCHEMA,
+      schema: AddressSchema,
       getEndpointConfig: () => ({
         OVERRIDE_METHOD: "GET",
         OVERRIDE_URL: `${config.BASE_URL}/model/address-data.json`,
       }),
     },
     UPDATE: {
-      schema: ADDRESS_SCHEMA,
+      schema: AddressSchema,
       getEndpointConfig: () => ({
         OVERRIDE_METHOD: "GET",
         OVERRIDE_URL: `${config.BASE_URL}/model/address-data.json`,
       }),
     },
     DELETE: {
-      schema: ADDRESS_SCHEMA,
+      schema: AddressSchema,
       getEndpointConfig: () => ({
         OVERRIDE_METHOD: "GET",
         OVERRIDE_URL: `${config.BASE_URL}/model/address-data.json`,

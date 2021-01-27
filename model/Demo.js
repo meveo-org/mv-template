@@ -1,11 +1,12 @@
 import * as config from "config";
-import { DEMO_SCHEMA, ADDRESS_SCHEMA } from "./Schema.js";
+import { DemoSchema, AddressSchema } from "./Schema.js";
 
 export default class DemoEntity {
   code = "Demo";
+  name = "DemoEntity";
   label = "Demo";
-  schema = DEMO_SCHEMA;
-  refSchemas = [ADDRESS_SCHEMA];
+  schema = DemoSchema;
+  refSchemas = [AddressSchema];
   formFields = [
     {
       label: "Demo",
@@ -41,46 +42,47 @@ export default class DemoEntity {
         },
         {
           code: "address",
+          name: "AddressEntity",
           label: "Address",
           description: "Address",
           type: "ENTITY",
           editable: true,
           hideOnNew: false,
-          entitySchema: ADDRESS_SCHEMA,
+          entitySchema: AddressSchema,
         },
       ],
     },
   ];
   endpoints = {
     DETAIL: {
-      schema: DEMO_SCHEMA,
+      schema: DemoSchema,
       getEndpointConfig: ({ parameters }) => ({
         OVERRIDE_URL: `${config.BASE_URL}/model/${parameters.uuid}.json`,
       }),
     },
     LIST: {
-      schema: DEMO_SCHEMA,
+      schema: DemoSchema,
       getEndpointConfig: () => ({
         OVERRIDE_METHOD: "GET",
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
       }),
     },
     NEW: {
-      schema: DEMO_SCHEMA,
+      schema: DemoSchema,
       getEndpointConfig: () => ({
         OVERRIDE_METHOD: "GET",
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
       }),
     },
     UPDATE: {
-      schema: DEMO_SCHEMA,
+      schema: DemoSchema,
       getEndpointConfig: () => ({
         OVERRIDE_METHOD: "GET",
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,
       }),
     },
     DELETE: {
-      schema: DEMO_SCHEMA,
+      schema: DemoSchema,
       getEndpointConfig: () => ({
         OVERRIDE_METHOD: "GET",
         OVERRIDE_URL: `${config.BASE_URL}/model/demo-data.json`,

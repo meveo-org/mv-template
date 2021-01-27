@@ -1,10 +1,11 @@
 import { LitElement, html, css } from "lit-element";
-import { findEntity, toPascalName } from "utils";
+import { findEntity } from "utils";
 import { changeField, matchError } from "mv-form-utils";
 import * as config from "config";
 import "mv-button";
-import "mv-form-field";
 import "mv-dialog";
+import "mv-form-field";
+import "mv-tooltip";
 import "../page_templates/content/ListContent.js";
 import "../page_templates/content/NewContent.js";
 import "../page_templates/content/UpdateContent.js";
@@ -102,13 +103,19 @@ export default class EntityField extends LitElement {
         .error="${matchError(this.errors, code)}"
       >
         <div slot="field">
-          <button class="${fieldClass}" @click="${this.openList}">
-            ${hasValue
-              ? Object.getOwnPropertyNames(this.value)
-                  .map((key) => this.value[key])
-                  .join(" | ")
-              : label}
-          </button>
+          ${hasValue
+            ? html`
+                <mv-tooltip>
+                  <button class="${fieldClass}" @click="${this.openList}">
+                    ${this.value.uuid}
+                  </button>
+                </mv-tooltip>
+              `
+            : html`
+                <button class="${fieldClass}" @click="${this.openList}">
+                  ${label}
+                </button>
+              `}
         </div>
       </mv-form-field>
       <mv-dialog
@@ -126,21 +133,23 @@ export default class EntityField extends LitElement {
     `;
   }
 
-  getListComponent = (code) => html`
-    <div class="dialog-content">
-      <list-content
-        select-one
-        with-checkbox
-        code="${toPascalName(code)}"
-        @edit-item="${this.editItem}"
-        @new-item="${this.newItem}"
-        @row-click="${this.selectRow}"
-      ></list-content>
-    </div>
-  `;
+  getListComponent = (name) => {
+    const entity = findEntity(config, name);
+    return html`
+      <div class="dialog-content">
+        <list-content
+          select-one
+          with-checkbox
+          .entity="${entity}"
+          @edit-item="${this.editItem}"
+          @new-item="${this.newItem}"
+          @row-click="${this.selectRow}"
+        ></list-content>
+      </div>
+    `;
+  };
 
-  getNewItemComponent = (code) => {
-    const name = toPascalName(code);
+  getNewItemComponent = (name) => {
     const entity = findEntity(config, name);
     return html`
       <div class="dialog-content">
@@ -156,8 +165,7 @@ export default class EntityField extends LitElement {
     `;
   };
 
-  getUpdateItemComponent = (code) => {
-    const name = toPascalName(code);
+  getUpdateItemComponent = (name) => {
     const entity = findEntity(config, name);
     return html`
       <div class="dialog-content">
@@ -174,12 +182,11 @@ export default class EntityField extends LitElement {
   };
 
   openList = () => {
-    console.log("opening dialog");
-    const { code } = this.field;
+    const { name } = this.field;
     this.dialog = {
       ...this.dialog,
       open: true,
-      content: this.getListComponent(code),
+      content: this.getListComponent(name),
       noFooter: false,
     };
   };
@@ -193,22 +200,21 @@ export default class EntityField extends LitElement {
       detail: { row },
     } = event;
     console.log("editing row: ", row);
-    const { code } = this.field;
+    const { name } = this.field;
     this.dialog = {
       ...this.dialog,
       open: true,
-      content: this.getUpdateItemComponent(code),
+      content: this.getUpdateItemComponent(name),
       noFooter: true,
     };
   };
 
   newItem = () => {
-    console.log("create new item");
-    const { code } = this.field;
+    const { name } = this.field;
     this.dialog = {
       ...this.dialog,
       open: true,
-      content: this.getNewItemComponent(code),
+      content: this.getNewItemComponent(name),
       noFooter: true,
     };
   };

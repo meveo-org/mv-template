@@ -3,9 +3,9 @@ export const extractEntities = (config) => {
   return Object.keys(ENTITIES || {}).map((key) => ENTITIES[key]) || [];
 };
 
-export const findEntity = (config, code) => {
+export const findEntity = (config, name) => {
   const allEntities = extractEntities(config);
-  return allEntities.find((item) => item.code === code) || {};
+  return allEntities.find((item) => item.name === name) || {};
 };
 
 const toJSType = (fieldType) => {

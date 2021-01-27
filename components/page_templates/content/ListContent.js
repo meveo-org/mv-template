@@ -128,11 +128,11 @@ export default class ListContent extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    const code = (this.entity || {}).code || this.code;
+    const name = (this.entity || {}).name || this.code;
     const entity =
       !!this.entity && this.entity.code
         ? this.entity
-        : findEntity(config, code);
+        : findEntity(config, name);
     this.entity = entity;
     const { properties } = entity.schema;
     const columnOrder = Object.keys(properties || {});
