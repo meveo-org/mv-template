@@ -17,9 +17,9 @@ export default class NewContent extends MvElement {
   static get properties() {
     return {
       entity: { type: Object, attribute: false, reflect: true },
+      errors: { type: Array, attribute: false, reflect: true },
       schema: { type: Object, attribute: false, reflect: true },
       refSchemas: { type: Array, attribute: false, reflect: true },
-      errors: { type: Array, attribute: false, reflect: true },
       dialog: { type: Object, attribute: false, reflect: true },
     };
   }
@@ -61,6 +61,7 @@ export default class NewContent extends MvElement {
                   <form-field
                     .field="${formField}"
                     .value="${value}"
+                    .errors="${this.errors}"
                   ></form-field>
                 `;
               });

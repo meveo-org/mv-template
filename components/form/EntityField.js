@@ -14,7 +14,7 @@ export default class EntityField extends LitElement {
   static get properties() {
     return {
       field: { type: Object, attribute: false, reflect: true },
-      errors: { type: Object, attribute: false, reflect: true },
+      errors: { type: Array, attribute: false, reflect: true },
       value: { type: Object, attribute: true, reflect: true },
       dialog: { type: Object, attribute: false, reflect: true },
       selectedItem: { type: Object, attribute: false, reflect: true },

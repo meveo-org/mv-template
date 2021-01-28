@@ -17,11 +17,11 @@ export default class UpdateContent extends MvElement {
   static get properties() {
     return {
       entity: { type: Object, attribute: false, reflect: true },
+      errors: { type: Array, attribute: false, reflect: true },
       parameters: { type: Object, attribute: false, reflect: true },
       formValues: { type: Object, attribute: false, reflect: true },
       schema: { type: Object, attribute: false, reflect: true },
       refSchemas: { type: Array, attribute: false, reflect: true },
-      errors: { type: Array, attribute: false, reflect: true },
       dialog: { type: Object, attribute: false, reflect: true },
     };
   }
@@ -58,6 +58,7 @@ export default class UpdateContent extends MvElement {
                   <form-field
                     .field="${formField}"
                     .value="${value}"
+                    .errors="${this.errors}"
                   ></form-field>
                 `;
               });
@@ -166,6 +167,7 @@ export default class UpdateContent extends MvElement {
     );
     const hasError = errors && Object.keys(errors).some((key) => !!errors[key]);
     if (hasError) {
+      this.errors = errors;
       console.error("errors :", errors);
     } else {
       const {

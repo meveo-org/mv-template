@@ -3,5 +3,6 @@
   "firstName": "Leia",
   "lastName": "Organa",
   "gender": "female",
-  "birthDate": "10/21/1956"
+  "birthDate": "10/21/1956",
+  "isHuman": true
 }

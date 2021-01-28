@@ -6,6 +6,7 @@
       "lastName": "Skywalker",
       "gender": "male",
       "birthDate": "09/25/1951",
+      "isHuman": false,
       "address": {
         "uuid": "address-1",
         "city": "Los Santos",
@@ -18,14 +19,16 @@
       "firstName": "Leia",
       "lastName": "Organa",
       "gender": "female",
-      "birthDate": "10/21/1956"
+      "birthDate": "10/21/1956",
+      "isHuman": true
     },
     {
       "uuid": "demo-3",
       "firstName": "Han",
       "lastName": "Solo",
       "gender": "male",
-      "birthDate": "07/13/1942"
+      "birthDate": "07/13/1942",
+      "isHuman": true
     }
   ],
   "count": 3

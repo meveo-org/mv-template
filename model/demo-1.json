@@ -4,6 +4,7 @@
   "lastName": "Skywalker",
   "gender": "male",
   "birthDate": "09/25/1951",
+  "isHuman": false,
   "address": {
     "uuid": "address-1",
     "city": "Los Santos",

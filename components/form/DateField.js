@@ -8,6 +8,7 @@ export default class DateField extends LitElement {
   static get properties() {
     return {
       field: { type: Object, attribute: false, reflect: true },
+      errors: { type: Array, attribute: false, reflect: true },
       selected: { type: Object, attribute: false, reflect: true },
       value: { type: String, attribute: true, reflect: true },
     };

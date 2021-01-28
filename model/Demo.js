@@ -40,6 +40,15 @@ export default class DemoEntity {
             other: "Other",
           },
         },
+				{
+					code: "isHuman",
+					label: "Is Human",
+					description: "Is Human",
+					type: "BOOLEAN",
+					editable: true,
+					hideOnNew: false,
+					default: "false",
+				},
         {
           code: "address",
           name: "AddressEntity",
