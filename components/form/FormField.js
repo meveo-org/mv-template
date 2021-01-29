@@ -1,9 +1,10 @@
 import { LitElement, html, css } from "lit-element";
+import "./ArrayField.js";
+import "./BooleanField.js";
 import "./DateField.js";
 import "./EntityField.js";
 import "./InputField.js";
 import "./SelectField.js";
-import "./BooleanField.js";
 
 export default class FormField extends LitElement {
   static get properties() {
@@ -20,6 +21,12 @@ export default class FormField extends LitElement {
 
   render() {
     switch (this.field.type) {
+      case "ARRAY":
+        return html`<array-field
+          .field="${this.field}"
+          .value="${this.value}"
+          .errors="${this.errors}"
+        ></array-field>`;
       case "BOOLEAN":
         return html`<boolean-field
           .field="${this.field}"
