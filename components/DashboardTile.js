@@ -52,16 +52,20 @@ export default class DashboardTile extends LitElement {
       <div class="tile-contents">
         <h1>${this.title}</h1>
         ${this.itemCount < 1
-          ? html`<mv-button type="rounded" @button-clicked="${this.create}">
-              <mv-fa icon="plus"></mv-fa>New
-            </mv-button>`
-          : html`<mv-button
-              type="rounded"
-              @button-clicked="${this.list}"
-              button-style="info"
-            >
-              ${oneOrMore}
-            </mv-button>`}
+          ? html`
+              <mv-button type="rounded" @button-clicked="${this.create}">
+                <mv-fa icon="plus"></mv-fa>New
+              </mv-button>
+            `
+          : html`
+              <mv-button
+                type="rounded"
+                @button-clicked="${this.list}"
+                button-style="info"
+              >
+                ${oneOrMore}
+              </mv-button>
+            `}
       </div>
     `;
   }
