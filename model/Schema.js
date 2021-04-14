@@ -43,7 +43,7 @@ export const DemoSchema = {
     birthDate: {
       storages: [],
       nullable: true,
-      format: "date-time",
+      format: "date",
       description: "Birth date",
       readOnly: false,
       versionable: false,

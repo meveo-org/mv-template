@@ -3,7 +3,7 @@
   "firstName": "Luke",
   "lastName": "Skywalker",
   "gender": "male",
-  "birthDate": "09/25/1951",
+  "birthDate": "1951-09-25",
   "isHuman": false,
   "address": {
     "uuid": "address-1",

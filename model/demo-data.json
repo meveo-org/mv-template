@@ -5,7 +5,7 @@
       "firstName": "Luke",
       "lastName": "Skywalker",
       "gender": "male",
-      "birthDate": "09/25/1951",
+      "birthDate": "1951-09-25",
       "isHuman": false,
       "address": {
         "uuid": "address-1",
@@ -19,7 +19,7 @@
       "firstName": "Leia",
       "lastName": "Organa",
       "gender": "female",
-      "birthDate": "10/21/1956",
+      "birthDate": "1956-10-21",
       "isHuman": true
     },
     {
@@ -27,7 +27,7 @@
       "firstName": "Han",
       "lastName": "Solo",
       "gender": "male",
-      "birthDate": "07/13/1942",
+      "birthDate": "1942-07-13",
       "isHuman": true
     }
   ],

@@ -60,7 +60,7 @@ export default class DateField extends LitElement {
     const { selected } = detail;
     const { code } = this.field;
     this.selected = selected;
-    const value = moment(selected.date).format("YYYY/MM/DD");
+    const value = moment(selected.date).format("YYYY-MM-DD");
     changeField(target, {
       name: code,
       value,

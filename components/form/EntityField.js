@@ -109,6 +109,11 @@ export default class EntityField extends LitElement {
                   <button class="${fieldClass}" @click="${this.openList}">
                     ${this.value.uuid}
                   </button>
+                  <div slot="tooltip-content">
+                    ${Object.keys(this.value).map(
+                      (key) => html`<b>${key}</b>: ${this.value[key]} `
+                    )}
+                  </div>
                 </mv-tooltip>
               `
             : html`

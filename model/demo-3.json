@@ -3,6 +3,6 @@
   "firstName": "Han",
   "lastName": "Solo",
   "gender": "male",
-  "birthDate": "07/13/1942",
+  "birthDate": "1942-07-13",
   "isHuman": true
 }

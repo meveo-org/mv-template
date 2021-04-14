@@ -41,15 +41,6 @@ export default class ListPageTemplate extends LitElement {
     this.messageDialog = { ...EMPTY_DIALOG };
     this.confirmDialog = { ...EMPTY_DIALOG };
     this.filter = { DEFAULT_FILTER };
-    this.actionColumn = {
-      getActionComponent: (row) => html`
-        <table-actions
-          .row="${row}"
-          @edit="${this.editRow}"
-          @delete="${this.confirmDelete}"
-        ></table-actions>
-      `,
-    };
   }
 
   render() {
