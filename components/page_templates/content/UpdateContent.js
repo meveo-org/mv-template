@@ -53,7 +53,8 @@ export default class UpdateContent extends MvElement {
           <div class="form-grid">
             ${(formFields || []).map((group) => {
               return (group.fields || []).map((formField) => {
-                const value = this[formField.code];
+                const valueStore = this.formValues || this;
+                const value = valueStore[formField.code];
                 return html`
                   <form-field
                     .field="${formField}"
@@ -98,7 +99,6 @@ export default class UpdateContent extends MvElement {
     super.connectedCallback();
     this.addEventListener("update-errors", this.handleErrors);
     this.addEventListener("clear-errors", this.clearErrors);
-
     this.loadFormData();
   }
 
@@ -126,15 +126,17 @@ export default class UpdateContent extends MvElement {
   };
 
   loadFormData = () => {
-    const { entity, parameters } = this;
+    const { entity, parameters, formValues } = this;
     const { pathParameters } = parameters || {};
     const { id } = pathParameters || {};
     const endpointInterface = modelInterfaces(entity).DETAIL;
+    const entityValue = formValues || {};
+    const uuid = entityValue.uuid || id;
     endpointInterface.executeApiCall(
       {
         noAuth: true,
         config,
-        uuid: id,
+        uuid,
       },
       this.detailRetrieved,
       this.handleErrors
@@ -170,18 +172,17 @@ export default class UpdateContent extends MvElement {
       this.errors = errors;
       console.error("errors :", errors);
     } else {
-      const {
-        entity,
-        parameters: { pathParameters },
-      } = this;
+      const { entity, parameters, formValues } = this;
+      const { pathParameters = {} } = parameters || {};
       const { id } = pathParameters;
       const item = this.store.state;
       const endpointInterface = modelInterfaces(entity).UPDATE;
+      const uuid = formValues.uuid || id;
       endpointInterface.executeApiCall(
         {
           noAuth: true,
           config,
-          uuid: id,
+          uuid,
           ...item,
         },
         this.submitSuccess,

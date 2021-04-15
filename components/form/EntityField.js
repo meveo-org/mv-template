@@ -18,6 +18,7 @@ export default class EntityField extends LitElement {
       value: { type: Object, attribute: true, reflect: true },
       dialog: { type: Object, attribute: false, reflect: true },
       selectedItem: { type: Object, attribute: false, reflect: true },
+      hideUuid: { type: Boolean, attribute: "hide-uuid" },
     };
   }
 
@@ -84,6 +85,7 @@ export default class EntityField extends LitElement {
     this.field = {};
     this.selectedItem = {};
     this.options = [];
+    this.hideUuid = false;
     this.dialog = {
       open: false,
       content: html``,
@@ -163,14 +165,13 @@ export default class EntityField extends LitElement {
           storage-modes="local"
           .entity="${entity}"
           @submitted="${this.submitNew}"
-          @failed="${this.failNew}"
           @cancel="${this.openList}"
         ></new-content>
       </div>
     `;
   };
 
-  getUpdateItemComponent = (name) => {
+  getUpdateItemComponent = (name, row) => {
     const entity = findEntity(config, name);
     return html`
       <div class="dialog-content">
@@ -178,8 +179,8 @@ export default class EntityField extends LitElement {
           name="${name}"
           storage-modes="local"
           .entity="${entity}"
+          .formValues="${row}"
           @submitted="${this.submitUpdate}"
-          @failed="${this.failUpdate}"
           @cancel="${this.openList}"
         ></update-content>
       </div>
@@ -204,12 +205,11 @@ export default class EntityField extends LitElement {
     const {
       detail: { row },
     } = event;
-    console.log("editing row: ", row);
     const { name } = this.field;
     this.dialog = {
       ...this.dialog,
       open: true,
-      content: this.getUpdateItemComponent(name),
+      content: this.getUpdateItemComponent(name, row),
       noFooter: true,
     };
   };
@@ -241,20 +241,12 @@ export default class EntityField extends LitElement {
     this.closeDialog();
   };
 
-  submitNew = (event) => {
-    console.log(">>>>>>>>>>>>submitNew", event.detail);
+  submitNew = () => {
+    this.openList();
   };
 
-  failNew = (event) => {
-    console.log(">>>>>>>>>>>>failNew", event.detail);
-  };
-
-  submitUpdate = (event) => {
-    console.log(">>>>>>>>>>>>submitUpdate", event.detail);
-  };
-
-  failUpdate = (event) => {
-    console.log(">>>>>>>>>>>>failUpdate", event.detail);
+  submitUpdate = () => {
+    this.openList();
   };
 
   searchOptions = () => {};

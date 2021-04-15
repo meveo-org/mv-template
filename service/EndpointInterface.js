@@ -167,10 +167,10 @@ class ApiRequest {
             `Status code: ${response.status} [${response.statusText}]`,
           ];
         }
-        const type = response.headers.get("Content-Type");
+        const type = response.headers.get("Content-Type") || "";
         return type.includes("application/json")
           ? response.json()
-          : { status: response.statusText };
+          : { statusCode: response.status, status: response.statusText };
       })
       .then(function (result) {
         if (successCallback) {
