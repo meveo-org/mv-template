@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit-element";
 import { changeField, matchError } from "mv-form-utils";
-import { EMPTY_DATE, parseDate } from "mv-calendar-utils";
+import { EMPTY_DATE, parseDate, isEmpty } from "mv-calendar-utils";
 import "mv-form-field";
 import "mv-calendar";
 
@@ -60,7 +60,9 @@ export default class DateField extends LitElement {
     const { selected } = detail;
     const { code } = this.field;
     this.selected = selected;
-    const value = moment(selected.date).format("YYYY-MM-DD");
+    const value = isEmpty(this.selected)
+      ? ""
+      : moment(selected.date).toISOString();
     changeField(target, {
       name: code,
       value,
