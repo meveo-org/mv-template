@@ -151,6 +151,7 @@ export default class EntityField extends LitElement {
           @edit-item="${this.editItem}"
           @new-item="${this.newItem}"
           @row-click="${this.selectRow}"
+          @clear-selected="${this.clearSelected}"
         ></list-content>
       </div>
     `;
@@ -250,7 +251,9 @@ export default class EntityField extends LitElement {
   };
 
   searchOptions = () => {};
-  clearSelected = () => {};
+  clearSelected = () => {
+    this.selectedItem = {};
+  };
 }
 
 customElements.define("entity-field", EntityField);

@@ -241,6 +241,7 @@ export default class ListContent extends LitElement {
       open: true,
     };
     this.loadList(this.currentPage);
+    this.dispatchEvent(new CustomEvent("clear-selected"));
   };
 
   selectRow = (event) => {
