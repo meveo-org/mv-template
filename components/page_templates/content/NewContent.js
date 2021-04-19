@@ -57,9 +57,11 @@ export default class NewContent extends MvElement {
             ${(formFields || []).map((group) => {
               return (group.fields || []).map((formField) => {
                 const value = this[formField.code];
+                const schemaProp = schema.properties[formField.code];
                 return html`
                   <form-field
                     .field="${formField}"
+                    .schemaProp="${schemaProp}"
                     .value="${value}"
                     .errors="${this.errors}"
                   ></form-field>

@@ -55,9 +55,11 @@ export default class UpdateContent extends MvElement {
               return (group.fields || []).map((formField) => {
                 const valueStore = this.formValues || this;
                 const value = valueStore[formField.code];
+                const schemaProp = schema.properties[formField.code];
                 return html`
                   <form-field
                     .field="${formField}"
+                    .schemaProp="${schemaProp}"
                     .value="${value}"
                     .errors="${this.errors}"
                   ></form-field>
