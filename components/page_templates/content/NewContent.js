@@ -2,7 +2,7 @@ import { html, css } from "lit-element";
 import { MvElement } from "mv-element";
 import * as config from "config";
 import { validate, clearForm } from "mv-form-utils";
-import { EMPTY_DIALOG } from "utils";
+import { EMPTY_DIALOG, toTagName } from "utils";
 import { modelInterfaces } from "../../../service/EndpointInterface.js";
 import "mv-button";
 import "mv-container";
@@ -10,6 +10,7 @@ import "mv-dialog";
 import "mv-font-awesome";
 import "mv-form";
 import "mv-form-field";
+import "mv-tab";
 import "mv-tooltip";
 import "../../form/FormField.js";
 
@@ -46,6 +47,7 @@ export default class NewContent extends MvElement {
 
   render() {
     const { schema, refSchemas, formFields } = this.entity;
+    const hasMultipleTabs = (formFields || []).length > 1;
     return html`
       <mv-container>
         <mv-form
@@ -54,20 +56,9 @@ export default class NewContent extends MvElement {
           .refSchemas="${refSchemas}"
         >
           <div class="form-grid">
-            ${(formFields || []).map((group) => {
-              return (group.fields || []).map((formField) => {
-                const value = this[formField.code];
-                const schemaProp = schema.properties[formField.code];
-                return html`
-                  <form-field
-                    .field="${formField}"
-                    .schemaProp="${schemaProp}"
-                    .value="${value}"
-                    .errors="${this.errors}"
-                  ></form-field>
-                `;
-              });
-            })}
+            ${hasMultipleTabs
+              ? this.renderGroup(formFields, schema)
+              : this.renderFields(formFields[0], schema)}
           </div>
 
           <div class="button-grid">
@@ -98,6 +89,35 @@ export default class NewContent extends MvElement {
       </mv-dialog>
     `;
   }
+
+  renderGroup = (formFields, schema) =>
+    html`
+      <mv-tab group type="rounded">
+        ${(formFields || []).map((group) => {
+          const key = toTagName(group.label);
+          return html`
+            <mv-tab tab key="${key}">${group.label}</mv-tab>
+            <mv-tab content key="${key}">
+              ${this.renderFields(group, schema)}
+            </mv-tab>
+          `;
+        })}
+      </mv-tab>
+    `;
+
+  renderFields = (group, schema) =>
+    (group.fields || []).map((formField) => {
+      const value = this[formField.code];
+      const schemaProp = schema.properties[formField.code];
+      return html`
+        <form-field
+          .field="${formField}"
+          .schemaProp="${schemaProp}"
+          .value="${value}"
+          .errors="${this.errors}"
+        ></form-field>
+      `;
+    });
 
   connectedCallback() {
     super.connectedCallback();
