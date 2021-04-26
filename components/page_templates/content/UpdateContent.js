@@ -43,6 +43,7 @@ export default class UpdateContent extends MvElement {
 
   render() {
     const { schema, refSchemas, formFields } = this.entity;
+    const hasMultipleTabs = (formFields || []).length > 1;
     return html`
       <mv-container>
         <mv-form
@@ -50,11 +51,9 @@ export default class UpdateContent extends MvElement {
           .schema="${schema}"
           .refSchemas="${refSchemas}"
         >
-          <div class="form-grid">
-            ${hasMultipleTabs
-              ? this.renderGroup(formFields, schema)
-              : this.renderFields(formFields[0], schema)}
-          </div>
+          ${hasMultipleTabs
+            ? this.renderGroup(formFields, schema)
+            : this.renderFields(formFields[0], schema)}
 
           <div class="button-grid">
             <mv-button @button-clicked="${clearForm(null)}" button-style="info">
@@ -100,19 +99,22 @@ export default class UpdateContent extends MvElement {
       </mv-tab>
     `;
 
-  renderFields = (group, schema) =>
-    (group.fields || []).map((formField) => {
-      const value = this[formField.code];
-      const schemaProp = schema.properties[formField.code];
-      return html`
-        <form-field
-          .field="${formField}"
-          .schemaProp="${schemaProp}"
-          .value="${value}"
-          .errors="${this.errors}"
-        ></form-field>
-      `;
-    });
+  renderFields = (group, schema) => html`
+    <div class="form-grid">
+      ${(group.fields || []).map((formField) => {
+        const value = this[formField.code];
+        const schemaProp = schema.properties[formField.code];
+        return html`
+          <form-field
+            .field="${formField}"
+            .schemaProp="${schemaProp}"
+            .value="${value}"
+            .errors="${this.errors}"
+          ></form-field>
+        `;
+      })}
+    </div>
+  `;
 
   connectedCallback() {
     super.connectedCallback();
