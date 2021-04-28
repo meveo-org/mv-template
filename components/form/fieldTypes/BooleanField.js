@@ -2,6 +2,7 @@ import { LitElement, html, css } from "lit-element";
 import { changeField, matchError } from "mv-form-utils";
 import "mv-form-field";
 import "mv-checkbox";
+
 export default class BooleanField extends LitElement {
   static get properties() {
     return {

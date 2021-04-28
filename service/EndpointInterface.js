@@ -361,14 +361,18 @@ export default class EndpointInterface {
    * @memberof EndpointInterface
    */
   executeApiCall(params, successCallback, errorCallback) {
-    const { name, method, mockResult } = this;
+    const { name, method } = this;
     const parameters = params || {};
     const endpointConfig = buildEndpointConfig(this, parameters);
-    const { USE_MOCK = false, OVERRIDE_METHOD } = endpointConfig;
+    const { USE_MOCK = false, OVERRIDE_METHOD, OFFLINE } = endpointConfig;
     this.successCallback = successCallback;
     this.errorCallback = errorCallback;
-    if (USE_MOCK === "OFFLINE") {
-      successCallback({ detail: { result: mockResult } });
+    if (!!OFFLINE) {
+      if (OFFLINE.execute) {
+        successCallback(OFFLINE.execute(params));
+      } else {
+        successCallback({ detail: { result: OFFLINE.result } });
+      }
     } else if (USE_MOCK === "ENDPOINT") {
       // Fetch from endpoint mock
       const endpointRequest = new REQUEST_TYPE[OVERRIDE_METHOD || method]({

@@ -1,10 +1,10 @@
 import { LitElement, html, css } from "lit-element";
-import "./ArrayField.js";
-import "./BooleanField.js";
-import "./DateField.js";
-import "./EntityField.js";
-import "./InputField.js";
-import "./SelectField.js";
+import "./storageTypes/ArrayField.js";
+import "./fieldTypes/BooleanField.js";
+import "./fieldTypes/DateField.js";
+import "./fieldTypes/EntityField.js";
+import "./fieldTypes/InputField.js";
+import "./fieldTypes/SelectField.js";
 
 export default class FormField extends LitElement {
   static get properties() {
