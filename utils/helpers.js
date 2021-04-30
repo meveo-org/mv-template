@@ -160,6 +160,10 @@ export const toTagName = (input) => {
   return convert(input, LOWER_CASE, DASH);
 };
 
+export const toBoolean = (value, defaultValue) =>
+  (["true", "false", true, false].includes(value) && JSON.parse(value)) ||
+  defaultValue;
+
 export const generateHash = () => {
   const seed = new Uint8Array(8);
   return (window.crypto || window.msCrypto)

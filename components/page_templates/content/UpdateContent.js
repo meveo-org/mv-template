@@ -2,7 +2,7 @@ import { html, css } from "lit-element";
 import { MvElement } from "mv-element";
 import * as config from "config";
 import { validate, clearForm } from "mv-form-utils";
-import { EMPTY_DIALOG } from "utils";
+import { EMPTY_DIALOG, toTagName } from "utils";
 import { modelInterfaces } from "../../../service/EndpointInterface.js";
 import "mv-button";
 import "mv-container";
@@ -10,8 +10,9 @@ import "mv-dialog";
 import "mv-font-awesome";
 import "mv-form";
 import "mv-form-field";
+import "mv-tab";
 import "mv-tooltip";
-import "../../../components/form/FormField.js";
+import "../../form/FormField.js";
 
 export default class UpdateContent extends MvElement {
   static get properties() {
@@ -33,12 +34,17 @@ export default class UpdateContent extends MvElement {
         grid-template-columns: 1fr 1fr;
         grid-column-gap: 20px;
       }
+
+      .dialog-size {
+        --mv-dialog-width: 500px;
+        --mv-dialog-max-height: 300px;
+      }
     `;
   }
 
   constructor() {
     super();
-    this.dialog = EMPTY_DIALOG;
+    this.dialog = { ...EMPTY_DIALOG };
   }
 
   render() {
@@ -56,7 +62,7 @@ export default class UpdateContent extends MvElement {
             : this.renderFields(formFields[0], schema)}
 
           <div class="button-grid">
-            <mv-button @button-clicked="${clearForm(null)}" button-style="info">
+            <mv-button @button-clicked="${clearForm()}" button-style="info">
               <mv-fa icon="undo"></mv-fa>Clear
             </mv-button>
             <mv-button @button-clicked="${this.cancel}" button-style="cancel">
@@ -180,23 +186,28 @@ export default class UpdateContent extends MvElement {
     this.errors = null;
   };
 
+  handleErrors = (event) => {
+    this.errors = event.detail.errors;
+  };
+
   save = () => {
+    const { store, entity } = this;
     const errors = validate(
-      this.entity.schema,
-      this.store.state,
+      entity.schema,
+      store.state,
       null,
       null,
-      this.entity.refSchemas
+      entity.refSchemas
     );
     const hasError = errors && Object.keys(errors).some((key) => !!errors[key]);
     if (hasError) {
       this.errors = errors;
       console.error("errors :", errors);
     } else {
-      const { entity, parameters, formValues } = this;
+      const { parameters, formValues } = this;
       const { pathParameters = {} } = parameters || {};
       const { id } = pathParameters;
-      const item = this.store.state;
+      const item = store.state;
       const endpointInterface = modelInterfaces(entity).UPDATE;
       const uuid = formValues.uuid || id;
       endpointInterface.executeApiCall(
@@ -207,28 +218,25 @@ export default class UpdateContent extends MvElement {
           ...item,
         },
         this.submitSuccess,
-        this.handleErrors
+        this.submitFailed
       );
     }
   };
 
   cancel = (event) => {
     this.errors = null;
-    clearForm(null)(event);
+    clearForm()(event);
     this.cancelCallback(new CustomEvent("cancel"));
   };
 
-  submitSuccess = () => {
+  submitSuccess = (event) => {
+    const { detail } = event;
     this.dialog = {
       title: "Success",
       message: html`<span>Item updated.</span>`,
       open: true,
     };
-    this.successCallback(new CustomEvent("submitted"));
-  };
-
-  closeDialog = () => {
-    this.dialog = EMPTY_DIALOG;
+    this.successCallback(new CustomEvent("submitted", { detail }));
   };
 
   submitFailed = (event) => {
@@ -247,6 +255,10 @@ export default class UpdateContent extends MvElement {
         detail: { error },
       })
     );
+  };
+
+  closeDialog = () => {
+    this.dialog = { ...EMPTY_DIALOG };
   };
 }
 

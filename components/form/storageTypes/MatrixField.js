@@ -1,10 +1,11 @@
 import { LitElement, html, css } from "lit-element";
-import "./storageTypes/ArrayField.js";
-import "./storageTypes/SingleField.js";
-import "./storageTypes/MapField.js";
-import "./storageTypes/MatrixField.js";
+import "../fieldTypes/BooleanField.js";
+import "../fieldTypes/DateField.js";
+import "../fieldTypes/EntityField.js";
+import "../fieldTypes/TextField.js";
+import "../fieldTypes/SelectField.js";
 
-export default class FormField extends LitElement {
+export default class MatrixField extends LitElement {
   static get properties() {
     return {
       field: { type: Object, attribute: false, reflect: true },
@@ -18,38 +19,46 @@ export default class FormField extends LitElement {
   }
 
   render() {
-    switch (this.field.storageType) {
-      case "SINGLE":
+    switch (this.field.fieldType) {
+      case "BOOLEAN":
         return html`
-          <single-field
+          <boolean-field
             .field="${this.field}"
             .value="${this.value}"
             .errors="${this.errors}"
-          ></single-field>
+          ></boolean-field>
+        `;
+      case "STRING":
+        return html`
+          <input-field
+            .field="${this.field}"
+            .value="${this.value}"
+            .errors="${this.errors}"
+          ></input-field>
+        `;
+      case "DATE":
+        return html`
+          <date-field
+            .field="${this.field}"
+            .value="${this.value}"
+            .errors="${this.errors}"
+          ></date-field>
         `;
       case "LIST":
         return html`
-          <array-field
+          <select-field
             .field="${this.field}"
             .value="${this.value}"
             .errors="${this.errors}"
-          ></array-field>
+          ></select-field>
         `;
-      case "MAP":
+      case "ENTITY":
         return html`
-          <map-field
+          <entity-field
             .field="${this.field}"
             .value="${this.value}"
             .errors="${this.errors}"
-          ></map-field>
-        `;
-      case "MATRIX":
-        return html`
-          <matrix-field
-            .field="${this.field}"
-            .value="${this.value}"
-            .errors="${this.errors}"
-          ></matrix-field>
+          ></entity-field>
         `;
       default:
         // console.error("Unsupported field");
@@ -60,4 +69,4 @@ export default class FormField extends LitElement {
   }
 }
 
-customElements.define("form-field", FormField);
+customElements.define("matrix-field", MatrixField);

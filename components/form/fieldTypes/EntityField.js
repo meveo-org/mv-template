@@ -6,9 +6,9 @@ import "mv-button";
 import "mv-dialog";
 import "mv-form-field";
 import "mv-tooltip";
-import "../page_templates/content/ListContent.js";
-import "../page_templates/content/NewContent.js";
-import "../page_templates/content/UpdateContent.js";
+import "../../page_templates/content/ListContent.js";
+import "../../page_templates/content/NewContent.js";
+import "../../page_templates/content/UpdateContent.js";
 
 export default class EntityField extends LitElement {
   static get properties() {

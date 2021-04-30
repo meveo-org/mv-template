@@ -1,16 +1,17 @@
 import { LitElement, html, css } from "lit-element";
 import { matchError } from "mv-form-utils";
-import { toBoolean } from "utils";
-import "mv-button";
-import "mv-checkbox";
-import "mv-font-awesome";
+import "mv-button"
+import "mv-font-awesome"
 import "mv-form-field";
-export default class BooleanField extends LitElement {
+import "mv-input";
+
+export default class TextField extends LitElement {
   static get properties() {
     return {
       field: { type: Object, attribute: false, reflect: true },
-      errors: { type: Array, attribute: false, reflect: true },
-      value: { type: Boolean, attribute: true, reflect: true },
+      errors: { type: Object, attribute: false, reflect: true },
+      value: { type: Object, attribute: false, reflect: true },
+      hasError: { type: Boolean, attribute: "has-error", reflect: true },
       removable: { type: Boolean },
     };
   }
@@ -43,12 +44,10 @@ export default class BooleanField extends LitElement {
   constructor() {
     super();
     this.field = {};
-    this.value = false;
   }
 
   render() {
-    const { code, label } = this.field || {};
-    const value = toBoolean(this.value);
+    const { code, label, disabled, valueRequired } = this.field || {};
     return html`
       <mv-form-field
         name="${code}"
@@ -57,12 +56,15 @@ export default class BooleanField extends LitElement {
       >
         <div slot="field" class="field">
           <div class="input">
-            <mv-checkbox
-              slot="field"
-              ?checked="${value}"
-              @click-checkbox="${this.change}"
-              label="${label}"
-            ></mv-checkbox>
+            <mv-input
+              type="text"
+              .placeholder="${label}"
+              .value="${this.value}"
+              ?has-error="${this.hasError}"
+              @input-change="${this.change}"
+              ?disabled="${disabled}"
+              ?required="${valueRequired}"
+            ></mv-input>
           </div>
           <div class="button">
             <mv-button
@@ -81,9 +83,10 @@ export default class BooleanField extends LitElement {
   }
 
   change = (originalEvent) => {
+    const { detail } = originalEvent;
     this.dispatchEvent(
       new CustomEvent("change", {
-        detail: { value: !this.value, originalEvent },
+        detail: { ...detail, originalEvent },
       })
     );
   };
@@ -95,4 +98,4 @@ export default class BooleanField extends LitElement {
   };
 }
 
-customElements.define("boolean-field", BooleanField);
+customElements.define("text-field", TextField);

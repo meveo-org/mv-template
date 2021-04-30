@@ -192,19 +192,13 @@ export default class NewContent extends MvElement {
   };
 
   submitSuccess = (event) => {
-    const {
-      detail: { result },
-    } = event;
+    const { detail } = event;
     this.dialog = {
       title: "Success",
       message: html`<span>Item saved.</span>`,
       open: true,
     };
-    this.successCallback(
-      new CustomEvent("submitted", {
-        detail: { result },
-      })
-    );
+    this.successCallback(new CustomEvent("submitted", { detail }));
   };
 
   submitFailed = (event) => {

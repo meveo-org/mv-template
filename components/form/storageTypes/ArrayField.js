@@ -1,7 +1,8 @@
 import { LitElement, html, css } from "lit-element";
-import { changeField, matchError } from "mv-form-utils";
-import "mv-form-field";
-import "mv-tags";
+import "mv-button";
+import "mv-form-group";
+import { changeField } from "mv-form-utils";
+import "../storageTypes/SingleField.js";
 
 export default class ArrayField extends LitElement {
   static get properties() {
@@ -13,7 +14,62 @@ export default class ArrayField extends LitElement {
   }
 
   static get styles() {
-    return css``;
+    return css`
+      :host {
+        font-family: var(--font-family, Arial);
+        font-size: var(--font-size-m, 10pt);
+      }
+
+      mv-container {
+        --mv-container-min-width: 620px;
+        --mv-container-max-width: 620px;
+        --mv-container-margin: 50px auto;
+        --mv-container-padding: 20px 30px;
+      }
+
+      mv-container.location {
+        --mv-container-min-width: 560px;
+        --mv-container-max-width: 620px;
+        --mv-container-margin: 0;
+        --mv-container-padding: 20px 30px;
+      }
+
+      textarea {
+        width: 80%;
+        min-height: 50px;
+        border: 1px solid black;
+        margin: 0;
+        padding: 5px;
+        border-radius: 5px;
+        resize: none;
+      }
+
+      button,
+      label {
+        font-size: 1em;
+        font-weight: bold;
+        color: #4e686d;
+      }
+
+      label .required {
+        font-style: normal;
+        color: #ff0000;
+      }
+
+      fieldset {
+        margin: 10px auto;
+      }
+
+      .inline-fields {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 20px;
+      }
+
+      .small-button {
+        --mv-button-circle-button-size: 28px;
+      }
+    `;
   }
 
   constructor() {
@@ -23,39 +79,74 @@ export default class ArrayField extends LitElement {
   }
 
   render() {
-    const { label, code } = this.field || {};
+    const { value, field } = this;
+    const { label, valueRequired } = field || {};
+
     return html`
-      <mv-form-field
-        name="${code}"
-        label-position="none"
-        .error="${matchError(this.errors, code)}"
-      >
-        <mv-tags
-          slot="field"
-          placeholder="${label}"
-          .tags="${this.value}"
-          @add-tag="${this.updateTags}"
-          @remove-tag="${this.updateTags}"
-        ></mv-tags>
-      </mv-form-field>
+      <fieldset>
+        <legend>
+          <label>
+            ${label}${valueRequired ? html`<i class="required"> *</i>` : null}
+            <mv-button
+              type="circle"
+              class="small-button"
+              @button-clicked="${this.addItem}"
+            >
+              <mv-fa icon="plus"></mv-fa>
+            </mv-button>
+          </label>
+        </legend>
+        ${(value || []).map(
+          (itemValue, index) => html`
+            <single-field
+              removable
+              .field="${this.field}"
+              .value="${itemValue}"
+              .errors="${this.errors}"
+              @update-value="${this.updateItem(index)}"
+              @remove-value="${this.removeItem(index)}"
+            ></single-field>
+          `
+        )}
+      </fieldset>
     `;
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (name === "value") {
-      console.log("newValue: ", newValue);
-    }
-    super.attributeChangedCallback(name, oldValue, newValue);
-  }
-
-  updateTags = (event) => {
-    const { target, detail } = event;
-    const { code } = this.field;
-    const value = detail.tags;
-    changeField(target, {
-      name: code,
-      value,
+  addItem = (event) => {
+    const value = [...this.value, null];
+    changeField(event.target, {
+      name: this.field.code,
       originalEvent: event,
+      value,
+    });
+  };
+
+  removeItem = (index) => (event) => {
+    const { target } = event;
+    const value = [
+      ...[...this.value.slice(0, index)],
+      ...[...this.value.slice(index + 1)],
+    ];
+    changeField(target, {
+      name: this.field.code,
+      validateGroup: true,
+      originalEvent: event,
+      value,
+    });
+  };
+
+  updateItem = (index) => (event) => {
+    const { detail } = event;
+    const value = [
+      ...[...this.value.slice(0, index)],
+      detail.value,
+      ...[...this.value.slice(index + 1)],
+    ];
+    changeField(detail.originalEvent.target, {
+      name: this.field.code,
+      validateGroup: true,
+      originalEvent: event,
+      value,
     });
   };
 }
