@@ -1,0 +1,12 @@
+{
+  "realm": "meveo",
+  "auth-server-url": "http://localhost:8081/auth/",
+  "ssl-required": "external",
+  "resource": "meveo-web",
+  "verify-token-audience": true,
+  "credentials": {
+    "secret": "afe07e5a-68cb-4fb0-8b75-5b6053b07dc3"
+  },
+  "use-resource-role-mappings": true,
+  "confidential-port": 0
+}

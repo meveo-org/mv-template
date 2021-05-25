@@ -23,7 +23,7 @@ class PageRoutes extends LitElement {
     const entityList = extractEntities(config);
     return html`
       <mv-keycloak
-        settings-path="./web_modules/mv-keycloak/keycloak.json"
+        settings-path="./keycloak.json"
         @auth-success="${this.loginSuccess}"
         @auth-fail="${this.loginFailed}"
         @auth-init-fail="${this.loginFailed}"
