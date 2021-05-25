@@ -1,4 +1,5 @@
 import { LitElement, html, css } from "lit-element";
+import "mv-button";
 import "mv-linear-icons";
 import "mv-dropdown";
 import "mv-header";
@@ -16,6 +17,8 @@ class TopbarMenu extends LitElement {
   static get styles() {
     return css`
       :host {
+        --mv-button-padding: 3px 5px;
+        --mv-button-min-width: 80px;
       }
 
       router-link {
@@ -68,12 +71,24 @@ class TopbarMenu extends LitElement {
             <router-link path="./dashboard">Custom Entities</router-link>
           </h1>
         </mv-header>
+        <mv-header item position="right">
+          <mv-button
+            button-style="error"
+            type="outline"
+            @button-clicked="${this.logout}"
+            >Logout</mv-button
+          >
+        </mv-header>
       </mv-header>
     `;
   }
 
   toggleSidebar = () => {
     document.dispatchEvent(new CustomEvent("toggle-sidebar"));
+  };
+
+  logout = () => {
+    document.dispatchEvent(new CustomEvent("logout"));
   };
 }
 
