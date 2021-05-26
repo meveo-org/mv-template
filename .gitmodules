@@ -94,3 +94,6 @@
 [submodule "web_modules/mv-keycloak"]
 	path = web_modules/mv-keycloak
 	url = https://github.com/meveo-org/mv-keycloak.git
+[submodule "web_modules/mv-progress-bar"]
+	path = web_modules/mv-progress-bar
+	url = https://github.com/meveo-org/mv-progress-bar.git

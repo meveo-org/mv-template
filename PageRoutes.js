@@ -1,8 +1,11 @@
 import { LitElement, html } from "lit-element";
 import * as config from "config";
 import { extractEntities } from "utils";
+import "mv-container";
 import "mv-keycloak";
+import "mv-progress-bar";
 import "mv-router";
+import "./components/layout/PageLayout.js";
 
 // component paths are relative to /web_modules/mv-router
 const PAGES_PATH = "../../pages";
@@ -63,16 +66,33 @@ class PageRoutes extends LitElement {
             `
           )}
         </mv-router>
-        <div slot="loading">
-        <mv-main><mv-container>Loading...<mv-container></mv-main>
-        </div>
-        <div slot="authenticating">
-          Authenticating...
-        </div>
-        <div slot="failed">This message is shown when authentication fails</div>
+
+        ${this.shadowTemplate("loading", this.loading())}
+        ${this.shadowTemplate("authenticating", this.loading())}
+        ${this.shadowTemplate("failed", "Authentication failed.")}
       </mv-keycloak>
     `;
   }
+
+  shadowTemplate = (slot, content) => html`
+    <mv-main slot="${slot}">
+      <mv-header slot="header">
+        <mv-header item>${" "}</mv-header>
+      </mv-header>
+      <mv-menu-panel menu showLabel slot="menu">
+        <mv-menu-panel label>${" "}</mv-menu-panel>
+        <mv-menu-panel item>${" "}</mv-menu-panel>
+      </mv-menu-panel>
+      <mv-container>${content}</mv-container>
+      <mv-footer slot="footer">
+        <mv-footer item>${" "}</mv-footer>
+      </mv-footer>
+    </mv-main>
+  `;
+
+  loading = () => html`
+    <mv-progressbar type="infinite" theme="light"></mv-progressbar>
+  `;
 
   connectedCallback() {
     super.connectedCallback();
