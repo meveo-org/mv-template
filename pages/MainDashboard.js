@@ -1,8 +1,8 @@
 import { LitElement, html, css } from "lit-element";
 import * as config from "config";
-import { extractEntities } from "utils";
-import { modelInterfaces } from "../service/EndpointInterface.js";
 import "mv-container";
+import { modelInterfaces } from "../service/EndpointInterface.js";
+import { ENTITIES } from "../model/index.js";
 import "../components/DashboardTile.js";
 import "../components/layout/PageLayout.js";
 
@@ -10,7 +10,6 @@ export default class MainDashboard extends LitElement {
   static get properties() {
     return {
       ...super.properties,
-      entities: { type: Array, attribute: false, reflect: true },
       count: { type: Object, attribute: false, reflect: true },
     };
   }
@@ -34,7 +33,6 @@ export default class MainDashboard extends LitElement {
 
   constructor() {
     super();
-    this.entities = [];
     this.count = {};
   }
 
@@ -44,7 +42,7 @@ export default class MainDashboard extends LitElement {
         <mv-container>
           <h1>Dashboard</h1>
           <div class="tiles">
-            ${this.entities.map(
+            ${ENTITIES.map(
               (entity) => html`
                 <dashboard-tile
                   entity-code="${entity.code}"
@@ -60,9 +58,8 @@ export default class MainDashboard extends LitElement {
   }
 
   connectedCallback() {
-    this.entities = extractEntities(config) || [];
     // call api to load entity counts
-    this.entities.forEach((entity) => {
+    ENTITIES.forEach((entity) => {
       const endpointInterface = modelInterfaces(entity).LIST;
       endpointInterface.executeApiCall(
         {

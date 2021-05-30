@@ -1,11 +1,11 @@
 import { LitElement, html, css } from "lit-element";
 import { findEntity } from "utils";
 import { changeField, matchError } from "mv-form-utils";
-import * as config from "config";
 import "mv-button";
 import "mv-dialog";
 import "mv-form-field";
 import "mv-tooltip";
+import {ENTITIES} from "../../model/index.js";
 import "../page_templates/content/ListContent.js";
 import "../page_templates/content/NewContent.js";
 import "../page_templates/content/UpdateContent.js";
@@ -141,7 +141,7 @@ export default class EntityField extends LitElement {
   }
 
   getListComponent = (name) => {
-    const entity = findEntity(config, name);
+    const entity = findEntity(ENTITIES, name);
     return html`
       <div class="dialog-content">
         <list-content
@@ -158,7 +158,7 @@ export default class EntityField extends LitElement {
   };
 
   getNewItemComponent = (name) => {
-    const entity = findEntity(config, name);
+    const entity = findEntity(ENTITIES, name);
     return html`
       <div class="dialog-content">
         <new-content
@@ -173,7 +173,7 @@ export default class EntityField extends LitElement {
   };
 
   getUpdateItemComponent = (name, row) => {
-    const entity = findEntity(config, name);
+    const entity = findEntity(ENTITIES, name);
     return html`
       <div class="dialog-content">
         <update-content

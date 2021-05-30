@@ -1,6 +1,3 @@
-import * as config from "config";
-import { findEntity } from "utils";
-
 /**
  * Extracts the value from parameters based on property name.
  *
@@ -343,8 +340,7 @@ export default class EndpointInterface {
     this.endpointUrl = `http://localhost:8080/meveo/rest/${name}`;
     this.method = method;
     this.type = type;
-    this.entity =
-      !!entity && entity.code ? entity : findEntity(config, entity.name);
+    this.entity = entity;
     this.successCallback = null;
     this.errorCallback = null;
   }

@@ -1,6 +1,7 @@
 import { LitElement, html, css } from "lit-element";
 import { modelInterfaces } from "../../../service/EndpointInterface.js";
 import * as config from "config";
+import { ENTITIES } from "../../../model/index.js";
 import { NULL_ENTITY, EMPTY_DIALOG, findEntity, toTitleName } from "utils";
 import { parseColumns } from "mv-table-utils";
 import "mv-button";
@@ -132,7 +133,7 @@ export default class ListContent extends LitElement {
     const entity =
       !!this.entity && this.entity.code
         ? this.entity
-        : findEntity(config, name);
+        : findEntity(ENTITIES, name);
     this.entity = entity;
     const { properties } = entity.schema;
     const columnOrder = Object.keys(properties || {});
