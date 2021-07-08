@@ -1,8 +1,7 @@
 import { LitElement, html, css } from "lit-element";
-import * as config from "config";
-import { extractEntities } from "utils";
 import "mv-menu-panel";
 import "mv-font-awesome";
+import { ENTITIES } from "../../model/index.js";
 
 class SidebarMenu extends LitElement {
   static get properties() {
@@ -110,7 +109,6 @@ class SidebarMenu extends LitElement {
   render() {
     const { theme } = this;
     const expandedClass = this.expanded ? "" : " collapsed";
-    const entityList = extractEntities(config);
 
     return html`
       <div class="sidebar${expandedClass}">
@@ -141,7 +139,7 @@ class SidebarMenu extends LitElement {
             </router-link>
           </mv-menu-panel>
 
-          ${entityList.map(
+          ${ENTITIES.map(
             (entity) => html`
               <mv-menu-panel
                 item

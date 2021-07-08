@@ -3,7 +3,10 @@
 import TestEntity from "./TestEntity.js";
 import ChildEntity from "./ChildEntity.js";
 
-// export const DemoEntity = new Demo();
-// export const AddressEntity = new Address();
-export const TestEntityEntity = new TestEntity();
-export const ChildEntityEntity = new ChildEntity();
+export const DemoEntity = new Demo();
+export const AddressEntity = new Address();
+
+export const ENTITIES = [
+  DemoEntity,
+  AddressEntity,
+]

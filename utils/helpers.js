@@ -1,11 +1,5 @@
-export const extractEntities = (config) => {
-  const { ENTITIES } = config || {};
-  return Object.keys(ENTITIES || {}).map((key) => ENTITIES[key]) || [];
-};
-
-export const findEntity = (config, name) => {
-  const allEntities = extractEntities(config);
-  return allEntities.find((item) => item.name === name) || {};
+export const findEntity = (entities, name) => {
+  return entities.find((item) => item.code === name) || {};
 };
 
 const toJSType = (fieldType) => {
