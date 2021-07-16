@@ -77,9 +77,9 @@ export default class SingleField extends LitElement {
           ></entity-field>
         `;
       default:
-        // console.error("Unsupported field");
-        // console.error(`Field: ${this.field.description || this.field.code}`);
-        // console.error(`Type: ${this.field.fieldType}`);
+        console.error("Unsupported field");
+        console.error(`Field: ${this.field.description || this.field.code}`);
+        console.error(`Type: ${this.field.fieldType}`);
         return html``;
     }
   }

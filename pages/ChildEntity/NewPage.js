@@ -1,4 +1,4 @@
-import * as config from "config";
+import { ENTITIES } from "../../model/index.js";
 import { findEntity, buildProperties, buildModelFields } from "utils";
 import "mv-button";
 import "mv-container";
@@ -10,8 +10,8 @@ import "../../components/form/FormField.js";
 import "../../components/layout/PageLayout.js";
 import NewPageTemplate from "../../components/page_templates/NewPageTemplate.js";
 
-const name = "ChildEntityEntity";
-const entity = findEntity(config, name);
+const entityCode = "Child";
+const entity = findEntity(ENTITIES, entityCode);
 const properties = buildProperties(entity);
 const mappings = buildModelFields(entity);
 export default class ChildEntityNewPage extends NewPageTemplate {

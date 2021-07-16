@@ -1,12 +1,7 @@
-// import Demo from "./Demo.js";
-// import Address from "./Address.js";
-import TestEntity from "./TestEntity.js";
-import ChildEntity from "./ChildEntity.js";
+import Parent from "./Parent.js";
+import Child from "./Child.js";
 
-export const DemoEntity = new Demo();
-export const AddressEntity = new Address();
+export const ParentEntity = new Parent();
+export const ChildEntity = new Child();
 
-export const ENTITIES = [
-  DemoEntity,
-  AddressEntity,
-]
+export const ENTITIES = [ParentEntity, ChildEntity];

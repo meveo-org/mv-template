@@ -8,7 +8,7 @@ import "mv-tooltip";
 import "../../components/layout/PageLayout.js";
 import ListPageTemplate from "../../components/page_templates/ListPageTemplate.js";
 
-export default class DemoListPage extends ListPageTemplate {
+export default class ParentEntityListPage extends ListPageTemplate {
   static get properties() {
     return {
       ...super.properties,
@@ -20,4 +20,4 @@ export default class DemoListPage extends ListPageTemplate {
   }
 }
 
-customElements.define("demo-list-page", DemoListPage);
+customElements.define("parent-entity-list-page", ParentEntityListPage);

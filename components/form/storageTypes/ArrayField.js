@@ -81,7 +81,6 @@ export default class ArrayField extends LitElement {
   render() {
     const { value, field } = this;
     const { label, valueRequired } = field || {};
-
     return html`
       <fieldset>
         <legend>

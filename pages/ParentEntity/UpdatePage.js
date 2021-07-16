@@ -1,4 +1,4 @@
-import * as config from "config";
+import { ENTITIES } from "../../model/index.js";
 import { findEntity, buildProperties, buildModelFields } from "utils";
 import "mv-button";
 import "mv-container";
@@ -8,13 +8,14 @@ import "mv-form-field";
 import "mv-tooltip";
 import "../../components/form/FormField.js";
 import "../../components/layout/PageLayout.js";
-import NewPageTemplate from "../../components/page_templates/NewPageTemplate.js";
+import UpdatePageTemplate from "../../components/page_templates/UpdatePageTemplate.js";
 
-const name = "TestEntityEntity";
-const entity = findEntity(config, name);
+const entityCode = "Parent";
+const entity = findEntity(ENTITIES, entityCode);
 const properties = buildProperties(entity);
 const mappings = buildModelFields(entity);
-export default class TestEntityNewPage extends NewPageTemplate {
+
+export default class ParentEntityUpdatePage extends UpdatePageTemplate {
   static get properties() {
     return {
       ...super.properties,
@@ -35,4 +36,4 @@ export default class TestEntityNewPage extends NewPageTemplate {
   }
 }
 
-customElements.define("test-entity-new-page", TestEntityNewPage);
+customElements.define("parent-entity-update-page", ParentEntityUpdatePage);

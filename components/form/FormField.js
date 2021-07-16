@@ -52,9 +52,9 @@ export default class FormField extends LitElement {
           ></matrix-field>
         `;
       default:
-        // console.error("Unsupported field");
-        // console.error(`Field: ${this.field.description || this.field.code}`);
-        // console.error(`Type: ${this.field.fieldType}`);
+        console.error("Unsupported field");
+        console.error(`Field: ${this.field.description || this.field.code}`);
+        console.error(`Type: ${this.field.fieldType}`);
         return html``;
     }
   }

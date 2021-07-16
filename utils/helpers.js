@@ -1,5 +1,5 @@
-export const findEntity = (entities, name) => {
-  return entities.find((item) => item.code === name) || {};
+export const findEntity = (entities, code) => {
+  return entities.find((entity) => entity.code === code) || {};
 };
 
 const toJSType = (fieldType) => {
