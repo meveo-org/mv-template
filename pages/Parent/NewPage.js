@@ -1,18 +1,9 @@
 import { ENTITIES } from "../../model/index.js";
 import { findEntity, buildProperties, buildModelFields } from "utils";
-import "mv-button";
-import "mv-container";
-import "mv-font-awesome";
-import "mv-form";
-import "mv-form-field";
-import "mv-tooltip";
-import "../../components/form/FormField.js";
-import "../../components/layout/PageLayout.js";
 import NewPageTemplate from "../../components/page_templates/NewPageTemplate.js";
 
 const entityCode = "Parent";
 const entity = findEntity(ENTITIES, entityCode);
-console.log('entity: ', entity);
 const properties = buildProperties(entity);
 const mappings = buildModelFields(entity);
 

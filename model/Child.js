@@ -1,7 +1,7 @@
 import ChildSchema from "./ChildSchema.js";
 
 export default class Child {
-	code = "ChildE";
+	code = "Child";
 	label = "Child Entity";
 	schema = ChildSchema;
 	endpoints = {

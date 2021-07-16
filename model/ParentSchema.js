@@ -633,7 +633,7 @@ export default {
       items: {
         id: "CE_Parent_ChildList_item",
         title: "Parent.ChildList item",
-        $ref: "./Child",
+        $ref: "Child",
       },
     },
     ChildSingle: {
@@ -644,7 +644,7 @@ export default {
       versionable: false,
       id: "CE_Parent_ChildSingle",
       title: "Parent.ChildSingle",
-      $ref: "./Child",
+      $ref: "Child",
     },
     BooleanMatrix: {
       storages: ["SQL"],
@@ -785,7 +785,7 @@ export default {
           value: {
             id: "CE_Parent_RefEntityMatrix_value",
             title: "Parent.RefEntityMatrix Value",
-            $ref: "./Child",
+            $ref: "Child",
           },
           key: {
             type: "object",
@@ -870,7 +870,7 @@ export default {
       items: {
         id: "CE_Parent_RefEntityList_item",
         title: "Parent.RefEntityList item",
-        $ref: "./Child",
+        $ref: "Child",
       },
     },
     SelectionMap: {
@@ -1005,7 +1005,7 @@ export default {
       versionable: false,
       id: "CE_Parent_RefEntitySingle",
       title: "Parent.RefEntitySingle",
-      $ref: "./Child",
+      $ref: "Child",
     },
     LongList: {
       storages: ["SQL"],
@@ -1137,7 +1137,7 @@ export default {
         "^.*$": {
           id: "CE_Parent_RefEntityMap_item",
           title: "Parent.RefEntityMap item",
-          $ref: "./Child",
+          $ref: "Child",
         },
       },
       nullable: true,

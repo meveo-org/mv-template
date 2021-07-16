@@ -1,20 +1,13 @@
 import { ENTITIES } from "../../model/index.js";
 import { findEntity, buildProperties, buildModelFields } from "utils";
-import "mv-button";
-import "mv-container";
-import "mv-font-awesome";
-import "mv-form";
-import "mv-form-field";
-import "mv-tooltip";
-import "../../components/form/FormField.js";
-import "../../components/layout/PageLayout.js";
-import NewPageTemplate from "../../components/page_templates/NewPageTemplate.js";
+import UpdatePageTemplate from "../../components/page_templates/UpdatePageTemplate.js";
 
 const entityCode = "Child";
 const entity = findEntity(ENTITIES, entityCode);
 const properties = buildProperties(entity);
 const mappings = buildModelFields(entity);
-export default class ChildEntityNewPage extends NewPageTemplate {
+
+export default class ChildEntityUpdatePage extends UpdatePageTemplate {
   static get properties() {
     return {
       ...super.properties,
@@ -35,4 +28,4 @@ export default class ChildEntityNewPage extends NewPageTemplate {
   }
 }
 
-customElements.define("child-entity-new-page", ChildEntityNewPage);
+customElements.define("child-entity-update-page", ChildEntityUpdatePage);
