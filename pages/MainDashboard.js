@@ -1,8 +1,8 @@
 import { LitElement, html, css } from "lit-element";
 import * as config from "config";
+import { ENTITIES } from "models";
 import "mv-container";
 import { modelInterfaces } from "../service/EndpointInterface.js";
-import { ENTITIES } from "../model/index.js";
 import "../components/DashboardTile.js";
 import "../components/layout/PageLayout.js";
 

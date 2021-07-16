@@ -1,7 +1,7 @@
 import { LitElement, html, css } from "lit-element";
 import "mv-menu-panel";
 import "mv-font-awesome";
-import { ENTITIES } from "../../model/index.js";
+import { ENTITIES } from "models";
 
 class SidebarMenu extends LitElement {
   static get properties() {

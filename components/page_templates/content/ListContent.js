@@ -1,7 +1,7 @@
 import { LitElement, html, css } from "lit-element";
 import { modelInterfaces } from "../../../service/EndpointInterface.js";
 import * as config from "config";
-import { ENTITIES } from "../../../model/index.js";
+import { ENTITIES } from "models";
 import { NULL_ENTITY, EMPTY_DIALOG, findEntity, toTitleName } from "utils";
 import { parseColumns } from "mv-table-utils";
 import "mv-button";

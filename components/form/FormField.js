@@ -1,8 +1,8 @@
 import { LitElement, html, css } from "lit-element";
 import "./storageTypes/ArrayField.js";
 import "./storageTypes/SingleField.js";
-import "./storageTypes/MapField.js";
-import "./storageTypes/MatrixField.js";
+// import "./storageTypes/MapField.js";
+// import "./storageTypes/MatrixField.js";
 
 export default class FormField extends LitElement {
   static get properties() {
@@ -35,22 +35,22 @@ export default class FormField extends LitElement {
             .errors="${this.errors}"
           ></array-field>
         `;
-      case "MAP":
-        return html`
-          <map-field
-            .field="${this.field}"
-            .value="${this.value}"
-            .errors="${this.errors}"
-          ></map-field>
-        `;
-      case "MATRIX":
-        return html`
-          <matrix-field
-            .field="${this.field}"
-            .value="${this.value}"
-            .errors="${this.errors}"
-          ></matrix-field>
-        `;
+      // case "MAP":
+      //   return html`
+      //     <map-field
+      //       .field="${this.field}"
+      //       .value="${this.value}"
+      //       .errors="${this.errors}"
+      //     ></map-field>
+      //   `;
+      // case "MATRIX":
+      //   return html`
+      //     <matrix-field
+      //       .field="${this.field}"
+      //       .value="${this.value}"
+      //       .errors="${this.errors}"
+      //     ></matrix-field>
+      //   `;
       default:
         console.error("Unsupported field");
         console.error(`Field: ${this.field.description || this.field.code}`);

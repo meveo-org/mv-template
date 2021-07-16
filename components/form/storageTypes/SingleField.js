@@ -1,7 +1,7 @@
 import { LitElement, html, css } from "lit-element";
 import "../fieldTypes/BooleanField.js";
 import "../fieldTypes/DateField.js";
-import "../fieldTypes/EntityField.js";
+// import "../fieldTypes/EntityField.js";
 import "../fieldTypes/TextField.js";
 import "../fieldTypes/SelectField.js";
 
@@ -65,17 +65,17 @@ export default class SingleField extends LitElement {
             @remove="${this.removeValue}"
           ></select-field>
         `;
-      case "ENTITY":
-        return html`
-          <entity-field
-            .field="${this.field}"
-            .value="${this.value}"
-            .errors="${this.errors}"
-            ?removable="${this.removable}"
-            @change="${this.updateValue}"
-            @remove="${this.removeValue}"
-          ></entity-field>
-        `;
+      // case "ENTITY":
+      //   return html`
+      //     <entity-field
+      //       .field="${this.field}"
+      //       .value="${this.value}"
+      //       .errors="${this.errors}"
+      //       ?removable="${this.removable}"
+      //       @change="${this.updateValue}"
+      //       @remove="${this.removeValue}"
+      //     ></entity-field>
+      //   `;
       default:
         console.error("Unsupported field");
         console.error(`Field: ${this.field.description || this.field.code}`);

@@ -1,11 +1,11 @@
 import { LitElement, html, css } from "lit-element";
 import { findEntity } from "utils";
 import { changeField, matchError } from "mv-form-utils";
+import {ENTITIES} from "models";
 import "mv-button";
 import "mv-dialog";
 import "mv-form-field";
 import "mv-tooltip";
-import {ENTITIES} from "../../model/index.js";
 import "../page_templates/content/ListContent.js";
 import "../page_templates/content/NewContent.js";
 import "../page_templates/content/UpdateContent.js";

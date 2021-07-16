@@ -1,4 +1,4 @@
-import { ENTITIES } from "../../model/index.js";
+import { ENTITIES } from "models";
 import { findEntity, buildProperties, buildModelFields } from "utils";
 import NewPageTemplate from "../../components/page_templates/NewPageTemplate.js";
 

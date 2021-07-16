@@ -1,5 +1,5 @@
 import { LitElement, html } from "lit-element";
-import { ENTITIES } from "./model/index.js";
+import { ENTITIES } from "models";
 import "mv-router";
 
 // component paths are relative to /web_modules/mv-router
