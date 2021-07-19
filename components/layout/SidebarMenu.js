@@ -19,13 +19,10 @@ class SidebarMenu extends LitElement {
       :host {
         --mv-menu-panel-header-height: 80px;
         --mv-menu-panel-item-height: 50px;
-        --sidebar-expanded-width: 330px;
-        --sidebar-collapsed-width: 65px;
       }
 
       mv-menu-panel {
         font-family: "MuseoSans";
-        --font-size-m: 1rem;
       }
 
       router-link {
@@ -38,29 +35,29 @@ class SidebarMenu extends LitElement {
         z-index: 99;
         box-shadow: 0 1px 30px 1px rgba(0, 0, 0, 0.11);
         background-color: #3f4753;
-        --mv-menu-panel-width: var(--sidebar-expanded-width);
+        --mv-menu-panel-width: var(--sidebar-width);
       }
 
       .sidebar.collapsed {
-        --mv-menu-panel-width: var(--sidebar-collapsed-width);
-        --mv-menu-panel-popout-width: var(--sidebar-expanded-width);
+        --mv-menu-panel-width: var(--sidebar-width);
+        --mv-menu-panel-popout-width: var(--sidebar-width);
       }
 
       .sidebar-header {
         min-width: 100%;
         display: grid;
-        grid-template-columns: 235px var(--sidebar-collapsed-width);
+        grid-template-columns: 235px var(--sidebar-width);
         grid-column-gap: 10px;
         align-items: center;
         font-size: 2rem;
       }
 
       .sidebar-header.collapsed {
-        grid-template-columns: 0 var(--sidebar-collapsed-width);
+        grid-template-columns: 0 var(--sidebar-width);
       }
 
       .collapse-button {
-        width: var(--sidebar-collapsed-width);
+        width: var(--sidebar-width);
         height: var(--mv-menu-panel-header-height);
         font-size: 2rem;
         border: none;
@@ -83,7 +80,7 @@ class SidebarMenu extends LitElement {
       }
 
       .text {
-        font-size: 1rem;
+        font-size: var(--font-size-m, 1rem);
         display: flex;
         align-items: center;
         width: 100%;

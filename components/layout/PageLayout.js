@@ -37,7 +37,7 @@ export default class PageLayout extends LitElement {
         height: 100%;
         position: relative;
         overflow-y: auto;
-        --sidebar-width: 330px;
+        --sidebar-width: 16rem;
         --grid-template-columns: auto;
         --mv-footer-margin-left: var(--sidebar-width);
       }

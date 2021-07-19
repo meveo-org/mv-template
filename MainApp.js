@@ -1,4 +1,4 @@
-import { LitElement, html } from "lit-element";
+import { LitElement, html, css } from "lit-element";
 import "mv-container";
 import "mv-footer";
 import "mv-header";
@@ -17,6 +17,15 @@ class MainApp extends LitElement {
   constructor() {
     super();
     this.auth = null;
+  }
+
+  static get styles() {
+    return css`
+      :host {
+        --font-size-m: 0.825rem;
+        --mv-button-padding: 0.825rem;
+      }
+    `;
   }
 
   render() {
