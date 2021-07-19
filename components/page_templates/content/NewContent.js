@@ -29,8 +29,37 @@ export default class NewContent extends MvElement {
     return css`
       .form-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
         grid-column-gap: 20px;
+      }
+
+      @media screen and (min-width: 980px) {
+        .form-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media screen and (min-width: 1440px) {
+        .form-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      @media screen and (min-width: 1920px) {
+        .form-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+
+      @media screen and (min-width: 2600px) {
+        .form-grid {
+          grid-template-columns: repeat(5, 1fr);
+        }
+      }
+
+      .form-content {
+        width: 100%;
+        overflow: hidden;
       }
 
       .dialog-size {
@@ -50,27 +79,34 @@ export default class NewContent extends MvElement {
     const hasMultipleTabs = (formFields || []).length > 1;
     return html`
       <mv-container>
-        <mv-form
-          .store="${this.store}"
-          .schema="${schema}"
-          .refSchemas="${refSchemas}"
-        >
-          ${hasMultipleTabs
-            ? this.renderGroup(formFields, schema)
-            : this.renderFields(formFields[0], schema)}
+        <div class="form-container">
+          <mv-form
+            .store="${this.store}"
+            .schema="${schema}"
+            .refSchemas="${refSchemas}"
+          >
+            <div class="form-content">
+              ${hasMultipleTabs
+                ? this.renderGroup(formFields, schema)
+                : this.renderFields(formFields[0], schema)}
 
-          <div class="button-grid">
-            <mv-button @button-clicked="${clearForm()}" button-style="info">
-              <mv-fa icon="undo"></mv-fa>Clear
-            </mv-button>
-            <mv-button @button-clicked="${this.cancel}" button-style="cancel">
-              <mv-fa icon="ban"></mv-fa>Cancel
-            </mv-button>
-            <mv-button @button-clicked="${this.save}">
-              <mv-fa icon="save"></mv-fa>Save
-            </mv-button>
-          </div>
-        </mv-form>
+              <div class="button-grid">
+                <mv-button @button-clicked="${clearForm()}" button-style="info">
+                  <mv-fa icon="undo"></mv-fa>Clear
+                </mv-button>
+                <mv-button
+                  @button-clicked="${this.cancel}"
+                  button-style="cancel"
+                >
+                  <mv-fa icon="ban"></mv-fa>Cancel
+                </mv-button>
+                <mv-button @button-clicked="${this.save}">
+                  <mv-fa icon="save"></mv-fa>Save
+                </mv-button>
+              </div>
+            </div>
+          </mv-form>
+        </div>
       </mv-container>
       <mv-dialog
         class="dialog-size"

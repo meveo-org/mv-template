@@ -24,6 +24,15 @@ class MainApp extends LitElement {
       :host {
         --font-size-m: 0.825rem;
         --mv-button-padding: 0.825rem;
+        --mv-table-row-height: 2.5rem;
+      }
+
+      @media screen and (min-width: 1440px) {
+        :host {
+          --font-size-m: 1rem;
+          --mv-button-padding: 1rem;
+          --mv-table-row-height: 3rem;
+        }
       }
     `;
   }

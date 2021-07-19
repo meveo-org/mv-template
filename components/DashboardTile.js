@@ -25,10 +25,10 @@ export default class DashboardTile extends LitElement {
 
       .tile-contents {
         display: grid;
-        grid-template-columns: 2fr 3fr;
         align-items: center;
         justify-content: space-between;
         justify-items: center;
+        grid-auto-flow: column;        
         padding: 20px;
         box-shadow: var(
           --mv-container-shadow,
