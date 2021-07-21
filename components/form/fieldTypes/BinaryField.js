@@ -25,18 +25,10 @@ export default class BinaryField extends LitElement {
   render() {
     const { code, label } = this.field || {};
     return html`
-      <mv-form-field
-        name="${code}"
-        label-position="none"
-        .error="${matchError(this.errors, code)}"
-      >
-        <mv-checkbox
-          slot="field"
-          ?checked="${this.value}"
-          @click-checkbox="${this.handleClick}"
-          label="${label}"
-        ></mv-checkbox>
-      </mv-form-field>
+      <div>
+        <b>Code</b>: <i>${code}</i><br />
+        <b>Label</b>: <i>${label}</i><br />
+      </div>
     `;
   }
 

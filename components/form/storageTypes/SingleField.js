@@ -4,6 +4,7 @@ import "../fieldTypes/DateField.js";
 // import "../fieldTypes/EntityField.js";
 import "../fieldTypes/TextField.js";
 import "../fieldTypes/SelectField.js";
+import "../fieldTypes/NumberField.js";
 
 export default class SingleField extends LitElement {
   static get properties() {
@@ -54,6 +55,19 @@ export default class SingleField extends LitElement {
             @remove="${this.removeValue}"
           ></date-field>
         `;
+      case "DOUBLE":
+        return html`
+          <number-field
+            .field="${this.field}"
+            .value="${this.value}"
+            .errors="${this.errors}"
+            precision="2"
+            step="0.01"
+            ?removable="${this.removable}"
+            @change="${this.updateValue}"
+            @remove="${this.removeValue}"
+          ></number-field>
+        `;
       case "LIST":
         return html`
           <select-field
@@ -65,21 +79,33 @@ export default class SingleField extends LitElement {
             @remove="${this.removeValue}"
           ></select-field>
         `;
-      // case "ENTITY":
-      //   return html`
-      //     <entity-field
-      //       .field="${this.field}"
-      //       .value="${this.value}"
-      //       .errors="${this.errors}"
-      //       ?removable="${this.removable}"
-      //       @change="${this.updateValue}"
-      //       @remove="${this.removeValue}"
-      //     ></entity-field>
-      //   `;
+      case "LONG":
+        return html`
+          <number-field
+            .field="${this.field}"
+            .value="${this.value}"
+            .errors="${this.errors}"
+            ?removable="${this.removable}"
+            @change="${this.updateValue}"
+            @remove="${this.removeValue}"
+          ></number-field>
+        `;
+      case "ENTITY":
+        return html`
+          <entity-field
+            .field="${this.field}"
+            .value="${this.value}"
+            .errors="${this.errors}"
+            ?removable="${this.removable}"
+            @change="${this.updateValue}"
+            @remove="${this.removeValue}"
+          ></entity-field>
+        `;
       default:
-        console.error("Unsupported field");
-        console.error(`Field: ${this.field.description || this.field.code}`);
-        console.error(`Type: ${this.field.fieldType}`);
+        const field = `Field: ${this.field.description || this.field.code}`;
+        const type = `Type: ${this.field.fieldType}`;
+        const error = `Unsupported Single Field:\n\t${field}\n\t${type}`;
+        console.error(error);
         return html``;
     }
   }
@@ -87,6 +113,7 @@ export default class SingleField extends LitElement {
   updateValue = (event) => {
     const { detail } = event;
     const { value, originalEvent } = detail || {};
+    console.log("value: ", value);
     this.dispatchEvent(
       new CustomEvent("update-value", { detail: { value, originalEvent } })
     );

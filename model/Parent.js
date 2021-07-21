@@ -49,7 +49,7 @@ export default class Parent {
 
 	formFields = [
 		{
-			label: "Test Entity",
+			label: "Binary",
 			fields: [
 				{"disabled":false,"code":"BinarySingle","description":"Binary Single","fieldType":"BINARY","appliesTo":"CE_Parent","valueRequired":false,"matrixColumns":[],"versionable":false,"useInheritedAsDefaultValue":false,"storageType":"SINGLE","triggerEndPeriodEvent":false,"isInDraft":false,"guiPosition":"tab:Test Entity:0;field:0","allowEdit":true,"hideOnNew":false,"unique":false,"filter":true,"summary":false,"identifier":false,"storages":["SQL"],"contentTypes":[],"fileExtensions":[],"saveOnExplorer":false,"samples":[],"audited":false,"persisted":true,"hasReferenceJpaEntity":false,"label":"Binary Single"},
 				{"disabled":false,"code":"BinaryList","description":"Binary List","fieldType":"BINARY","appliesTo":"CE_Parent","valueRequired":false,"matrixColumns":[],"versionable":false,"useInheritedAsDefaultValue":false,"storageType":"LIST","triggerEndPeriodEvent":false,"isInDraft":false,"guiPosition":"tab:Test Entity:0;field:1","allowEdit":true,"hideOnNew":false,"unique":false,"filter":true,"summary":false,"identifier":false,"storages":["SQL"],"contentTypes":[],"fileExtensions":[],"saveOnExplorer":false,"samples":[],"audited":false,"persisted":true,"hasReferenceJpaEntity":false,"label":"Binary List"},

@@ -1,4 +1,5 @@
 import { LitElement, html, css } from "lit-element";
+import { changeField } from "mv-form-utils";
 import "./storageTypes/ArrayField.js";
 import "./storageTypes/SingleField.js";
 // import "./storageTypes/MapField.js";
@@ -25,6 +26,7 @@ export default class FormField extends LitElement {
             .field="${this.field}"
             .value="${this.value}"
             .errors="${this.errors}"
+            @update-value="${this.updateValue}"
           ></single-field>
         `;
       case "LIST":
@@ -52,12 +54,22 @@ export default class FormField extends LitElement {
       //     ></matrix-field>
       //   `;
       default:
-        console.error("Unsupported field");
-        console.error(`Field: ${this.field.description || this.field.code}`);
-        console.error(`Type: ${this.field.fieldType}`);
+        const field = `Field: ${this.field.description || this.field.code}`;
+        const type = `Storage Type: ${this.field.storageType}`;
+        const error = `Unsupported Storage Type:\n\t${field}\n\t${type}`;
+        console.error(error);
         return html``;
     }
   }
+
+  updateValue = (event) => {
+    const { code } = this.field;
+    changeField(event.target, {
+      ...event.detail,
+      name: code,
+      originalEvent: event,
+    });
+  };
 }
 
 customElements.define("form-field", FormField);
