@@ -13,6 +13,7 @@ export default class SelectField extends LitElement {
       options: { type: Array, attribute: false, reflect: true },
       selected: { type: Object, attribute: false, reflect: true },
       value: { type: String, attribute: true, reflect: true },
+      removable: { type: Boolean },
     };
   }
 
@@ -42,9 +43,9 @@ export default class SelectField extends LitElement {
         --mv-select-width: calc(100% - var(--button-size));
         width: calc(100% - var(--button-size));
         padding-top: 3px;
+        position: relative;
       }
       .button {
-        border: 2px solid red;
         height: var(--button-size);
       }
     `;
@@ -55,6 +56,7 @@ export default class SelectField extends LitElement {
     this.field = {};
     this.selected = {};
     this.options = [];
+    this.removable = false;
   }
 
   render() {
@@ -121,15 +123,12 @@ export default class SelectField extends LitElement {
   }
 
   clearValue = (event) => {
-    const { code } = this.field;
     const {
       detail: { originalEvent },
     } = event;
-    changeField(originalEvent.target, {
-      name: code,
-      value: null,
-      originalEvent: event,
-    });
+    this.dispatchEvent(
+      new CustomEvent("change", { detail: { value: null, originalEvent } })
+    );
   };
 
   change = (originalEvent) => {

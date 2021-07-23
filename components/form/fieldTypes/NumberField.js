@@ -15,6 +15,7 @@ export default class NumberField extends LitElement {
       min: { type: Number },
       max: { type: Number },
       precision: { type: Number },
+      removable: { type: Boolean },
     };
   }
 
@@ -50,6 +51,7 @@ export default class NumberField extends LitElement {
     this.precision = 0;
     this.min = undefined;
     this.max = undefined;
+    this.removable = false;
   }
 
   render() {
