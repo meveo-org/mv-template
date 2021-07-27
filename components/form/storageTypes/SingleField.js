@@ -14,6 +14,8 @@ export default class SingleField extends LitElement {
       value: { type: Object, attribute: false, reflect: true },
       errors: { type: Array, attribute: false, reflect: true },
       removable: { type: Boolean },
+      hideLabel: { type: Boolean, attribute: "hide-label" },
+      hidePlaceholder: { type: Boolean, attribute: "hide-placeholder" },
     };
   }
 
@@ -21,15 +23,24 @@ export default class SingleField extends LitElement {
     return css``;
   }
 
+  constructor() {
+    super();
+    this.removable = false;
+    this.hideLabel = false;
+    this.hidePlaceholder = false;
+  }
+
   render() {
     switch (this.field.fieldType) {
       case "BINARY":
         return html`
           <binary-field
+            hide-placeholder
             .field="${this.field}"
             .value="${this.value}"
             .errors="${this.errors}"
             ?removable="${this.removable}"
+            ?hide-label="${this.hideLabel}"
             @change="${this.updateValue}"
             @remove="${this.removeValue}"
           ></binary-field>
@@ -41,6 +52,8 @@ export default class SingleField extends LitElement {
             .value="${this.value}"
             .errors="${this.errors}"
             ?removable="${this.removable}"
+            ?hide-label="${this.hideLabel}"
+            ?hide-placeholder="${this.hidePlaceholder}"
             @change="${this.updateValue}"
             @remove="${this.removeValue}"
           ></boolean-field>
@@ -52,6 +65,8 @@ export default class SingleField extends LitElement {
             .value="${this.value}"
             .errors="${this.errors}"
             ?removable="${this.removable}"
+            ?hide-label="${this.hideLabel}"
+            ?hide-placeholder="${this.hidePlaceholder}"
             @change="${this.updateValue}"
             @remove="${this.removeValue}"
           ></text-field>
@@ -63,6 +78,8 @@ export default class SingleField extends LitElement {
             .value="${this.value}"
             .errors="${this.errors}"
             ?removable="${this.removable}"
+            ?hide-label="${this.hideLabel}"
+            ?hide-placeholder="${this.hidePlaceholder}"
             @change="${this.updateValue}"
             @remove="${this.removeValue}"
           ></date-field>
@@ -76,6 +93,8 @@ export default class SingleField extends LitElement {
             precision="2"
             step="0.01"
             ?removable="${this.removable}"
+            ?hide-label="${this.hideLabel}"
+            ?hide-placeholder="${this.hidePlaceholder}"
             @change="${this.updateValue}"
             @remove="${this.removeValue}"
           ></number-field>
@@ -87,6 +106,8 @@ export default class SingleField extends LitElement {
             .value="${this.value}"
             .errors="${this.errors}"
             ?removable="${this.removable}"
+            ?hide-label="${this.hideLabel}"
+            ?hide-placeholder="${this.hidePlaceholder}"
             @change="${this.updateValue}"
             @remove="${this.removeValue}"
           ></select-field>
@@ -98,6 +119,8 @@ export default class SingleField extends LitElement {
             .value="${this.value}"
             .errors="${this.errors}"
             ?removable="${this.removable}"
+            ?hide-label="${this.hideLabel}"
+            ?hide-placeholder="${this.hidePlaceholder}"
             @change="${this.updateValue}"
             @remove="${this.removeValue}"
           ></number-field>
@@ -110,6 +133,8 @@ export default class SingleField extends LitElement {
             .value="${this.value}"
             .errors="${this.errors}"
             ?removable="${this.removable}"
+            ?hide-label="${this.hideLabel}"
+            ?hide-placeholder="${this.hidePlaceholder}"
             @change="${this.updateValue}"
             @remove="${this.removeValue}"
           ></entity-field>

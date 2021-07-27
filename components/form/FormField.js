@@ -2,8 +2,8 @@ import { LitElement, html, css } from "lit-element";
 import { changeField } from "mv-form-utils";
 import "./storageTypes/ArrayField.js";
 import "./storageTypes/SingleField.js";
-// import "./storageTypes/MapField.js";
-// import "./storageTypes/MatrixField.js";
+import "./storageTypes/MapField.js";
+import "./storageTypes/MatrixField.js";
 
 export default class FormField extends LitElement {
   static get properties() {
@@ -19,11 +19,12 @@ export default class FormField extends LitElement {
   }
 
   render() {
-    switch (this.field.storageType) {
+    const { field, value, errors } = this;
+    switch (field.storageType) {
       case "SINGLE":
         return html`
           <single-field
-            .field="${this.field}"
+            .field="${field}"
             .value="${this.value}"
             .errors="${this.errors}"
             @update-value="${this.updateValue}"
@@ -32,33 +33,36 @@ export default class FormField extends LitElement {
       case "LIST":
         return html`
           <array-field
-            .field="${this.field}"
+            .field="${field}"
             .value="${this.value}"
             .errors="${this.errors}"
           ></array-field>
         `;
-      // case "MAP":
-      //   return html`
-      //     <map-field
-      //       .field="${this.field}"
-      //       .value="${this.value}"
-      //       .errors="${this.errors}"
-      //     ></map-field>
-      //   `;
-      // case "MATRIX":
-      //   return html`
-      //     <matrix-field
-      //       .field="${this.field}"
-      //       .value="${this.value}"
-      //       .errors="${this.errors}"
-      //     ></matrix-field>
-      //   `;
+      case "MAP":
+        return html`
+          <map-field
+            .field="${field}"
+            .value="${this.value}"
+            .errors="${this.errors}"
+          ></map-field>
+        `;
+      case "MATRIX":
+        return html`
+          <matrix-field
+            .field="${field}"
+            .value="${this.value}"
+            .errors="${this.errors}"
+          ></matrix-field>
+        `;
       default:
-        const field = `Field: ${this.field.description || this.field.code}`;
-        const type = `Storage Type: ${this.field.storageType}`;
-        const error = `Unsupported Storage Type:\n\t${field}\n\t${type}`;
-        console.error(error);
-        return html``;
+        console.error("Unsupported field: ", field);
+        return html`
+          <div>
+            <div>Field: ${field.code}</div>
+            <div>Field Type: ${field.fieldType}</div>
+            <div>Storage Type: ${field.storageType}</div>
+          </div>
+        `;
     }
   }
 

@@ -18,13 +18,13 @@ export default class BinaryField extends FieldTemplate {
   }
 
   renderInput() {
-    const { multiple, buttonLabel, field } = this;
+    const { multiple, buttonLabel, field, hidePlaceholder } = this;
     const { label, contentTypes, disabled, valueRequired } = field || {};
     return html`
       <mv-file-upload
         ?multiple="${multiple}"
         file-types="${contentTypes || "*"}"
-        label="${label}"
+        label="${hidePlaceholder ? "" : label}"
         button-label="${buttonLabel}"
         @update-files="${this.change}"
       >

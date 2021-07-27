@@ -13,6 +13,8 @@ export default class FieldTemplate extends LitElement {
       value: { type: Object, attribute: false },
       hasError: { type: Boolean, attribute: "has-error", reflect: true },
       removable: { type: Boolean },
+      hideLabel: { type: Boolean, attribute: "hide-label" },
+      hidePlaceholder: { type: Boolean, attribute: "hide-placeholder" },
     };
   }
 
@@ -36,8 +38,11 @@ export default class FieldTemplate extends LitElement {
         padding-top: 3px;
         position: relative;
       }
-      .button {
+      .small-button {
         height: var(--button-size);
+      }
+      .label.error {
+        color: #ad4444 !important;
       }
     `;
   }
@@ -45,30 +50,39 @@ export default class FieldTemplate extends LitElement {
   constructor() {
     super();
     this.field = {};
+    this.removable = false;
+    this.hideLabel = false;
+    this.hidePlaceholder = false;
   }
 
   render() {
-    const { code } = this.field || {};
+    const { removable, hideLabel, hidePlaceholder } = this;
+    const { code, label } = this.field || {};
+    const error = matchError(this.errors, code);
+    const hasError = !!error;
+    const errorClass = hasError ? " error" : "";
     return html`
-      <mv-form-field
-        name="${code}"
-        label-position="none"
-        .error="${matchError(this.errors, code)}"
-      >
+      <mv-form-field name="${code}" label-position="none" .error="${error}">
         <div slot="field" class="field">
-          <div class="input">
-            ${this.renderInput()}
-          </div>
-          <div class="button">
-            <mv-button
-              button-style="error"
-              class="small-button"
-              .visible="${!!this.removable}"
-              @button-clicked="${this.remove}"
-            >
-              <mv-fa icon="minus"></mv-fa>
-            </mv-button>
-          </div>
+          ${this.hideLabel
+            ? html``
+            : html`
+                <label for="${code}" class="label${errorClass}">${label}</label>
+              `}
+          <div class="input">${this.renderInput()}</div>
+          ${this.removable
+            ? html`
+                <div class="button">
+                  <mv-button
+                    button-style="error"
+                    class="small-button"
+                    @button-clicked="${this.remove}"
+                  >
+                    <mv-fa icon="minus"></mv-fa>
+                  </mv-button>
+                </div>
+              `
+            : html``}
         </div>
       </mv-form-field>
     `;

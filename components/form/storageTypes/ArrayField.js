@@ -58,6 +58,7 @@ export default class ArrayField extends LitElement {
 
       fieldset {
         margin: 0 auto 10px auto;
+        border-radius: 5px;
       }
 
       .inline-fields {
