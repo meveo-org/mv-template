@@ -24,7 +24,7 @@ export default {
           value: {
             id: "CE_Parent_SelectionMatrix_value",
             title: "Parent.SelectionMatrix Value",
-            enum: ["123", "bcd", "234", "abc"],
+            enum: ["123", "bcd", "234", "abc", "cde", "def", "efg"],
           },
           key: {
             type: "object",
@@ -400,7 +400,7 @@ export default {
       versionable: false,
       id: "CE_Parent_SelectionSingle",
       title: "Parent.SelectionSingle",
-      enum: ["123", "bcd", "234", "abc"],
+      enum: ["123", "bcd", "234", "abc", "cde", "def", "efg"],
     },
     SecretMap: {
       storages: ["SQL"],
@@ -503,7 +503,7 @@ export default {
       items: {
         id: "CE_Parent_SelectionList_item",
         title: "Parent.SelectionList item",
-        enum: ["123", "bcd", "234", "abc"],
+        enum: ["123", "bcd", "234", "abc", "cde", "def", "efg"],
       },
     },
     DateList: {
@@ -879,7 +879,7 @@ export default {
         "^.*$": {
           id: "CE_Parent_SelectionMap_item",
           title: "Parent.SelectionMap item",
-          enum: ["123", "bcd", "234", "abc"],
+          enum: ["123", "bcd", "234", "abc", "cde", "def", "efg"],
         },
       },
       nullable: true,
