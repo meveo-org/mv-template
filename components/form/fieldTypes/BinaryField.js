@@ -20,7 +20,6 @@ export default class BinaryField extends FieldTemplate {
   renderInput() {
     const { multiple, buttonLabel, field } = this;
     const { label, contentTypes, disabled, valueRequired } = field || {};
-    console.log("field: ", field);
     return html`
       <mv-file-upload
         ?multiple="${multiple}"

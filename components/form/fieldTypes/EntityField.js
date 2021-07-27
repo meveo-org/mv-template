@@ -56,7 +56,7 @@ export default class EntityField extends FieldTemplate {
         padding-top: 3px;
         position: relative;
       }
-      
+
       .button {
         height: var(--button-size);
       }
@@ -117,7 +117,7 @@ export default class EntityField extends FieldTemplate {
       !!this.value && Object.getOwnPropertyNames(this.value).length > 0;
     const selectionClass = hasValue ? "" : " no-selection";
     const fieldClass = `field-entry${selectionClass}`;
-    const { code, label } = this.field || {};
+    const { label } = this.field || {};
     return html`
       ${hasValue
         ? html`
@@ -143,7 +143,7 @@ export default class EntityField extends FieldTemplate {
         ?open="${this.dialog.open}"
         ?no-footer="${this.dialog.noFooter}"
         @close-dialog="${this.closeDialog}"
-        @ok-dialog="${this.saveSelected}"
+        @ok-dialog="${this.change}"
         right-label="Done"
         closeable
       >
@@ -244,13 +244,12 @@ export default class EntityField extends FieldTemplate {
     this.selectedItem = row;
   };
 
-  saveSelected = (event) => {
-    const { target } = event;
-    changeField(target, {
-      name: this.field.code,
-      value: this.selectedItem,
-      originalEvent: event,
-    });
+  change = (originalEvent) => {
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: { value: this.selectedItem, originalEvent },
+      })
+    );
     this.closeDialog();
   };
 
