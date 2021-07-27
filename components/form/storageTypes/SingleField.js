@@ -1,7 +1,7 @@
 import { LitElement, html, css } from "lit-element";
 import "../fieldTypes/BooleanField.js";
 import "../fieldTypes/DateField.js";
-// import "../fieldTypes/EntityField.js";
+import "../fieldTypes/EntityField.js";
 import "../fieldTypes/TextField.js";
 import "../fieldTypes/SelectField.js";
 import "../fieldTypes/NumberField.js";
@@ -90,7 +90,7 @@ export default class SingleField extends LitElement {
             @remove="${this.removeValue}"
           ></number-field>
         `;
-      case "ENTITY":
+      case "CHILD_ENTITY":
         return html`
           <entity-field
             .field="${this.field}"

@@ -1,14 +1,14 @@
 import { LitElement, html, css } from "lit-element";
 import { findEntity } from "utils";
 import { changeField, matchError } from "mv-form-utils";
-import {ENTITIES} from "models";
+import { ENTITIES } from "models";
 import "mv-button";
 import "mv-dialog";
 import "mv-form-field";
 import "mv-tooltip";
-import "../page_templates/content/ListContent.js";
-import "../page_templates/content/NewContent.js";
-import "../page_templates/content/UpdateContent.js";
+import "../../page_templates/content/ListContent.js";
+import "../../page_templates/content/NewContent.js";
+import "../../page_templates/content/UpdateContent.js";
 
 export default class EntityField extends LitElement {
   static get properties() {
@@ -19,25 +19,48 @@ export default class EntityField extends LitElement {
       dialog: { type: Object, attribute: false, reflect: true },
       selectedItem: { type: Object, attribute: false, reflect: true },
       hideUuid: { type: Boolean, attribute: "hide-uuid" },
+      removable: { type: Boolean },
     };
   }
 
   static get styles() {
     return css`
       :host {
+        --button-size: 24px;
         --entity-field-font-size: var(--font-size-m, 16px);
         --input-padding: var(--entity-field-input-padding, 13.5px);
         --outside-padding: calc(var(--input-padding) * 2);
         --max-height: calc(
           var(--entity-field-font-size) + var(--outside-padding)
         );
-        --border: 1px solid #4e686d;
+        --entity-button-border: 1px solid #4e686d;
         --border-radius: var(--entity-field-border-radius, 5px);
         --active-border: var(--entity-field-active-border, 1px solid #1d9bc9);
         --active-box-shadow: var(
           --entity-field-active-box-shadow,
           inset 0 0 9px 0 rgba(29, 155, 201, 0.3)
         );
+      }
+      
+      mv-button {
+        --mv-button-margin: 0 0 0 5px;
+        --mv-button-padding: 3px 4px;
+        --mv-button-min-width: var(--button-size);
+      }
+
+      .field {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .input {
+        width: calc(100% - var(--button-size));
+        padding-top: 3px;
+      }
+
+      .button {
+        height: var(--button-size);
       }
 
       .field-entry {
@@ -47,7 +70,7 @@ export default class EntityField extends LitElement {
         align-items: center;
         justify-items: start;
         background: transparent;
-        border: var(--border);
+        border: var(--entity-button-border);
         border-radius: var(--border-radius);
         min-height: var(--max-height);
         max-height: var(--max-height);
@@ -98,31 +121,47 @@ export default class EntityField extends LitElement {
     const selectionClass = hasValue ? "" : " no-selection";
     const fieldClass = `field-entry${selectionClass}`;
     const { code, label } = this.field || {};
+    /* eslint-disable no-console */
+    console.log('label: ', label);
+    /* eslint-enable */
     return html`
       <mv-form-field
         name="${code}"
         label-position="none"
         .error="${matchError(this.errors, code)}"
       >
-        <div slot="field">
-          ${hasValue
-            ? html`
-                <mv-tooltip>
+        <div slot="field" class="field">
+          <div class="input">
+            ${hasValue
+              ? html`
+                  <mv-tooltip>
+                    <button class="${fieldClass}" @click="${this.openList}">
+                      ${this.value.uuid}
+                    </button>
+                    <div slot="tooltip-content">
+                      ${Object.keys(this.value).map(
+                        (key) => html`<b>${key}</b>: ${this.value[key]} `
+                      )}
+                    </div>
+                  </mv-tooltip>
+                `
+              : html`
                   <button class="${fieldClass}" @click="${this.openList}">
-                    ${this.value.uuid}
+                    ${label}
                   </button>
-                  <div slot="tooltip-content">
-                    ${Object.keys(this.value).map(
-                      (key) => html`<b>${key}</b>: ${this.value[key]} `
-                    )}
-                  </div>
-                </mv-tooltip>
-              `
-            : html`
-                <button class="${fieldClass}" @click="${this.openList}">
-                  ${label}
-                </button>
-              `}
+                `}
+          </div>
+          <div class="button">
+            <mv-button
+              type="outline"
+              button-style="error"
+              class="small-button"
+              .visible="${!!this.removable}"
+              @button-clicked="${this.remove}"
+            >
+              <mv-fa icon="minus"></mv-fa>
+            </mv-button>
+          </div>
         </div>
       </mv-form-field>
       <mv-dialog
@@ -251,8 +290,15 @@ export default class EntityField extends LitElement {
   };
 
   searchOptions = () => {};
+
   clearSelected = () => {
     this.selectedItem = {};
+  };
+
+  remove = (originalEvent) => {
+    this.dispatchEvent(
+      new CustomEvent("remove", { detail: { originalEvent } })
+    );
   };
 }
 
