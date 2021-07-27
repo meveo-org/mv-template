@@ -121,9 +121,6 @@ export default class EntityField extends LitElement {
     const selectionClass = hasValue ? "" : " no-selection";
     const fieldClass = `field-entry${selectionClass}`;
     const { code, label } = this.field || {};
-    /* eslint-disable no-console */
-    console.log('label: ', label);
-    /* eslint-enable */
     return html`
       <mv-form-field
         name="${code}"
