@@ -1,41 +1,49 @@
-import { LitElement, html, css } from "lit-element";
-import { changeField, matchError } from "mv-form-utils";
-import "mv-form-field";
-import "mv-checkbox";
+import { html } from "lit-element";
+import "mv-file-upload";
+import FieldTemplate from "./FieldTemplate.js";
 
-export default class BinaryField extends LitElement {
+export default class BinaryField extends FieldTemplate {
   static get properties() {
     return {
-      field: { type: Object, attribute: false, reflect: true },
-      errors: { type: Array, attribute: false, reflect: true },
-      value: { type: Boolean, attribute: true, reflect: true },
+      ...super.properties,
+      multiple: { type: Boolean },
+      buttonLabel: { type: String, attribute: "button-label" },
     };
-  }
-
-  static get styles() {
-    return css``;
   }
 
   constructor() {
     super();
-    this.field = {};
-    this.value = false;
+    this.multiple = false;
+    this.buttonLabel = "Add File";
   }
 
-  render() {
-    const { code, label } = this.field || {};
+  renderInput() {
+    const { multiple, buttonLabel, field } = this;
+    const { label, contentTypes, disabled, valueRequired } = field || {};
+    console.log("field: ", field);
     return html`
-      <div>
-        <b>Code</b>: <i>${code}</i><br />
-        <b>Label</b>: <i>${label}</i><br />
-      </div>
+      <mv-file-upload
+        ?multiple="${multiple}"
+        file-types="${contentTypes || "*"}"
+        label="${label}"
+        button-label="${buttonLabel}"
+        @update-files="${this.change}"
+      >
+      </mv-file-upload>
     `;
   }
 
-  handleClick = (originalEvent) => {
-    const { code } = this.field;
-    const { target } = originalEvent;
-    changeField(target, { name: code, value: !this.value, originalEvent });
+  change = (originalEvent) => {
+    const { detail } = originalEvent;
+    console.log("detail: ", detail);
+    const value =
+      (this.multiple ? detail.files : (detail.files || [])[0]) || null;
+    console.log("value: ", value);
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: { value, originalEvent },
+      })
+    );
   };
 }
 

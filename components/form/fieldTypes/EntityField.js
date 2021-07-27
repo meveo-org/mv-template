@@ -2,6 +2,7 @@ import { LitElement, html, css } from "lit-element";
 import { findEntity } from "utils";
 import { changeField, matchError } from "mv-form-utils";
 import { ENTITIES } from "models";
+import FieldTemplate from "./FieldTemplate.js";
 import "mv-button";
 import "mv-dialog";
 import "mv-form-field";
@@ -10,16 +11,12 @@ import "../../page_templates/content/ListContent.js";
 import "../../page_templates/content/NewContent.js";
 import "../../page_templates/content/UpdateContent.js";
 
-export default class EntityField extends LitElement {
+export default class EntityField extends FieldTemplate {
   static get properties() {
     return {
-      field: { type: Object, attribute: false, reflect: true },
-      errors: { type: Array, attribute: false, reflect: true },
-      value: { type: Object, attribute: true, reflect: true },
       dialog: { type: Object, attribute: false, reflect: true },
       selectedItem: { type: Object, attribute: false, reflect: true },
       hideUuid: { type: Boolean, attribute: "hide-uuid" },
-      removable: { type: Boolean },
     };
   }
 
@@ -41,7 +38,7 @@ export default class EntityField extends LitElement {
           inset 0 0 9px 0 rgba(29, 155, 201, 0.3)
         );
       }
-      
+
       mv-button {
         --mv-button-margin: 0 0 0 5px;
         --mv-button-padding: 3px 4px;
@@ -57,8 +54,9 @@ export default class EntityField extends LitElement {
       .input {
         width: calc(100% - var(--button-size));
         padding-top: 3px;
+        position: relative;
       }
-
+      
       .button {
         height: var(--button-size);
       }
@@ -105,7 +103,6 @@ export default class EntityField extends LitElement {
 
   constructor() {
     super();
-    this.field = {};
     this.selectedItem = {};
     this.options = [];
     this.hideUuid = false;
@@ -115,52 +112,31 @@ export default class EntityField extends LitElement {
     };
   }
 
-  render() {
+  renderInput() {
     const hasValue =
       !!this.value && Object.getOwnPropertyNames(this.value).length > 0;
     const selectionClass = hasValue ? "" : " no-selection";
     const fieldClass = `field-entry${selectionClass}`;
     const { code, label } = this.field || {};
     return html`
-      <mv-form-field
-        name="${code}"
-        label-position="none"
-        .error="${matchError(this.errors, code)}"
-      >
-        <div slot="field" class="field">
-          <div class="input">
-            ${hasValue
-              ? html`
-                  <mv-tooltip>
-                    <button class="${fieldClass}" @click="${this.openList}">
-                      ${this.value.uuid}
-                    </button>
-                    <div slot="tooltip-content">
-                      ${Object.keys(this.value).map(
-                        (key) => html`<b>${key}</b>: ${this.value[key]} `
-                      )}
-                    </div>
-                  </mv-tooltip>
-                `
-              : html`
-                  <button class="${fieldClass}" @click="${this.openList}">
-                    ${label}
-                  </button>
-                `}
-          </div>
-          <div class="button">
-            <mv-button
-              type="outline"
-              button-style="error"
-              class="small-button"
-              .visible="${!!this.removable}"
-              @button-clicked="${this.remove}"
-            >
-              <mv-fa icon="minus"></mv-fa>
-            </mv-button>
-          </div>
-        </div>
-      </mv-form-field>
+      ${hasValue
+        ? html`
+            <mv-tooltip>
+              <button class="${fieldClass}" @click="${this.openList}">
+                ${this.value.uuid}
+              </button>
+              <div slot="tooltip-content">
+                ${Object.keys(this.value).map(
+                  (key) => html`<b>${key}</b>: ${this.value[key]} `
+                )}
+              </div>
+            </mv-tooltip>
+          `
+        : html`
+            <button class="${fieldClass}" @click="${this.openList}">
+              ${label}
+            </button>
+          `}
       <mv-dialog
         class="entity-dialog"
         header-label="${label}"
@@ -290,12 +266,6 @@ export default class EntityField extends LitElement {
 
   clearSelected = () => {
     this.selectedItem = {};
-  };
-
-  remove = (originalEvent) => {
-    this.dispatchEvent(
-      new CustomEvent("remove", { detail: { originalEvent } })
-    );
   };
 }
 

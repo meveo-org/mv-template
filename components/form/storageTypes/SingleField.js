@@ -1,4 +1,5 @@
 import { LitElement, html, css } from "lit-element";
+import "../fieldTypes/BinaryField.js";
 import "../fieldTypes/BooleanField.js";
 import "../fieldTypes/DateField.js";
 import "../fieldTypes/EntityField.js";
@@ -22,6 +23,17 @@ export default class SingleField extends LitElement {
 
   render() {
     switch (this.field.fieldType) {
+      case "BINARY":
+        return html`
+          <binary-field
+            .field="${this.field}"
+            .value="${this.value}"
+            .errors="${this.errors}"
+            ?removable="${this.removable}"
+            @change="${this.updateValue}"
+            @remove="${this.removeValue}"
+          ></binary-field>
+        `;
       case "BOOLEAN":
         return html`
           <boolean-field
@@ -90,6 +102,7 @@ export default class SingleField extends LitElement {
             @remove="${this.removeValue}"
           ></number-field>
         `;
+      case "ENTITY":
       case "CHILD_ENTITY":
         return html`
           <entity-field
