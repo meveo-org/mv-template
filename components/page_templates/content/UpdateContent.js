@@ -61,7 +61,6 @@ export default class UpdateContent extends MvElement {
 
       .form-content {
         width: 100%;
-        overflow: hidden;
       }
 
       .dialog-size {

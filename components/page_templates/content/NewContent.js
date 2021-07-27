@@ -59,7 +59,6 @@ export default class NewContent extends MvElement {
 
       .form-content {
         width: 100%;
-        overflow: hidden;
       }
 
       .dialog-size {
