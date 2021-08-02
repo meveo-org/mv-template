@@ -23,24 +23,35 @@ export default class FieldTemplate extends LitElement {
       :host {
         --button-size: 24px;
       }
+
       mv-button {
         --mv-button-margin: 0 0 0 5px;
         --mv-button-padding: 3px 4px;
         --mv-button-min-width: var(--button-size);
       }
+
+      label {
+        width: 100%;
+        max-width: fit-content;
+        padding-right: 0.5rem;
+      }
+
       .field {
         display: flex;
         justify-content: space-between;
         align-items: center;
       }
+
       .input {
         width: calc(100% - var(--button-size));
         padding-top: 3px;
         position: relative;
       }
+
       .small-button {
         height: var(--button-size);
       }
+
       .label.error {
         color: #ad4444 !important;
       }
@@ -56,7 +67,6 @@ export default class FieldTemplate extends LitElement {
   }
 
   render() {
-    const { removable, hideLabel, hidePlaceholder } = this;
     const { code, label } = this.field || {};
     const error = matchError(this.errors, code);
     const hasError = !!error;

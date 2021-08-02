@@ -100,6 +100,7 @@ export default class MatrixField extends LitElement {
           (itemValue, index) => html`
             <single-field
               removable
+              hide-label
               .field="${this.field}"
               .value="${itemValue}"
               .errors="${this.errors}"

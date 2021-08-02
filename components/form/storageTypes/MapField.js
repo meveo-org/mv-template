@@ -62,6 +62,10 @@ export default class MapField extends LitElement {
         border-radius: 5px;
       }
 
+      table {
+        width: 100%;
+      }
+
       .inline-fields {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -72,8 +76,13 @@ export default class MapField extends LitElement {
         --mv-button-circle-button-size: 28px;
       }
 
-      .key .mv-input{
-        margin-bottom: 10px;
+      .key {
+        padding-bottom: 10px;
+        width: 30%;
+      }
+
+      .field {
+        width: 60%;
       }
     `;
   }
@@ -116,10 +125,10 @@ export default class MapField extends LitElement {
                   ${Object.keys(value).map(
                     (key) => html`
                       <tr>
-                        <td>
-                          <mv-input class="key"></mv-input>
+                        <td class="key">
+                          <mv-input></mv-input>
                         </td>
-                        <td>
+                        <td class="field">
                           <single-field
                             removable
                             hide-label
