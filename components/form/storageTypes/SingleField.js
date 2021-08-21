@@ -48,12 +48,11 @@ export default class SingleField extends LitElement {
       case "BOOLEAN":
         return html`
           <boolean-field
+            hide-label
             .field="${this.field}"
             .value="${this.value}"
             .errors="${this.errors}"
             ?removable="${this.removable}"
-            ?hide-label="${this.hideLabel}"
-            ?hide-placeholder="${this.hidePlaceholder}"
             @change="${this.updateValue}"
             @remove="${this.removeValue}"
           ></boolean-field>

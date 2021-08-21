@@ -17,7 +17,7 @@ export default class ParentEntityNewPage extends NewPageTemplate {
 
   static get model() {
     return {
-      modelClass: entity.schema,
+      entity: entity,
       mappings: [...mappings],
     };
   }

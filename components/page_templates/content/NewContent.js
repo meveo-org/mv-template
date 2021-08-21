@@ -19,8 +19,6 @@ export default class NewContent extends MvElement {
     return {
       entity: { type: Object, attribute: false, reflect: true },
       errors: { type: Array, attribute: false, reflect: true },
-      schema: { type: Object, attribute: false, reflect: true },
-      refSchemas: { type: Array, attribute: false, reflect: true },
       dialog: { type: Object, attribute: false, reflect: true },
     };
   }
@@ -69,7 +67,7 @@ export default class NewContent extends MvElement {
   }
 
   constructor() {
-    super();
+    super(config);
     this.dialog = { ...EMPTY_DIALOG };
   }
 
@@ -123,35 +121,39 @@ export default class NewContent extends MvElement {
     `;
   }
 
+  renderTabGroup = (schema) => (group) => {
+    const key = toTagName(group.label);
+    return html`
+      <mv-tab tab key="${key}">${group.label}</mv-tab>
+      <mv-tab content key="${key}">
+        ${this.renderFields(group, schema)}
+      </mv-tab>
+    `;
+  };
+
   renderGroup = (formFields, schema) =>
     html`
       <mv-tab group type="rounded">
-        ${(formFields || []).map((group) => {
-          const key = toTagName(group.label);
-          return html`
-            <mv-tab tab key="${key}">${group.label}</mv-tab>
-            <mv-tab content key="${key}">
-              ${this.renderFields(group, schema)}
-            </mv-tab>
-          `;
-        })}
+        ${(formFields || []).map(this.renderTabGroup(schema))}
       </mv-tab>
     `;
 
+  renderField = (schema) => (formField) => {
+    const value = this[formField.code];
+    const schemaProp = schema.properties[formField.code];
+    return html`
+      <form-field
+        .field="${formField}"
+        .schemaProp="${schemaProp}"
+        .value="${value}"
+        .errors="${this.errors}"
+      ></form-field>
+    `;
+  };
+
   renderFields = (group, schema) => html`
     <div class="form-grid">
-      ${(group.fields || []).map((formField) => {
-        const value = this[formField.code];
-        const schemaProp = schema.properties[formField.code];
-        return html`
-          <form-field
-            .field="${formField}"
-            .schemaProp="${schemaProp}"
-            .value="${value}"
-            .errors="${this.errors}"
-          ></form-field>
-        `;
-      })}
+      ${(group.fields || []).map(this.renderField(schema))}
     </div>
   `;
 

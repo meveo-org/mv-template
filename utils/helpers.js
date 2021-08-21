@@ -26,7 +26,7 @@ export const buildProperties = (entity) =>
         (fields, field) => ({
           ...fields,
           [field.code]: {
-            type: toJSType(field.type),
+            type: toJSType(field.fieldType),
             attribute: false,
             reflect: true,
           },

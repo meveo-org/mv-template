@@ -55,11 +55,9 @@ export default class SelectField extends FieldTemplate {
   }
 
   renderInput() {
-    const { label } = this.field;
     return html`
       <mv-select
         slot="field"
-        placeholder="${label}"
         .value="${this.selected}"
         .options="${this.options}"
         @select-option="${this.change}"

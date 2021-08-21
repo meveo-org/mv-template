@@ -93,16 +93,62 @@ export default class MapField extends LitElement {
     this.value = [];
   }
 
+  mapFields = (item, index) => html`
+    <tr>
+      <td class="key">
+        <mv-input
+          immediate
+          .value="${item.key}"
+          @input-change="${this.changeKey(index)}"
+        ></mv-input>
+      </td>
+      <td class="field">
+        <single-field
+          removable
+          hide-label
+          hide-placeholder
+          .field="${this.field}"
+          .value="${item.value}"
+          .errors="${this.errors}"
+          @update-value="${this.updateItem(index)}"
+          @remove-value="${this.removeItem(index)}"
+        ></single-field>
+      </td>
+    </tr>
+  `;
+
+  requiredIndicator = (field) => {
+    const { valueRequired } = field || {};
+    return valueRequired ? html`<i class="required"> *</i>` : null;
+  };
+
+  renderFieldMap = (value) => {
+    const hasItems = value && value.length > 0;
+    return hasItems
+      ? html`
+          <table>
+            <thead>
+              <tr>
+                <th>Key</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${(value || []).map(this.mapFields)}
+            </tbody>
+          </table>
+        `
+      : html``;
+  };
+
   render() {
     const { value, field } = this;
-    const { label, valueRequired } = field || {};
-    const keys = Object.keys(value);
-    const hasKeys = keys.length > 0;
+    const { label } = field || {};
     return html`
       <fieldset>
         <legend>
           <label>
-            ${label}${valueRequired ? html`<i class="required"> *</i>` : null}
+            ${label}${this.requiredIndicator(field)}
             <mv-button
               type="circle"
               class="small-button"
@@ -112,47 +158,24 @@ export default class MapField extends LitElement {
             </mv-button>
           </label>
         </legend>
-        ${hasKeys
-          ? html`
-              <table>
-                <thead>
-                  <tr>
-                    <th>Key</th>
-                    <th>Value</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${Object.keys(value).map(
-                    (key) => html`
-                      <tr>
-                        <td class="key">
-                          <mv-input></mv-input>
-                        </td>
-                        <td class="field">
-                          <single-field
-                            removable
-                            hide-label
-                            hide-placeholder
-                            .field="${this.field}"
-                            .value="${value[key]}"
-                            .errors="${this.errors}"
-                            @update-value="${this.updateItem(key)}"
-                            @remove-value="${this.removeItem(key)}"
-                          ></single-field>
-                        </td>
-                      </tr>
-                    `
-                  )}
-                </tbody>
-              </table>
-            `
-          : html``}
+        ${this.renderFieldMap(value)}
       </fieldset>
     `;
   }
 
+  changeKey = (index) => (event) => {
+    const {
+      detail: { value },
+    } = event;
+    console.log("index: ", index);
+    console.log("value: ", value);
+  };
+
   addItem = (event) => {
-    const value = { ...this.value, [null]: null };
+    /* eslint-disable no-console */
+    console.log('this.value: ', this.value);
+    /* eslint-enable */
+    const value = [...this.value, { key: null, value: null }];
     changeField(event.target, {
       name: this.field.code,
       originalEvent: event,
@@ -160,15 +183,12 @@ export default class MapField extends LitElement {
     });
   };
 
-  removeItem = (key) => (event) => {
+  removeItem = (index) => (event) => {
     const { target } = event;
-    const value = Object.keys(this.value).reduce(
-      (newValue, itemKey) =>
-        itemKey === key
-          ? newValue
-          : { ...newValue, [itemKey]: this.value[itemKey] },
-      {}
-    );
+    const value = [
+      ...[...this.value.slice(0, index)],
+      ...[...this.value.slice(index + 1)],
+    ];
     changeField(target, {
       name: this.field.code,
       validateGroup: true,
@@ -177,9 +197,14 @@ export default class MapField extends LitElement {
     });
   };
 
-  updateItem = (key) => (event) => {
+  updateItem = (index) => (event) => {
     const { detail } = event;
-    const value = { ...this.value, [key]: detail.value };
+    const currentItem = this.value[index];
+    const value = [
+      ...[...this.value.slice(0, index)],
+      { ...currentItem, value: detail.value },
+      ...[...this.value.slice(index + 1)],
+    ];
     changeField(detail.originalEvent.target, {
       name: this.field.code,
       validateGroup: true,

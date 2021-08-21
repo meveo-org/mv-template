@@ -25,8 +25,8 @@ export default class FormField extends LitElement {
         return html`
           <single-field
             .field="${field}"
-            .value="${this.value}"
-            .errors="${this.errors}"
+            .value="${value}"
+            .errors="${errors}"
             @update-value="${this.updateValue}"
           ></single-field>
         `;
@@ -34,24 +34,24 @@ export default class FormField extends LitElement {
         return html`
           <array-field
             .field="${field}"
-            .value="${this.value}"
-            .errors="${this.errors}"
+            .value="${value}"
+            .errors="${errors}"
           ></array-field>
         `;
       case "MAP":
         return html`
           <map-field
             .field="${field}"
-            .value="${this.value}"
-            .errors="${this.errors}"
+            .value="${value}"
+            .errors="${errors}"
           ></map-field>
         `;
       case "MATRIX":
         return html`
           <matrix-field
             .field="${field}"
-            .value="${this.value}"
-            .errors="${this.errors}"
+            .value="${value}"
+            .errors="${errors}"
           ></matrix-field>
         `;
       default:
