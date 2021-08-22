@@ -4,6 +4,7 @@ import "../fieldTypes/BooleanField.js";
 import "../fieldTypes/DateField.js";
 import "../fieldTypes/EntityField.js";
 import "../fieldTypes/TextField.js";
+import "../fieldTypes/TextareaField.js";
 import "../fieldTypes/SelectField.js";
 import "../fieldTypes/NumberField.js";
 
@@ -138,6 +139,20 @@ export default class SingleField extends LitElement {
             @remove="${this.removeValue}"
           ></entity-field>
         `;
+      case "LONG_TEXT":
+      case "TEXT_AREA":
+        return html`
+          <textarea-field
+            .field="${this.field}"
+            .value="${this.value}"
+            .errors="${this.errors}"
+            ?removable="${this.removable}"
+            ?hide-label="${this.hideLabel}"
+            ?hide-placeholder="${this.hidePlaceholder}"
+            @change="${this.updateValue}"
+            @remove="${this.removeValue}"
+          ></textarea-field>
+        `;
       default:
         const field = `Field: ${this.field.description || this.field.code}`;
         const type = `Type: ${this.field.fieldType}`;
@@ -150,7 +165,7 @@ export default class SingleField extends LitElement {
   updateValue = (event) => {
     const { detail } = event;
     const { value, originalEvent } = detail || {};
-    console.log("value: ", value);
+
     this.dispatchEvent(
       new CustomEvent("update-value", { detail: { value, originalEvent } })
     );

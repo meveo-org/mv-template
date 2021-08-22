@@ -80,7 +80,7 @@ export default class ArrayField extends LitElement {
   }
 
   render() {
-    const { value, field } = this;
+    const { value = [], field } = this;
     const { label, valueRequired } = field || {};
     return html`
       <fieldset>
@@ -96,7 +96,7 @@ export default class ArrayField extends LitElement {
             </mv-button>
           </label>
         </legend>
-        ${(value || []).map(
+        ${value.map(
           (itemValue, index) => html`
             <single-field
               removable
@@ -114,11 +114,12 @@ export default class ArrayField extends LitElement {
   }
 
   addItem = (event) => {
-    const value = [...this.value, null];
+    const { value = [] } = this;
+    const newValue = [...value, null];
     changeField(event.target, {
       name: this.field.code,
       originalEvent: event,
-      value,
+      value: newValue,
     });
   };
 

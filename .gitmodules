@@ -100,3 +100,6 @@
 [submodule "web_modules/mv-file-upload"]
 	path = web_modules/mv-file-upload
 	url = https://github.com/meveo-org/mv-file-upload.git
+[submodule "web_modules/mv-textarea"]
+	path = web_modules/mv-textarea
+	url = https://github.com/meveo-org/mv-textarea.git
