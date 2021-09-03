@@ -1,3 +1,6 @@
+import { MODELS } from "models";
+import { PERSISTENCE_PATH, SCHEMA_PATH } from "config";
+
 export const findEntity = (entities, code) => {
   return entities.find((entity) => entity.code === code) || {};
 };
@@ -19,8 +22,8 @@ const toJSType = (fieldType) => {
   return type;
 };
 
-export const buildProperties = (entity) =>
-  (entity.formFields || []).reduce(
+export const buildProperties = (formFields) =>
+  (formFields || []).reduce(
     (properties, group) =>
       (group.fields || []).reduce(
         (fields, field) => ({
@@ -36,8 +39,8 @@ export const buildProperties = (entity) =>
     {}
   );
 
-export const buildModelFields = (entity) =>
-  (entity.formFields || []).reduce(
+export const buildModelFields = (formFields) =>
+  (formFields || []).reduce(
     (modelFields, group) =>
       (group.fields || []).reduce(
         (fields, field) => [
@@ -49,14 +52,56 @@ export const buildModelFields = (entity) =>
     []
   );
 
-export const getEndpoints = (schema, baseUrl) => {
+export const parseModelDetails = (entityCode) => {
+  const model = MODELS.find(modelItem => modelItem.code === entityCode);
+  const { formFields } = model;
+  const properties = buildProperties(formFields);
+  const mappings = buildModelFields(formFields);
+  return { properties, mappings };
+};
+
+export const callApi = async (auth, url, method = "GET") => {
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+  headers.append("Accept", "application/json");
+  headers.append("Authorization", `Bearer ${auth.token}`);
+
+  try {
+    const response = await fetch(url, { method, headers });
+    if (!response.ok) {
+      throw [
+        `Encountered error calling API: ${endpointUrl}`,
+        `Status code: ${response.status} [${response.statusText}]`,
+      ];
+    }
+    const type = response.headers.get("Content-Type") || "";
+    if (type.includes("application/json")) {
+      return await response.json();
+    }
+    return { statusCode: response.status, status: response.statusText };
+  } catch (error) {
+    console.error("error: ", error);
+    return { detail: { error } };
+  }
+};
+
+export const getSchema = (auth, code) => {
+  return callApi(auth, `${SCHEMA_PATH}/${code}`);
+};
+
+export const getRefSchemas = async (auth, codes) => {
+  const requests = (codes || []).map((code) => getSchema(auth, code));
+  return Promise.all(requests);
+};
+
+export const getEndpoints = (schema) => {
   return {
     DETAIL: {
       schema,
       getEndpointConfig: ({ entity, parameters }) => {
         const { uuid } = parameters;
         return {
-          OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence/${entity.code}/${uuid}`,
+          OVERRIDE_URL: `${PERSISTENCE_PATH}/${entity.code}/${uuid}`,
         };
       },
     },
@@ -64,7 +109,7 @@ export const getEndpoints = (schema, baseUrl) => {
       schema,
       getEndpointConfig: ({ entity }) => {
         return {
-          OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence/${entity.code}/list?withCount=true`,
+          OVERRIDE_URL: `${PERSISTENCE_PATH}/${entity.code}/list?withCount=true`,
         };
       },
       decorateProperties: ({ parameters }) => {
@@ -76,7 +121,7 @@ export const getEndpoints = (schema, baseUrl) => {
       schema,
       getEndpointConfig: () => {
         return {
-          OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence`,
+          OVERRIDE_URL: PERSISTENCE_PATH,
         };
       },
       decorateProperties: ({ entity, props }) => {
@@ -96,7 +141,7 @@ export const getEndpoints = (schema, baseUrl) => {
       getEndpointConfig: ({ entity, parameters }) => {
         const { uuid } = parameters;
         return {
-          OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence/${entity.code}/${uuid}`,
+          OVERRIDE_URL: `${PERSISTENCE_PATH}/${entity.code}/${uuid}`,
         };
       },
     },
@@ -105,7 +150,7 @@ export const getEndpoints = (schema, baseUrl) => {
       getEndpointConfig: ({ entity, parameters }) => {
         const { uuid } = parameters;
         return {
-          OVERRIDE_URL: `${baseUrl}/api/rest/default/persistence/${entity.code}/${uuid}`,
+          OVERRIDE_URL: `${PERSISTENCE_PATH}/${entity.code}/${uuid}`,
         };
       },
     },

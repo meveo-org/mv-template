@@ -1,7 +1,7 @@
 import { LitElement, html, css } from "lit-element";
+import { MODELS } from "models";
 import "mv-menu-panel";
 import "mv-font-awesome";
-import { ENTITIES } from "models";
 
 class SidebarMenu extends LitElement {
   static get properties() {
@@ -136,20 +136,20 @@ class SidebarMenu extends LitElement {
             </router-link>
           </mv-menu-panel>
 
-          ${ENTITIES.map(
-            (entity) => html`
+          ${MODELS.map(
+            (model) => html`
               <mv-menu-panel
                 item
-                .value="${{ selected: entity.code }}"
-                ?selected="${this.selected === entity.code}"
+                .value="${{ selected: model.code }}"
+                ?selected="${this.selected === model.code}"
                 ?popout="${!this.expanded}"
                 @select-item="${this.selectItem}"
               >
-                <router-link path="./${entity.code}/list">
+                <router-link path="./${model.code}/list">
                   <div class="text">
                     <mv-fa icon="database"></mv-fa>
                     ${this.expanded
-                      ? html`<span>${entity.label}</span>`
+                      ? html`<span>${model.label}</span>`
                       : html``}
                   </div>
                 </router-link>

@@ -1,6 +1,5 @@
 import { LitElement, html, css } from "lit-element";
 import * as config from "config";
-import { ENTITIES } from "models";
 import "mv-container";
 import { modelInterfaces } from "../service/EndpointInterface.js";
 import "../components/DashboardTile.js";
@@ -10,7 +9,9 @@ export default class MainDashboard extends LitElement {
   static get properties() {
     return {
       ...super.properties,
-      count: { type: Object, attribute: false, reflect: true },
+      auth: { type: Object, attribute: false },
+      count: { type: Object, attribute: false },
+      entities: { type: Object, attribute: false },
     };
   }
 
@@ -33,7 +34,9 @@ export default class MainDashboard extends LitElement {
 
   constructor() {
     super();
+    this.auth = null;
     this.count = {};
+    this.entities = null;
   }
 
   render() {
@@ -42,15 +45,16 @@ export default class MainDashboard extends LitElement {
         <mv-container>
           <h1>Dashboard</h1>
           <div class="tiles">
-            ${ENTITIES.map(
-              (entity) => html`
+            ${Object.keys(this.entities || {}).map((key) => {
+              const entity = this.entities[key];
+              return html`
                 <dashboard-tile
                   entity-code="${entity.code}"
                   title="${entity.label}"
                   item-count="${this.count[entity.code] || 0}"
                 ></dashboard-tile>
-              `
-            )}
+              `;
+            })}
           </div>
         </mv-container>
       </page-layout>
@@ -59,13 +63,11 @@ export default class MainDashboard extends LitElement {
 
   connectedCallback() {
     // call api to load entity counts
-    ENTITIES.forEach((entity) => {
+    Object.keys(this.entities).forEach((key) => {
+      const entity = this.entities[key];
       const endpointInterface = modelInterfaces(entity).LIST;
       endpointInterface.executeApiCall(
-        {
-          noAuth: true,
-          config,
-        },
+        { config, token: this.auth.token },
         this.submitSuccess(entity),
         this.submitFailed(entity)
       );

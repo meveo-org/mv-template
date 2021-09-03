@@ -11,9 +11,10 @@ import "../fieldTypes/NumberField.js";
 export default class SingleField extends LitElement {
   static get properties() {
     return {
-      field: { type: Object, attribute: false, reflect: true },
-      value: { type: Object, attribute: false, reflect: true },
-      errors: { type: Array, attribute: false, reflect: true },
+      entity: { type: Object, attribute: false },
+      field: { type: Object, attribute: false },
+      value: { type: Object, attribute: false },
+      errors: { type: Array, attribute: false },
       removable: { type: Boolean },
       hideLabel: { type: Boolean, attribute: "hide-label" },
       hidePlaceholder: { type: Boolean, attribute: "hide-placeholder" },
@@ -29,6 +30,7 @@ export default class SingleField extends LitElement {
     this.removable = false;
     this.hideLabel = false;
     this.hidePlaceholder = false;
+    this.entity = null;
   }
 
   render() {
@@ -129,6 +131,7 @@ export default class SingleField extends LitElement {
       case "CHILD_ENTITY":
         return html`
           <entity-field
+            .entity="${this.entity}"
             .field="${this.field}"
             .value="${this.value}"
             .errors="${this.errors}"

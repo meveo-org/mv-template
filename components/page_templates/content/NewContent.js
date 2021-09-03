@@ -143,6 +143,7 @@ export default class NewContent extends MvElement {
     const schemaProp = schema.properties[formField.code];
     return html`
       <form-field
+        .entity=${this.entity}
         .field="${formField}"
         .schemaProp="${schemaProp}"
         .value="${value}"

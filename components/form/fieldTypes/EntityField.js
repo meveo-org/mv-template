@@ -1,7 +1,5 @@
-import { LitElement, html, css } from "lit-element";
+import { html, css } from "lit-element";
 import { findEntity } from "utils";
-import { changeField, matchError } from "mv-form-utils";
-import { ENTITIES } from "models";
 import FieldTemplate from "./FieldTemplate.js";
 import "mv-button";
 import "mv-dialog";
@@ -14,8 +12,9 @@ import "../../page_templates/content/UpdateContent.js";
 export default class EntityField extends FieldTemplate {
   static get properties() {
     return {
-      dialog: { type: Object, attribute: false, reflect: true },
-      selectedItem: { type: Object, attribute: false, reflect: true },
+      entity: { type: Object, attribute: false },
+      dialog: { type: Object, attribute: false },
+      selectedItem: { type: Object, attribute: false },
       hideUuid: { type: Boolean, attribute: "hide-uuid" },
     };
   }
@@ -110,6 +109,7 @@ export default class EntityField extends FieldTemplate {
       open: false,
       content: html``,
     };
+    this.entity = null;
   }
 
   renderInput() {
@@ -153,13 +153,12 @@ export default class EntityField extends FieldTemplate {
   }
 
   getListComponent = (name) => {
-    const entity = findEntity(ENTITIES, name);
     return html`
       <div class="dialog-content">
         <list-content
           select-one
           with-checkbox
-          .entity="${entity}"
+          .entity="${this.entity}"
           @edit-item="${this.editItem}"
           @new-item="${this.newItem}"
           @row-click="${this.selectRow}"
@@ -170,13 +169,12 @@ export default class EntityField extends FieldTemplate {
   };
 
   getNewItemComponent = (name) => {
-    const entity = findEntity(ENTITIES, name);
     return html`
       <div class="dialog-content">
         <new-content
           name="${name}"
           storage-modes="local"
-          .entity="${entity}"
+          .entity="${this.entity}"
           @submitted="${this.submitNew}"
           @cancel="${this.openList}"
         ></new-content>
@@ -185,13 +183,12 @@ export default class EntityField extends FieldTemplate {
   };
 
   getUpdateItemComponent = (name, row) => {
-    const entity = findEntity(ENTITIES, name);
     return html`
       <div class="dialog-content">
         <update-content
           name="${name}"
           storage-modes="local"
-          .entity="${entity}"
+          .entity="${this.entity}"
           .formValues="${row}"
           @submitted="${this.submitUpdate}"
           @cancel="${this.openList}"

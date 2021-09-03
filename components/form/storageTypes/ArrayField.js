@@ -7,9 +7,10 @@ import "../storageTypes/SingleField.js";
 export default class ArrayField extends LitElement {
   static get properties() {
     return {
-      field: { type: Object, attribute: false, reflect: true },
-      errors: { type: Array, attribute: false, reflect: true },
-      value: { type: Array, attribute: false, reflect: true },
+      entity: { type: Object, attribute: false },
+      field: { type: Object, attribute: false },
+      errors: { type: Array, attribute: false },
+      value: { type: Array, attribute: false },
     };
   }
 
@@ -75,6 +76,7 @@ export default class ArrayField extends LitElement {
 
   constructor() {
     super();
+    this.entity= null;
     this.field = {};
     this.value = [];
   }
@@ -101,6 +103,7 @@ export default class ArrayField extends LitElement {
             <single-field
               removable
               hide-label
+              .entity="${this.entity}"
               .field="${this.field}"
               .value="${itemValue}"
               .errors="${this.errors}"

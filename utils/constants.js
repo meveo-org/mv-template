@@ -6,20 +6,20 @@ export const NULL_ENTITY = {
   formFields: [],
   endpoints: {
     DETAIL: {
-      schema: null,
-      override: null,
+      schema: {},
+      override: {},
     },
     LIST: {
-      schema: null,
-      override: null,
+      schema: {},
+      override: {},
     },
     NEW: {
-      schema: null,
-      override: null,
+      schema: {},
+      override: {},
     },
     UPDATE: {
-      schema: null,
-      override: null,
+      schema: {},
+      override: {},
     },
   },
 };

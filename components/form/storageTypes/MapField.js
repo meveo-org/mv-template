@@ -8,9 +8,10 @@ import "../storageTypes/SingleField.js";
 export default class MapField extends LitElement {
   static get properties() {
     return {
-      field: { type: Object, attribute: false, reflect: true },
-      errors: { type: Array, attribute: false, reflect: true },
-      value: { type: Array, attribute: false, reflect: true },
+      entity: { type: Object, attribute: false },
+      field: { type: Object, attribute: false },
+      errors: { type: Array, attribute: false },
+      value: { type: Array, attribute: false },
     };
   }
 
@@ -91,6 +92,7 @@ export default class MapField extends LitElement {
     super();
     this.field = {};
     this.value = [];
+    this.entity = null;
   }
 
   mapFields = (item, index) => html`
@@ -107,6 +109,7 @@ export default class MapField extends LitElement {
           removable
           hide-label
           hide-placeholder
+          .entity="${this.entity}"
           .field="${this.field}"
           .value="${item.value}"
           .errors="${this.errors}"
@@ -172,9 +175,6 @@ export default class MapField extends LitElement {
   };
 
   addItem = (event) => {
-    /* eslint-disable no-console */
-    console.log('this.value: ', this.value);
-    /* eslint-enable */
     const value = [...this.value, { key: null, value: null }];
     changeField(event.target, {
       name: this.field.code,

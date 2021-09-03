@@ -1,11 +1,8 @@
-import { ENTITIES } from "models";
-import { findEntity, buildProperties, buildModelFields } from "utils";
 import NewPageTemplate from "../../components/page_templates/NewPageTemplate.js";
+import { parseModelDetails } from "utils";
 
 const entityCode = "Parent";
-const entity = findEntity(ENTITIES, entityCode);
-const properties = buildProperties(entity);
-const mappings = buildModelFields(entity);
+const { properties, mappings } = parseModelDetails(entityCode);
 
 export default class ParentEntityNewPage extends NewPageTemplate {
   static get properties() {
@@ -15,16 +12,16 @@ export default class ParentEntityNewPage extends NewPageTemplate {
     };
   }
 
-  static get model() {
+  get model() {
     return {
-      entity: entity,
+      entity: this.entity,
       mappings: [...mappings],
     };
   }
 
   constructor() {
     super();
-    this.entity = entity;
+    this.entity = null;
   }
 }
 

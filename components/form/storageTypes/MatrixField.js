@@ -7,9 +7,10 @@ import "../storageTypes/SingleField.js";
 export default class MatrixField extends LitElement {
   static get properties() {
     return {
-      field: { type: Object, attribute: false, reflect: true },
-      errors: { type: Array, attribute: false, reflect: true },
-      value: { type: Array, attribute: false, reflect: true },
+      entity: { type: Object, attribute: false },
+      field: { type: Object, attribute: false },
+      errors: { type: Array, attribute: false },
+      value: { type: Array, attribute: false },
     };
   }
 
@@ -77,6 +78,7 @@ export default class MatrixField extends LitElement {
     super();
     this.field = {};
     this.value = [];
+    this.entity = null;
   }
 
   render() {
@@ -101,6 +103,7 @@ export default class MatrixField extends LitElement {
             <single-field
               removable
               hide-label
+              .entity="${this.entity}"
               .field="${this.field}"
               .value="${itemValue}"
               .errors="${this.errors}"

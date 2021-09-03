@@ -1,9 +1,8 @@
-import { html, css } from "lit-element";
+import { html } from "lit-element";
 import "../layout/PageLayout.js";
-import UpdateContent from"../page_templates/content/UpdateContent.js";
+import UpdateContent from "./content/UpdateContent.js";
 
 export default class UpdatePageTemplate extends UpdateContent {
-
   render() {
     return html`
       <page-layout>
@@ -14,7 +13,7 @@ export default class UpdatePageTemplate extends UpdateContent {
 
   cancelCallback = () => {
     history.pushState(null, "", `./${this.entity.code}/list`);
-  }
+  };
 }
 
 customElements.define("update-page-template", UpdatePageTemplate);

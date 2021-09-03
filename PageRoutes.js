@@ -1,11 +1,23 @@
 import { LitElement, html } from "lit-element";
-import { ENTITIES } from "models";
 import "mv-router";
 
 // component paths are relative to /web_modules/mv-router
 const PAGES_PATH = "../../pages";
 
 class PageRoutes extends LitElement {
+  static get properties() {
+    return {
+      entities: { type: Object, attribute: false },
+      auth: { type: Object, attribute: false },
+    };
+  }
+
+  constructor() {
+    super();
+    this.entities = null;
+    this.auth = null;
+  }
+
   render() {
     return html`
       <mv-router>
@@ -13,6 +25,8 @@ class PageRoutes extends LitElement {
           default
           route
           path="dashboard"
+          .auth="${this.auth}"
+          .entities="${this.entities}"
           component="${PAGES_PATH}/MainDashboard.js"
         ></mv-router>
         ${this.renderDynamicRoutes()}
@@ -20,13 +34,15 @@ class PageRoutes extends LitElement {
     `;
   }
 
-  renderDynamicRoutes = () =>
-    ENTITIES.map(
-      (entity) => html`
+  renderDynamicRoutes = () => {
+    return Object.keys(this.entities).map((key) => {
+      const entity = this.entities[key];
+      return html`
         <mv-router
           route
           path="${entity.code}/new"
           name="${entity.code}"
+          .auth="${this.auth}"
           .entity="${entity}"
           storage-modes="local"
           component="${PAGES_PATH}/${entity.code}/NewPage.js"
@@ -35,6 +51,7 @@ class PageRoutes extends LitElement {
           route
           path="${entity.code}/update/:id"
           name="${entity.code}"
+          .auth="${this.auth}"
           .entity="${entity}"
           storage-modes="local"
           component="${PAGES_PATH}/${entity.code}/UpdatePage.js"
@@ -42,11 +59,13 @@ class PageRoutes extends LitElement {
         <mv-router
           route
           path="${entity.code}/list"
+          .auth="${this.auth}"
           .entity="${entity}"
           component="${PAGES_PATH}/${entity.code}/ListPage.js"
         ></mv-router>
-      `
-    );
+      `;
+    });
+  };
 }
 
 customElements.define("page-routes", PageRoutes);

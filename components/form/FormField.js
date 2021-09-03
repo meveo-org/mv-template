@@ -8,9 +8,10 @@ import "./storageTypes/MatrixField.js";
 export default class FormField extends LitElement {
   static get properties() {
     return {
-      field: { type: Object, attribute: false, reflect: true },
-      value: { type: Object, attribute: false, reflect: true },
-      errors: { type: Array, attribute: false, reflect: true },
+      entity: { type: Object, attribute: false },
+      field: { type: Object, attribute: false },
+      value: { type: Object, attribute: false },
+      errors: { type: Array, attribute: false },
     };
   }
 
@@ -24,6 +25,7 @@ export default class FormField extends LitElement {
       case "SINGLE":
         return html`
           <single-field
+            .entity="${this.entity}"
             .field="${field}"
             .value="${value}"
             .errors="${errors}"
@@ -33,6 +35,7 @@ export default class FormField extends LitElement {
       case "LIST":
         return html`
           <array-field
+            .entity="${this.entity}"
             .field="${field}"
             .value="${value}"
             .errors="${errors}"
@@ -41,6 +44,7 @@ export default class FormField extends LitElement {
       case "MAP":
         return html`
           <map-field
+            .entity="${this.entity}"
             .field="${field}"
             .value="${value}"
             .errors="${errors}"
@@ -49,6 +53,7 @@ export default class FormField extends LitElement {
       case "MATRIX":
         return html`
           <matrix-field
+            .entity="${this.entity}"
             .field="${field}"
             .value="${value}"
             .errors="${errors}"

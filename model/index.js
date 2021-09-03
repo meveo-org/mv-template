@@ -1,7 +1,4 @@
-import Parent from "./Parent.js";
-import Child from "./Child.js";
+import * as Child from "./Child.js.js";
+import * as Parent from "./Parent.js";
 
-export const ParentEntity = new Parent();
-export const ChildEntity = new Child();
-
-export const ENTITIES = [ParentEntity, ChildEntity];
+export const MODELS = [Child, Parent];

@@ -1,4 +1,5 @@
 import { LitElement, html, css } from "lit-element";
+import { MODELS } from "models";
 import "mv-container";
 import "mv-footer";
 import "mv-header";
@@ -10,13 +11,15 @@ import "mv-progress-bar";
 class MainApp extends LitElement {
   static get properties() {
     return {
-      auth: { type: Object, attribute: false, reflect: true },
+      auth: { type: Object, attribute: false },
+      entities: { type: Object, attribute: false },
     };
   }
 
   constructor() {
     super();
     this.auth = null;
+    this.entities = null;
   }
 
   static get styles() {
@@ -75,7 +78,12 @@ class MainApp extends LitElement {
 
   loadRoutes = () => {
     import("./PageRoutes.js");
-    return html`<page-routes></page-routes>`;
+    return html`
+      <page-routes
+        .entities="${this.entities}"
+        .auth="${this.auth}"
+      ></page-routes>
+    `;
   };
 
   connectedCallback() {
@@ -93,6 +101,13 @@ class MainApp extends LitElement {
       detail: { auth },
     } = event;
     this.auth = auth;
+    this.entities = MODELS.reduce(
+      (entities, model) => ({
+        ...entities,
+        [model.code]: new model.ModelClass(auth),
+      }),
+      {}
+    );
   };
 
   loginFailed = () => {

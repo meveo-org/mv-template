@@ -1,8 +1,7 @@
 import { LitElement, html, css } from "lit-element";
 import { modelInterfaces } from "../../../service/EndpointInterface.js";
 import * as config from "config";
-import { ENTITIES } from "models";
-import { NULL_ENTITY, EMPTY_DIALOG, findEntity, toTitleName } from "utils";
+import { NULL_ENTITY, EMPTY_DIALOG, toTitleName } from "utils";
 import { parseColumns } from "mv-table-utils";
 import "mv-button";
 import "mv-container";
@@ -33,10 +32,10 @@ export default class ListContent extends LitElement {
         attribute: "with-checkbox",
         reflect: true,
       },
-      entity: { type: Object, attribute: false, reflect: true },
-      filter: { type: Object, attribute: false, reflect: true },
-      messageDialog: { type: Object, attribute: false, reflect: true },
-      confirmDialog: { type: Object, attribute: false, reflect: true },
+      entity: { type: Object, attribute: false },
+      filter: { type: Object, attribute: false },
+      messageDialog: { type: Object, attribute: false },
+      confirmDialog: { type: Object, attribute: false },
       pages: { type: Number },
       currentPage: { type: Number },
       rowsPerPage: { type: Number },
@@ -129,13 +128,7 @@ export default class ListContent extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    const name = (this.entity || {}).name || this.code;
-    const entity =
-      !!this.entity && this.entity.code
-        ? this.entity
-        : findEntity(ENTITIES, name);
-    this.entity = entity;
-    const { properties } = entity.schema;
+    const { properties } = this.entity.schema || {};
     const columnOrder = Object.keys(properties || {});
     const columns = this.columns || parseColumns(properties, columnOrder);
     this.columns = columns.map((column) => ({
