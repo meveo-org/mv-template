@@ -17,13 +17,14 @@ import "../../form/FormField.js";
 export default class UpdateContent extends MvElement {
   static get properties() {
     return {
-      entity: { type: Object, attribute: false, reflect: true },
-      errors: { type: Array, attribute: false, reflect: true },
-      parameters: { type: Object, attribute: false, reflect: true },
-      formValues: { type: Object, attribute: false, reflect: true },
-      schema: { type: Object, attribute: false, reflect: true },
-      refSchemas: { type: Array, attribute: false, reflect: true },
-      dialog: { type: Object, attribute: false, reflect: true },
+      auth: { type: Object, attribute: false },
+      entity: { type: Object, attribute: false },
+      errors: { type: Array, attribute: false },
+      parameters: { type: Object, attribute: false },
+      formValues: { type: Object, attribute: false },
+      schema: { type: Object, attribute: false },
+      refSchemas: { type: Array, attribute: false },
+      dialog: { type: Object, attribute: false },
     };
   }
 
@@ -72,6 +73,7 @@ export default class UpdateContent extends MvElement {
 
   constructor() {
     super();
+    this.auth = null;
     this.dialog = { ...EMPTY_DIALOG };
   }
 
@@ -191,8 +193,8 @@ export default class UpdateContent extends MvElement {
     const uuid = entityValue.uuid || id;
     endpointInterface.executeApiCall(
       {
-        noAuth: true,
         config,
+        token: this.auth.token,
         uuid,
       },
       this.detailRetrieved,

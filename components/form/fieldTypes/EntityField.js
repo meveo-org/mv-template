@@ -1,5 +1,4 @@
 import { html, css } from "lit-element";
-import { findEntity } from "utils";
 import FieldTemplate from "./FieldTemplate.js";
 import "mv-button";
 import "mv-dialog";

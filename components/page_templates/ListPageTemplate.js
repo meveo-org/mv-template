@@ -24,6 +24,7 @@ export default class ListPageTemplate extends LitElement {
   static get properties() {
     return {
       entity: { type: Object, attribute: false, reflect: true },
+      auth: { type: Object, attribute: false, reflect: true },
     };
   }
 
@@ -33,6 +34,7 @@ export default class ListPageTemplate extends LitElement {
 
   constructor() {
     super();
+    this.auth = null;
     this.entity = { ...NULL_ENTITY };
     this.pages = 1;
     this.currentPage = 1;
@@ -47,6 +49,7 @@ export default class ListPageTemplate extends LitElement {
     return html`
       <page-layout>
         <list-content
+          .auth="${this.auth}"
           .entity="${this.entity}"
           @new-item="${this.newItem}"
           @edit-item="${this.editRow}"

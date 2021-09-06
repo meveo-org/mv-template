@@ -24,6 +24,7 @@ const DEFAULT_FILTER = {
 export default class ListContent extends LitElement {
   static get properties() {
     return {
+      auth: { type: Object, attribute: false },
       code: { type: String },
       selectable: { type: Boolean },
       selectOne: { type: Boolean, attribute: "select-one", reflect: true },
@@ -59,6 +60,7 @@ export default class ListContent extends LitElement {
 
   constructor() {
     super();
+    this.auth = null;
     this.selectable = false;
     this.selectOne = false;
     this.entity = { ...NULL_ENTITY };
@@ -145,9 +147,9 @@ export default class ListContent extends LitElement {
     const endpointInterface = modelInterfaces(entity).LIST;
     endpointInterface.executeApiCall(
       {
-        noAuth: true,
         config,
         firstRow,
+        token: this.auth.token,
         numberOfRows: this.rowsPerPage,
         fetchFields: this.columns.map((column) => column.name),
       },

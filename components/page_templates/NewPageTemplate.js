@@ -1,4 +1,4 @@
-import { html, css } from "lit-element";
+import { html } from "lit-element";
 import "../layout/PageLayout.js";
 import NewContent from "./content/NewContent.js";
 

@@ -17,9 +17,10 @@ import "../../form/FormField.js";
 export default class NewContent extends MvElement {
   static get properties() {
     return {
-      entity: { type: Object, attribute: false, reflect: true },
-      errors: { type: Array, attribute: false, reflect: true },
-      dialog: { type: Object, attribute: false, reflect: true },
+      auth: { type: Object, attribute: false},
+      entity: { type: Object, attribute: false},
+      errors: { type: Array, attribute: false},
+      dialog: { type: Object, attribute: false},
     };
   }
 
@@ -68,6 +69,7 @@ export default class NewContent extends MvElement {
 
   constructor() {
     super(config);
+    this.auth = null;
     this.dialog = { ...EMPTY_DIALOG };
   }
 
@@ -213,8 +215,8 @@ export default class NewContent extends MvElement {
       const endpointInterface = modelInterfaces(entity).NEW;
       endpointInterface.executeApiCall(
         {
-          noAuth: true,
           config,
+          token: this.auth.token,
           ...item,
         },
         this.submitSuccess,
