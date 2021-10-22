@@ -12,7 +12,7 @@ export const formFields = [
     ]
   },
 ];
-export default class Child {
+export class ModelClass {
 	schema = ChildSchema;
 	endpoints = {
     DETAIL: {
@@ -53,4 +53,8 @@ export default class Child {
   };
 
 	refSchemas = [	];
+
+  constructor(auth){
+    console.log('auth: ', auth);
+  }
 }

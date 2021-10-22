@@ -1,5 +1,6 @@
 import ParentSchema from "./ParentSchema.js";
 import ChildSchema from "./ChildSchema.js";
+import Model from "./model.js";
 
 export const code = "Parent";
 export const label = "Parent Entity";
@@ -150,7 +151,7 @@ export const formFields = [
 	},
 ];
 
-export default class Parent {
+export class ModelClass {
 	schema = ParentSchema;
 	endpoints = {
     DETAIL: {
@@ -194,5 +195,7 @@ export default class Parent {
 		ChildSchema,
 	];
 
-	
+	constructor(auth) {
+    console.log("auth: ", auth);
+  }
 }
