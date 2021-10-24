@@ -38,7 +38,7 @@ export default class SelectField extends FieldTemplate {
       }
 
       .label {
-        padding-top: var(--padding-size);
+        padding-top: calc(var(--padding-size) + 0.5rem);
       }
 
       .input {

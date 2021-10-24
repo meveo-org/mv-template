@@ -38,7 +38,7 @@ export default class FieldTemplate extends LitElement {
       }
 
       .label {
-        padding-top: var(--padding-size);
+        padding-top: calc(var(--padding-size) + 0.5rem);
       }
 
       .input {
