@@ -138,7 +138,6 @@ export default class ListContent extends LitElement {
 
   render() {
     const { formFields } = this.entity;
-    console.log("formFields: ", formFields);
     return html`
       <mv-container>
         <h1>${this.entity.label}</h1>
@@ -213,8 +212,22 @@ export default class ListContent extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    const { properties } = this.entity.schema || {};
-    const columnOrder = Object.keys(properties || {});
+    const { formFields, schema } = this.entity;
+    const { properties } = schema || {};
+    const activeColumns = formFields.reduce(
+      (fieldColumns, group) => [
+        ...fieldColumns,
+        ...group.fields.reduce(
+          (activeFields, field) =>
+            field.summary ? [...activeFields, field.code] : activeFields,
+          []
+        ),
+      ],
+      []
+    );
+    const columnOrder = activeColumns.length > 0 ? activeColumns : Object.keys(properties);
+    console.log('activeColumns: ', activeColumns);
+    console.log('columnOrder: ', columnOrder);
     const columns = this.columns || parseColumns(properties, columnOrder);
     this.columns = columns.map((column) => ({
       ...column,
