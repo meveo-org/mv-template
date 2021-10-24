@@ -17,10 +17,10 @@ import "../../form/FormField.js";
 export default class NewContent extends MvElement {
   static get properties() {
     return {
-      auth: { type: Object, attribute: false},
-      entity: { type: Object, attribute: false},
-      errors: { type: Array, attribute: false},
-      dialog: { type: Object, attribute: false},
+      auth: { type: Object, attribute: false },
+      entity: { type: Object, attribute: false },
+      errors: { type: Array, attribute: false },
+      dialog: { type: Object, attribute: false },
     };
   }
 
@@ -142,7 +142,8 @@ export default class NewContent extends MvElement {
 
   renderField = (schema) => (formField) => {
     const value = this[formField.code];
-    const schemaProp = schema.properties[formField.code];
+    const { properties = {} } = schema || {};
+    const schemaProp = properties[formField.code] || {};
     return html`
       <form-field
         .entity=${this.entity}

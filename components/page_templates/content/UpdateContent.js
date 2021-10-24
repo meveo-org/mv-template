@@ -141,7 +141,8 @@ export default class UpdateContent extends MvElement {
     <div class="form-grid">
       ${(group.fields || []).map((formField) => {
         const value = this[formField.code];
-        const schemaProp = schema.properties[formField.code];
+        const { properties = {} } = schema || {};
+        const schemaProp = properties[formField.code] || {};
         return html`
           <form-field
             .field="${formField}"
