@@ -216,6 +216,7 @@ export default class ListContent extends LitElement {
     super.connectedCallback();
     const { formFields, schema } = this.entity;
     const { properties } = schema || {};
+    console.log('this.entity: ', this.entity);
     const activeColumns = formFields.reduce(
       (fieldColumns, group) => [
         ...fieldColumns,
