@@ -31,7 +31,7 @@ export default class FieldTemplate extends LitElement {
       }
 
       .field-template-label {
-        padding-right: 0.5rem;
+        padding-right: 0.5rem !important;
       }
 
       .field {
