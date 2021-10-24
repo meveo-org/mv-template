@@ -38,7 +38,7 @@ export default class ListPageTemplate extends LitElement {
     this.entity = { ...NULL_ENTITY };
     this.pages = 1;
     this.currentPage = 1;
-    this.rowsPerPage = 5;
+    this.rowsPerPage = DEFAULT_FILTER.rowsPerPage;
     this.rows = [];
     this.messageDialog = { ...EMPTY_DIALOG };
     this.confirmDialog = { ...EMPTY_DIALOG };
