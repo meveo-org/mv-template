@@ -23,6 +23,7 @@ export default class FieldTemplate extends LitElement {
       :host {
         --button-size: 24px;
         --padding-size: 0.5rem;
+        --mv-dropdown-trigger-padding: 0;
       }
 
       mv-button {
@@ -38,7 +39,7 @@ export default class FieldTemplate extends LitElement {
       }
 
       .label {
-        padding-top: calc(var(--padding-size) + 0.5rem);
+        padding-top: var(--padding-size);
       }
 
       .input {
