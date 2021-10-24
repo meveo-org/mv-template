@@ -30,7 +30,7 @@ export default class FieldTemplate extends LitElement {
         --mv-button-min-width: var(--button-size);
       }
 
-      label {
+      .label {
         padding-right: 0.5rem;
       }
 
