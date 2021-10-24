@@ -385,6 +385,8 @@ export default class ListContent extends LitElement {
   };
 
   selectColumn = (group, field) => () => {
+    const { schema } = this.entity;
+    const { properties } = schema || {};
     const index = this.columnOrder.findIndex(column => column === field.code);
     this.columnOrder = index > -1 ? [
       ...this.columnOrder.slice(0, index),
@@ -393,6 +395,11 @@ export default class ListContent extends LitElement {
       ...this.columnOrder,
       field.code
     ];
+    const columns = parseColumns(properties, this.columnOrder);
+    this.columns = columns.map((column) => ({
+      ...column,
+      title: toTitleName(column.title),
+    }));
     this.loadList(this.currentPage);
   };
 }
