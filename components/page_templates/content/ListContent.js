@@ -387,8 +387,8 @@ export default class ListContent extends LitElement {
   selectColumn = (group, field) => () => {
     const index = this.columnOrder.findIndex(column => column === field.code);
     this.columnOrder = index > -1 ? [
-      this.columnOrder.slice(0, index),
-      this.columnOrder.slice(index + 1),
+      ...this.columnOrder.slice(0, index),
+      ...this.columnOrder.slice(index + 1),
     ] : [
       ...this.columnOrder,
       field.code
