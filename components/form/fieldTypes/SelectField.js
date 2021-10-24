@@ -37,11 +37,11 @@ export default class SelectField extends FieldTemplate {
       }
 
       .input {
-        --mv-select-width: calc(100% - var(--button-size));
         width: calc(100% - var(--button-size));
-        padding-top: 3px;
+        padding: 0.5rem;
         position: relative;
       }
+
       .button {
         height: var(--button-size);
       }

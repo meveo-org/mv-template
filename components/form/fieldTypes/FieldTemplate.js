@@ -30,10 +30,6 @@ export default class FieldTemplate extends LitElement {
         --mv-button-min-width: var(--button-size);
       }
 
-      .field-template-label {
-        padding-right: 0.5rem !important;
-      }
-
       .field {
         display: flex;
         justify-content: space-between;
@@ -42,7 +38,7 @@ export default class FieldTemplate extends LitElement {
 
       .input {
         width: calc(100% - var(--button-size));
-        padding-top: 3px;
+        padding: 0.5rem;
         position: relative;
       }
 
@@ -75,7 +71,7 @@ export default class FieldTemplate extends LitElement {
           ${this.hideLabel
             ? html``
             : html`
-                <label for="${code}" class="field-template-label${errorClass}">
+                <label for="${code}" class="label${errorClass}">
                   ${label}
                 </label>
               `}
