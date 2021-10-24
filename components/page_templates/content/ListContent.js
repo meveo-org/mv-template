@@ -49,6 +49,7 @@ export default class ListContent extends LitElement {
       currentPage: { type: Number },
       rowsPerPage: { type: Number },
       columns: { type: Array },
+      columnOrder: { type: Array },
       rows: { type: Array },
     };
   }
@@ -122,6 +123,7 @@ export default class ListContent extends LitElement {
     this.rowsPerPage = DEFAULT_FILTER.rowsPerPage;
     this.selectedRowsPerPage = ROWS_PER_PAGE[1];
     this.rows = [];
+    this.columnOrder=[];
     this.messageDialog = { ...EMPTY_DIALOG };
     this.confirmDialog = { ...EMPTY_DIALOG };
     this.filter = { DEFAULT_FILTER };
@@ -225,10 +227,11 @@ export default class ListContent extends LitElement {
       ],
       []
     );
-    const columnOrder = activeColumns.length > 0 ? activeColumns : Object.keys(properties);
-    console.log('activeColumns: ', activeColumns);
-    console.log('columnOrder: ', columnOrder);
-    const columns = this.columns || parseColumns(properties, columnOrder);
+    this.columnOrder =
+      activeColumns.length > 0 ? activeColumns : Object.keys(properties);
+    console.log("activeColumns: ", activeColumns);
+    console.log("columnOrder: ", columnOrder);
+    const columns = this.columns || parseColumns(properties, this.columnOrder);
     this.columns = columns.map((column) => ({
       ...column,
       title: toTitleName(column.title),
@@ -273,7 +276,7 @@ export default class ListContent extends LitElement {
         firstRow,
         token: this.auth.token,
         numberOfRows: this.rowsPerPage,
-        fetchFields: this.columns.map((column) => column.name),
+        fetchFields: this.columnOrder,
       },
       this.retrieveSuccess,
       this.handleErrors
@@ -384,8 +387,15 @@ export default class ListContent extends LitElement {
   };
 
   selectColumn = (group, field) => () => {
-    console.log("group: ", group);
-    console.log("field: ", field);
+    const index = this.columnOrder.findIndex(column => column === field.code);
+    this.columnOrder = index > -1 ? [
+      this.columnOrder.slice(0, index),
+      this.columnOrder.slice(index + 1),
+    ] : [
+      ...this.columnOrder,
+      field.code
+    ];
+    this.loadList(this.currentPage);
   };
 }
 
