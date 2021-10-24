@@ -13,7 +13,7 @@ export const formFields = [
   },
 ];
 export class ModelClass {
-	schema = ChildSchema;
+  schema = ChildSchema;
 	endpoints = {
     DETAIL: {
       getEndpointConfig: ({ parameters }) => ({
@@ -55,6 +55,8 @@ export class ModelClass {
 	refSchemas = [	];
 
   constructor(auth){
-    console.log('auth: ', auth);
-  }
+		this.code = code;
+		this.label = label;
+		this.formFields = formFields;
+	}
 }

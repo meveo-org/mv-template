@@ -1,6 +1,5 @@
 import ParentSchema from "./ParentSchema.js";
 import ChildSchema from "./ChildSchema.js";
-import Model from "./model.js";
 
 export const code = "Parent";
 export const label = "Parent Entity";
@@ -195,7 +194,9 @@ export class ModelClass {
 		ChildSchema,
 	];
 
-	constructor(auth) {
-    console.log("auth: ", auth);
-  }
+	constructor(auth){
+		this.code = code;
+		this.label = label;
+		this.formFields = formFields;
+	}
 }

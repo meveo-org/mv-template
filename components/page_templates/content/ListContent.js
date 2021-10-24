@@ -10,10 +10,18 @@ import "mv-font-awesome";
 import "mv-pagination";
 import "mv-table";
 import "mv-tooltip";
+import "mv-select";
 import "../../../components/TableActions.js";
 
+const ROWS_PER_PAGE = [
+  { label: "10", value: 10 },
+  { label: "20", value: 20 },
+  { label: "50", value: 50 },
+  { label: "100", value: 100 },
+];
+
 const DEFAULT_FILTER = {
-  rowsPerPage: 10,
+  rowsPerPage: ROWS_PER_PAGE[1].value,
   sortFields: [],
   search: {
     field: null,
@@ -55,6 +63,51 @@ export default class ListContent extends LitElement {
         --mv-dialog-width: 500px;
         --mv-dialog-max-height: 300px;
       }
+
+      .action-section {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      .text-with-selection {
+        display: flex;
+        align-items: center;
+      }
+
+      .text-with-selection mv-select {
+        --mv-select-width: 3rem;
+        margin: 0 5px;
+      }
+
+      .action-section .right {
+        display: flex;
+        flex-direction: row;
+      }
+
+      .action-section .right mv-dropdown {
+        --mv-dropdown-trigger-height: 60px;
+        --mv-container-min-width: 50rem;
+        --mv-container-max-width: 50rem;
+      }
+
+      .action-section .right mv-dropdown ul {
+        padding: 0;
+      }
+
+      .action-section .right mv-dropdown li {
+        display: block;
+        width: calc(100% - 10px);
+        padding: 5px;
+      }
+
+      .action-section .right mv-dropdown li:hover {
+        list-style: none;
+        display: block;
+        background: #1d9bc9;
+        color: #ffffff;
+        --mv-checkbox-label-color: #ffffff;
+      }
     `;
   }
 
@@ -67,6 +120,7 @@ export default class ListContent extends LitElement {
     this.pages = 1;
     this.currentPage = 1;
     this.rowsPerPage = DEFAULT_FILTER.rowsPerPage;
+    this.selectedRowsPerPage = ROWS_PER_PAGE[1];
     this.rows = [];
     this.messageDialog = { ...EMPTY_DIALOG };
     this.confirmDialog = { ...EMPTY_DIALOG };
@@ -83,12 +137,41 @@ export default class ListContent extends LitElement {
   }
 
   render() {
+    const { formFields } = this.entity;
+    console.log("formFields: ", formFields);
     return html`
       <mv-container>
         <h1>${this.entity.label}</h1>
-        <mv-button type="rounded" @button-clicked="${this.newItem}">
-          <mv-fa icon="plus"></mv-fa>New
-        </mv-button>
+        <div class="action-section">
+          <div>
+            <mv-button type="rounded" @button-clicked="${this.newItem}">
+              <mv-fa icon="plus"></mv-fa>New
+            </mv-button>
+          </div>
+          <div class="right">
+            <div class="text-with-selection">
+              <span>Show</span>
+              <mv-select
+                .value="${this.selectedRowsPerPage}"
+                .options="${ROWS_PER_PAGE}"
+                @select-option="${this.changeRowsPerPage}"
+                no-clear-button
+              ></mv-select>
+              <span>rows per page</span>
+            </div>
+            <mv-dropdown
+              container
+              justify="right"
+              position="bottom"
+              theme="light"
+            >
+              <mv-dropdown trigger>
+                <mv-button type="outline">Show Columns</mv-button>
+              </mv-dropdown>
+              ${formFields.map((group) => this.renderFieldGroup(group))}
+            </mv-dropdown>
+          </div>
+        </div>
         <mv-table
           .columns="${this.columns || []}"
           .rows="${this.rows}"
@@ -139,6 +222,32 @@ export default class ListContent extends LitElement {
     }));
     this.loadList(1);
   }
+
+  renderFieldGroup = (group) => {
+    const { fields, label } = group;
+    return html`
+      <mv-dropdown header theme="light">${label}</mv-dropdown>
+      <mv-dropdown content theme="light">
+        <ul>
+          ${fields.map((item) => this.renderFieldItem(group, item))}
+        </ul>
+      </mv-dropdown>
+    `;
+  };
+
+  renderFieldItem = (group, item) => {
+    const { summary, label, code } = item;
+    return html`
+      <li>
+        <mv-checkbox
+          .checked="${summary}"
+          @click-checkbox="${this.selectColumn(group, item)}"
+          label="${label}"
+        >
+        </mv-checkbox>
+      </li>
+    `;
+  };
 
   loadList = (page) => {
     const { entity, rowsPerPage } = this;
@@ -250,6 +359,20 @@ export default class ListContent extends LitElement {
 
   closeDialog = (name) => () => {
     this[name] = { ...EMPTY_DIALOG };
+  };
+
+  changeRowsPerPage = (event) => {
+    const {
+      detail: { option },
+    } = event;
+    this.selectedRowsPerPage = option;
+    this.rowsPerPage = option.value;
+    this.loadList(this.currentPage);
+  };
+
+  selectColumn = (group, field) => () => {
+    console.log("group: ", group);
+    console.log("field: ", field);
   };
 }
 
