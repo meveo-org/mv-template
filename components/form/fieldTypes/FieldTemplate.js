@@ -30,7 +30,7 @@ export default class FieldTemplate extends LitElement {
         --mv-button-min-width: var(--button-size);
       }
 
-      .label {
+      .field-template-label {
         padding-right: 0.5rem;
       }
 
@@ -75,7 +75,9 @@ export default class FieldTemplate extends LitElement {
           ${this.hideLabel
             ? html``
             : html`
-                <label for="${code}" class="label${errorClass}">${label}</label>
+                <label for="${code}" class="field-template-label${errorClass}">
+                  ${label}
+                </label>
               `}
           <div class="input">${this.renderInput()}</div>
           ${this.removable
