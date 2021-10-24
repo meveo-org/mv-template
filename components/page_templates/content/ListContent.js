@@ -229,8 +229,6 @@ export default class ListContent extends LitElement {
     );
     this.columnOrder =
       activeColumns.length > 0 ? activeColumns : Object.keys(properties);
-    console.log("activeColumns: ", activeColumns);
-    console.log("columnOrder: ", columnOrder);
     const columns = this.columns || parseColumns(properties, this.columnOrder);
     this.columns = columns.map((column) => ({
       ...column,
