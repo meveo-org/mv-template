@@ -34,10 +34,8 @@ export default class BinaryField extends FieldTemplate {
 
   change = (originalEvent) => {
     const { detail } = originalEvent;
-    console.log("detail: ", detail);
     const value =
       (this.multiple ? detail.files : (detail.files || [])[0]) || null;
-    console.log("value: ", value);
     this.dispatchEvent(
       new CustomEvent("change", {
         detail: { value, originalEvent },

@@ -31,8 +31,6 @@ export default class FieldTemplate extends LitElement {
       }
 
       label {
-        width: 100%;
-        max-width: fit-content;
         padding-right: 0.5rem;
       }
 
