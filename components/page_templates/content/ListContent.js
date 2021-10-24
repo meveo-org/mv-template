@@ -123,7 +123,7 @@ export default class ListContent extends LitElement {
     this.rowsPerPage = DEFAULT_FILTER.rowsPerPage;
     this.selectedRowsPerPage = ROWS_PER_PAGE[1];
     this.rows = [];
-    this.columnOrder=[];
+    this.columnOrder = [];
     this.messageDialog = { ...EMPTY_DIALOG };
     this.confirmDialog = { ...EMPTY_DIALOG };
     this.filter = { DEFAULT_FILTER };
@@ -215,8 +215,8 @@ export default class ListContent extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     const { formFields, schema } = this.entity;
-    const { properties } = schema || {};
-    console.log('this.entity: ', this.entity);
+    const { properties = {} } = schema || {};
+    console.log("this.entity: ", this.entity);
     const activeColumns = formFields.reduce(
       (fieldColumns, group) => [
         ...fieldColumns,
@@ -388,14 +388,14 @@ export default class ListContent extends LitElement {
   selectColumn = (group, field) => () => {
     const { schema } = this.entity;
     const { properties } = schema || {};
-    const index = this.columnOrder.findIndex(column => column === field.code);
-    this.columnOrder = index > -1 ? [
-      ...this.columnOrder.slice(0, index),
-      ...this.columnOrder.slice(index + 1),
-    ] : [
-      ...this.columnOrder,
-      field.code
-    ];
+    const index = this.columnOrder.findIndex((column) => column === field.code);
+    this.columnOrder =
+      index > -1
+        ? [
+            ...this.columnOrder.slice(0, index),
+            ...this.columnOrder.slice(index + 1),
+          ]
+        : [...this.columnOrder, field.code];
     const columns = parseColumns(properties, this.columnOrder);
     this.columns = columns.map((column) => ({
       ...column,
