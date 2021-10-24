@@ -15,6 +15,7 @@ export default class SelectField extends FieldTemplate {
     return css`
       :host {
         --button-size: 24px;
+        --padding-size: 0.5rem;
       }
 
       mv-select {
@@ -33,12 +34,16 @@ export default class SelectField extends FieldTemplate {
       .field {
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: start;
+      }
+
+      .label {
+        padding-top: var(--padding-size);
       }
 
       .input {
         width: calc(100% - var(--button-size));
-        padding: 0.5rem;
+        padding: var(--padding-size);
         position: relative;
       }
 

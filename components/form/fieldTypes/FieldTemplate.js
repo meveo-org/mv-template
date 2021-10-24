@@ -22,6 +22,7 @@ export default class FieldTemplate extends LitElement {
     return css`
       :host {
         --button-size: 24px;
+        --padding-size: 0.5rem;
       }
 
       mv-button {
@@ -33,12 +34,16 @@ export default class FieldTemplate extends LitElement {
       .field {
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: start;
+      }
+
+      .label {
+        padding-top: var(--padding-size);
       }
 
       .input {
         width: calc(100% - var(--button-size));
-        padding: 0.5rem;
+        padding: var(--padding-size);
         position: relative;
       }
 
