@@ -207,10 +207,15 @@ export default class UpdateContent extends MvElement {
     const {
       detail: { result },
     } = event;
-    const { schema } = this.entity;
+    const { schema, formFields } = this.entity;
     const { properties } = schema;
     Object.getOwnPropertyNames(properties).forEach((name) => {
-      const value = result[name];
+      const property = formFields.find((field) => field.code === name);
+      const fieldValue = result[name];
+      const value =
+        property.fieldType === "DATE" && fieldValue
+          ? new Date(parseInt(fieldValue, 10))
+          : fieldValue;
       this.store.updateValue(name, value);
     });
   };
