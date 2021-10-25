@@ -25,6 +25,7 @@ export default class UpdateContent extends MvElement {
       schema: { type: Object, attribute: false },
       refSchemas: { type: Array, attribute: false },
       dialog: { type: Object, attribute: false },
+      fields: { type: Array, attribute: false },
     };
   }
 
@@ -75,6 +76,7 @@ export default class UpdateContent extends MvElement {
     super();
     this.auth = null;
     this.dialog = { ...EMPTY_DIALOG };
+    this.fields=[];
   }
 
   render() {
@@ -159,6 +161,11 @@ export default class UpdateContent extends MvElement {
     super.connectedCallback();
     this.addEventListener("update-errors", this.handleErrors);
     this.addEventListener("clear-errors", this.clearErrors);
+    const { formFields } = this.entity;
+    this.fields = formFields.reduce(
+      (allFields, group) => [...allFields, ...group.fields],
+      []
+    );
     this.loadFormData();
   }
 
@@ -207,10 +214,10 @@ export default class UpdateContent extends MvElement {
     const {
       detail: { result },
     } = event;
-    const { schema, formFields } = this.entity;
+    const { schema } = this.entity;
     const { properties } = schema;
     Object.getOwnPropertyNames(properties).forEach((name) => {
-      const property = formFields.find((field) => field.code === name);
+      const property = this.fields.find((field) => field.code === name);
       const fieldValue = result[name];
       const value =
         property.fieldType === "DATE" && fieldValue
