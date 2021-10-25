@@ -36,7 +36,8 @@ export default class DateField extends FieldTemplate {
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === "value") {
-      const date = new Date(newValue);
+      const value = parseInt(newValue, 10);
+      const date = new Date(value);
       this.selected = !!date.getTime()
         ? parseDate({ date })
         : { ...EMPTY_DATE };
