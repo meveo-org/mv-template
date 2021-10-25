@@ -2,7 +2,6 @@ import { LitElement, html, css } from "lit-element";
 import { modelInterfaces } from "../../../service/EndpointInterface.js";
 import * as config from "config";
 import { NULL_ENTITY, EMPTY_DIALOG, toTitleName } from "utils";
-import { parseColumns } from "mv-table-utils";
 import "mv-button";
 import "mv-container";
 import "mv-dialog";
@@ -43,14 +42,15 @@ export default class ListContent extends LitElement {
       },
       entity: { type: Object, attribute: false },
       filter: { type: Object, attribute: false },
+      fields: { type: Array, attribute: false },
       messageDialog: { type: Object, attribute: false },
       confirmDialog: { type: Object, attribute: false },
+      columns: { type: Array, attribute: false },
+      columnOrder: { type: Array, attribute: false },
+      rows: { type: Array, attribute: false },
       pages: { type: Number },
       currentPage: { type: Number },
       rowsPerPage: { type: Number },
-      columns: { type: Array },
-      columnOrder: { type: Array },
-      rows: { type: Array },
     };
   }
 
@@ -123,6 +123,7 @@ export default class ListContent extends LitElement {
     this.rowsPerPage = DEFAULT_FILTER.rowsPerPage;
     this.selectedRowsPerPage = ROWS_PER_PAGE[1];
     this.rows = [];
+    this.fields = [];
     this.columnOrder = [];
     this.messageDialog = { ...EMPTY_DIALOG };
     this.confirmDialog = { ...EMPTY_DIALOG };
@@ -227,13 +228,13 @@ export default class ListContent extends LitElement {
       ],
       []
     );
+    this.fields = formFields.reduce(
+      (allFields, group) => [...allFields, ...group.fields],
+      []
+    );
     this.columnOrder =
       activeColumns.length > 0 ? activeColumns : Object.keys(properties);
-    const columns = this.columns || parseColumns(properties, this.columnOrder);
-    this.columns = columns.map((column) => ({
-      ...column,
-      title: toTitleName(column.title),
-    }));
+    this.columns = this.columns || this.parseColumns(this.columnOrder);
     this.loadList(1);
   }
 
@@ -250,7 +251,7 @@ export default class ListContent extends LitElement {
   };
 
   renderFieldItem = (group, item) => {
-    const { summary, label, code } = item;
+    const { summary, label } = item;
     return html`
       <li>
         <mv-checkbox
@@ -261,6 +262,21 @@ export default class ListContent extends LitElement {
         </mv-checkbox>
       </li>
     `;
+  };
+
+  parseColumns = (columnOrder) => {
+    console.log("this.fields: ", this.fields);
+    return columnOrder.reduce((columnList, key) => {
+      const column = this.fields.find((field) => field.code === key);
+      const description = column.description || toTitleName(column.code);
+      columnList.push({
+        name: column.code,
+        title: description,
+        tooltip: description,
+        type: column.fieldType,
+      });
+      return columnList;
+    }, []);
   };
 
   loadList = (page) => {
@@ -385,8 +401,6 @@ export default class ListContent extends LitElement {
   };
 
   selectColumn = (group, field) => () => {
-    const { schema } = this.entity;
-    const { properties } = schema || {};
     const index = this.columnOrder.findIndex((column) => column === field.code);
     this.columnOrder =
       index > -1
@@ -395,7 +409,7 @@ export default class ListContent extends LitElement {
             ...this.columnOrder.slice(index + 1),
           ]
         : [...this.columnOrder, field.code];
-    const columns = parseColumns(properties, this.columnOrder);
+    const columns = this.parseColumns(this.columnOrder);
     this.columns = columns.map((column) => ({
       ...column,
       title: toTitleName(column.title),
