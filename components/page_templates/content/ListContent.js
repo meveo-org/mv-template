@@ -265,7 +265,6 @@ export default class ListContent extends LitElement {
   };
 
   parseColumns = (columnOrder) => {
-    console.log("this.fields: ", this.fields);
     return columnOrder.reduce((columnList, key) => {
       const column = this.fields.find((field) => field.code === key);
       const description = column.description || toTitleName(column.code);

@@ -239,7 +239,9 @@ export default class NewContent extends MvElement {
       message: html`<span>Item saved.</span>`,
       open: true,
     };
-    this.successCallback(new CustomEvent("submitted", { detail }));
+    setTimeout(() => {
+      this.successCallback(new CustomEvent("submitted", { detail }));  
+    }, 3000);
   };
 
   submitFailed = (event) => {

@@ -14,11 +14,7 @@ export default class NewPageTemplate extends NewContent {
   };
 
   successCallback = (event) => {
-    const {
-      detail: { result },
-    } = event;
-    const [{ uuid }] = result;
-    history.pushState(null, "", `./${this.entity.code}/update/${uuid}`);
+    history.pushState(null, "", `./${this.entity.code}/list`);
   };
 }
 
