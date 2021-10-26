@@ -155,12 +155,12 @@ class ApiRequest {
    * @memberof ApiRequest
    */
   callApi(requestUrl, options) {
-    const { endpointUrl, successCallback, errorCallback } = this.endpoint;
+    const { successCallback, errorCallback } = this.endpoint;
     fetch(requestUrl, options)
       .then(function (response) {
         if (!response.ok) {
           throw [
-            `Encountered error calling API: ${endpointUrl}`,
+            `Encountered error calling API: ${requestUrl}`,
             `Status code: ${response.status} [${response.statusText}]`,
           ];
         }
@@ -246,11 +246,14 @@ class PostRequest extends ApiRequest {
       requestUrl.searchParams.append("mock", true);
     }
     const headers = this.buildHeaders(parameters);
+    const body = JSON.stringify(requestParameters);
     const options = {
       method: "POST",
       headers,
-      body: JSON.stringify(requestParameters),
     };
+    if (body) {
+      options.body = body;
+    }
     this.callApi(requestUrl, options);
   }
 }
@@ -313,11 +316,14 @@ class PutRequest extends ApiRequest {
       requestUrl.searchParams.append("mock", true);
     }
     const headers = this.buildHeaders(parameters);
+    const body = JSON.stringify(requestParameters);
     const options = {
       method: "PUT",
       headers,
-      body: JSON.stringify(requestParameters),
     };
+    if (body) {
+      options.body = body;
+    }
     this.callApi(requestUrl, options);
   }
 }
@@ -337,7 +343,6 @@ const REQUEST_TYPE = {
 export default class EndpointInterface {
   constructor(method = "GET", type, entity) {
     this.name = entity.code;
-    this.endpointUrl = `http://localhost:8080/meveo/rest/${name}`;
     this.method = method;
     this.type = type;
     this.entity = entity;
