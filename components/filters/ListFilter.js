@@ -34,14 +34,17 @@ export default class ListFilter extends FilterTemplate {
     }));
   }
 
-  renderInput = () => html`
-    <mv-select
-      .value="${this.value}"
-      .options="${this.options}"
-      @select-option="${this.updateValue}"
-      has-empty-option
-    ></mv-select>
-  `;
+  renderInput = () => {
+    const option = this.options.find((item) => item.value === this.value);
+    return html`
+      <mv-select
+        .value="${option}"
+        .options="${this.options}"
+        @select-option="${this.updateValue}"
+        has-empty-option
+      ></mv-select>
+    `;
+  };
 }
 
 customElements.define("list-filter", ListFilter);
