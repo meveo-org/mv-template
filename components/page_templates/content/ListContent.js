@@ -11,6 +11,7 @@ import "mv-table";
 import "mv-tooltip";
 import "mv-select";
 import "../../../components/TableActions.js";
+import "../../filters/TableFilters.js";
 
 const ROWS_PER_PAGE = [
   { label: "10", value: 10 },
@@ -51,6 +52,7 @@ export default class ListContent extends LitElement {
       pages: { type: Number },
       currentPage: { type: Number },
       rowsPerPage: { type: Number },
+      visibleFilters: { type: Boolean },
     };
   }
 
@@ -84,6 +86,7 @@ export default class ListContent extends LitElement {
       .action-section .right {
         display: flex;
         flex-direction: row;
+        align-items: center;
       }
 
       .action-section .right mv-dropdown {
@@ -125,6 +128,7 @@ export default class ListContent extends LitElement {
     this.rows = [];
     this.fields = [];
     this.columnOrder = [];
+    this.visibleFilters = false;
     this.messageDialog = { ...EMPTY_DIALOG };
     this.confirmDialog = { ...EMPTY_DIALOG };
     this.filter = { DEFAULT_FILTER };
@@ -159,7 +163,7 @@ export default class ListContent extends LitElement {
                 @select-option="${this.changeRowsPerPage}"
                 no-clear-button
               ></mv-select>
-              <span>rows per page</span>
+              <span>rows</span>
             </div>
             <mv-dropdown
               container
@@ -168,12 +172,21 @@ export default class ListContent extends LitElement {
               theme="light"
             >
               <mv-dropdown trigger>
-                <mv-button type="outline">Show Columns</mv-button>
+                <mv-button type="rounded">Show Columns</mv-button>
               </mv-dropdown>
               ${formFields.map((group) => this.renderFieldGroup(group))}
             </mv-dropdown>
+            <mv-button type="rounded" @button-clicked="${this.toggleFilters}">
+              Filters
+            </mv-button>
           </div>
         </div>
+        <table-filters
+        ?open="${this.visibleFilters}"
+          .fields="${formFields}"
+          @update-filters="${this.updateFilters}"
+          @close-filters="${this.toggleFilters}"
+        ></table-filters>
         <mv-table
           .columns="${this.columns || []}"
           .rows="${this.rows}"
@@ -414,6 +427,10 @@ export default class ListContent extends LitElement {
       title: toTitleName(column.title),
     }));
     this.loadList(this.currentPage);
+  };
+
+  toggleFilters = () => {
+    this.visibleFilters = !this.visibleFilters;
   };
 }
 
