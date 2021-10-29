@@ -101,7 +101,13 @@ export default class TableFilters extends LitElement {
           ${this.fields.map((group) => this.renderFilterGroup(group))}
         </div>
         <div class="action-buttons">
-          <mv-button class="small-button" button-style="info">Clear</mv-button>
+          <mv-button
+            class="small-button"
+            button-style="info"
+            @button-clicked="${this.clearFilters}"
+          >
+            Clear
+          </mv-button>
           <mv-button
             class="small-button"
             button-style="error"
@@ -109,7 +115,12 @@ export default class TableFilters extends LitElement {
           >
             Cancel
           </mv-button>
-          <mv-button class="small-button">Apply</mv-button>
+          <mv-button
+            class="small-button"
+            @button-clicked="${this.applyFilters}"
+          >
+            Apply
+          </mv-button>
         </div>
       </mv-container>
     `;
@@ -200,17 +211,25 @@ export default class TableFilters extends LitElement {
       ...this.filterValues,
       [code]: value,
     };
-    this.dispatchEvent(
-      new CustomEvent("update-filters", {
-        detail: { filterValues: this.filterVAlues },
-        bubbles: true,
-        composed: true,
-      })
-    );
+  };
+
+  clearFilters = () => {
+    this.filterValues = {};
+    this.dispatchEvent(new CustomEvent("clear-filters"));
   };
 
   closeFilters = () => {
     this.dispatchEvent(new CustomEvent("close-filters"));
+  };
+
+  applyFilters = () => {
+    this.dispatchEvent(
+      new CustomEvent("apply-filters", {
+        detail: { filters: this.filterValues },
+        bubbles: true,
+        composed: true,
+      })
+    );
   };
 }
 

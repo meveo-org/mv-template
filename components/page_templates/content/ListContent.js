@@ -20,15 +20,6 @@ const ROWS_PER_PAGE = [
   { label: "100", value: 100 },
 ];
 
-const DEFAULT_FILTER = {
-  rowsPerPage: ROWS_PER_PAGE[1].value,
-  sortFields: [],
-  search: {
-    field: null,
-    value: null,
-  },
-};
-
 export default class ListContent extends LitElement {
   static get properties() {
     return {
@@ -42,7 +33,7 @@ export default class ListContent extends LitElement {
         reflect: true,
       },
       entity: { type: Object, attribute: false },
-      filter: { type: Object, attribute: false },
+      filters: { type: Array, attribute: false },
       fields: { type: Array, attribute: false },
       messageDialog: { type: Object, attribute: false },
       confirmDialog: { type: Object, attribute: false },
@@ -131,7 +122,7 @@ export default class ListContent extends LitElement {
     this.visibleFilters = false;
     this.messageDialog = { ...EMPTY_DIALOG };
     this.confirmDialog = { ...EMPTY_DIALOG };
-    this.filter = { DEFAULT_FILTER };
+    this.filters = [];
     this.actionColumn = {
       getActionComponent: (row) => html`
         <table-actions
@@ -182,9 +173,10 @@ export default class ListContent extends LitElement {
           </div>
         </div>
         <table-filters
-        ?open="${this.visibleFilters}"
+          ?open="${this.visibleFilters}"
           .fields="${formFields}"
-          @update-filters="${this.updateFilters}"
+          @apply-filters="${this.applyFilters}"
+          @clear-filters="${this.clearFilters}"
           @close-filters="${this.toggleFilters}"
         ></table-filters>
         <mv-table
@@ -303,6 +295,7 @@ export default class ListContent extends LitElement {
         token: this.auth.token,
         numberOfRows: this.rowsPerPage,
         fetchFields: this.columnOrder,
+        filters: this.filters,
       },
       this.retrieveSuccess,
       this.handleErrors
@@ -431,6 +424,19 @@ export default class ListContent extends LitElement {
 
   toggleFilters = () => {
     this.visibleFilters = !this.visibleFilters;
+  };
+
+  clearFilters = () => {
+    this.filters = [];
+    this.loadList(1);
+  };
+
+  applyFilters = (event) => {
+    const {
+      detail: { filters },
+    } = event;
+    this.filters = { ...filters };
+    this.loadList(1);
   };
 }
 
