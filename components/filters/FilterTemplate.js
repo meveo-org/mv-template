@@ -19,7 +19,7 @@ export default class FilterTemplate extends LitElement {
   }
 
   render = () => html`
-    <div class="field">
+    <div class="filter">
       <label>${this.field.label}</label>
       ${this.renderInput()}
     </div>

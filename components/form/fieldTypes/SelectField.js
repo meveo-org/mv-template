@@ -19,7 +19,6 @@ export default class SelectField extends FieldTemplate {
       }
 
       mv-select {
-        --mv-select-width: 100%;
         --mv-select-font-size: 16px;
         --mv-select-input-padding: 6.25px;
         --mv-select-width: calc(100% - var(--button-size));

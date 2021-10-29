@@ -11,9 +11,16 @@ export default class TextFilter extends FilterTemplate {
     <mv-input
       name="${this.field.code}"
       placeholder="${this.field.description}"
-      @input-change="${this.updateValue}"
+      @input-change="${this.inputChange}"
     ></mv-input>
   `;
+
+  inputChange = (event) => {
+    const {
+      detail: { value },
+    } = event;
+    this.updateValue(value);
+  };
 }
 
 customElements.define("text-filter", TextFilter);

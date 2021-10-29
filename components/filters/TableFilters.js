@@ -21,6 +21,10 @@ export default class TableFilters extends LitElement {
         --mv-dropdown-min-width: 40rem;
       }
 
+      fieldset {
+        border-radius: 5px;
+      }
+
       .filter-section {
         display: none;
       }
@@ -31,11 +35,14 @@ export default class TableFilters extends LitElement {
 
       .filter-groups {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: 1fr;
       }
 
       .filters {
         padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
       }
 
       .action-buttons {
@@ -50,6 +57,30 @@ export default class TableFilters extends LitElement {
       .small-button {
         --mv-button-min-width: 20px;
         --mv-button-padding: 10px;
+      }
+
+      @media screen and (min-width: 1200px) {
+        .filter-groups {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media screen and (min-width: 1400px) {
+        .filter-groups {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      @media screen and (min-width: 1600px) {
+        .filter-groups {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+
+      @media screen and (min-width: 1900px) {
+        .filter-groups {
+          grid-template-columns: repeat(5, 1fr);
+        }
       }
     `;
   }
@@ -86,7 +117,6 @@ export default class TableFilters extends LitElement {
 
   renderFilterGroup = (group) => {
     const { fields, label } = group;
-    console.log("fields: ", fields);
     const hasFilters = fields.some((field) => field.filter);
     return hasFilters
       ? html`
@@ -109,15 +139,17 @@ export default class TableFilters extends LitElement {
             <boolean-filter
               .field="${field}"
               .value="${value}"
-              @update-value="${this.updateValue}"
+              @update-value="${this.updateValue(field)}"
             ></boolean-filter>
           `;
         case "DATE":
+          const { start, end } = value || {};
           return html`
             <date-filter
               .field="${field}"
-              .value="${value}"
-              @update-value="${this.updateValue}"
+              start="${start || ""}"
+              end="${end || ""}"
+              @update-value="${this.updateValue(field)}"
             ></date-filter>
           `;
         case "LIST":
@@ -125,7 +157,7 @@ export default class TableFilters extends LitElement {
             <list-filter
               .field="${field}"
               .value="${value}"
-              @update-value="${this.updateValue}"
+              @update-value="${this.updateValue(field)}"
             ></list-filter>
           `;
         case "BINARY":
@@ -143,7 +175,7 @@ export default class TableFilters extends LitElement {
             <text-filter
               .field="${field}"
               .value="${value}"
-              @update-value="${this.updateValue}"
+              @update-value="${this.updateValue(field)}"
             ></text-filter>
           `;
         default:
@@ -159,8 +191,8 @@ export default class TableFilters extends LitElement {
     }
   };
 
-  updateValue = (event) => {
-    const { code } = this.field;
+  updateValue = (field) => (event) => {
+    const { code } = field;
     const {
       detail: { value },
     } = event;

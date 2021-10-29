@@ -9,22 +9,29 @@ export default class ListFilter extends FilterTemplate {
       options: { type: Array, attribute: false },
     };
   }
+
   static get styles() {
-    return css``;
+    return css`
+      mv-select {
+        --mv-select-font-size: 16px;
+        --mv-select-input-padding: 6.25px;
+        --mv-select-width: calc(100% - 14px);
+      }
+    `;
   }
 
-  constructor(){
+  constructor() {
     super();
     this.options = [];
   }
-  
+
   connectedCallback() {
     super.connectedCallback();
-    const {listValues} = this.field;
-    this.options = Object
-    .keys(this.field.listValues || {})
-    .map(key => ({label: key, value: listValues[key]}));
-    console.log('this.options: ', this.options);
+    const { listValues } = this.field;
+    this.options = Object.keys(this.field.listValues || {}).map((key) => ({
+      label: key,
+      value: listValues[key],
+    }));
   }
 
   renderInput = () => html`

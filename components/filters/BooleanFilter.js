@@ -9,17 +9,33 @@ const BOOLEAN_OPTIONS = [
 
 export default class BooleanFilter extends FilterTemplate {
   static get styles() {
-    return css``;
+    return css`
+      mv-select {
+        --mv-select-font-size: 16px;
+        --mv-select-input-padding: 6.25px;
+        --mv-select-width: calc(100% - 14px);
+      }
+    `;
   }
 
-  renderInput = () => html`
-    <mv-select
-      .value="${this.value}"
-      .options="${BOOLEAN_OPTIONS}"
-      @select-option="${this.updateValue}"
-      has-empty-option
-    ></mv-select>
-  `;
+  renderInput = () => {
+    const option = BOOLEAN_OPTIONS.find((item) => item.value === this.value);
+    return html`
+      <mv-select
+        .value="${option}"
+        .options="${BOOLEAN_OPTIONS}"
+        @select-option="${this.selectOption}"
+        has-empty-option
+      ></mv-select>
+    `;
+  };
+
+  selectOption = (event) => {
+    const {
+      detail: { option },
+    } = event;
+    this.updateValue(option.value);
+  };
 }
 
 customElements.define("boolean-filter", BooleanFilter);
