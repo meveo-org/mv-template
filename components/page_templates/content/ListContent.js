@@ -186,6 +186,7 @@ export default class ListContent extends LitElement {
           .columns="${this.columns || []}"
           .rows="${this.rows}"
           .action-column="${this.actionColumn}"
+          .sort-order="${{[this.sortBy]: this.sortOrder}}"
           ?selectable="${this.selectable}"
           ?select-one="${this.selectOne}"
           ?with-checkbox="${this.withCheckbox}"
