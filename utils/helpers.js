@@ -113,8 +113,22 @@ export const getEndpoints = (schema) => {
         };
       },
       decorateProperties: ({ parameters }) => {
-        const { firstRow, numberOfRows, fetchFields, filters } = parameters;
-        return { firstRow, numberOfRows, fetchFields, filters };
+        const {
+          firstRow,
+          numberOfRows,
+          fetchFields,
+          filters,
+          sortBy,
+          sortOrder,
+        } = parameters;
+        return {
+          firstRow,
+          numberOfRows,
+          fetchFields,
+          filters,
+          sortBy,
+          sortOrder,
+        };
       },
     },
     NEW: {
