@@ -305,10 +305,10 @@ export default class ListContent extends LitElement {
       context.filters = JSON.stringify(filters);
     }
     if (sortBy) {
-      context.sortBy = sortBy;
+      context.sortField = sortBy;
     }
     if (sortOrder) {
-      context.sortOrder = sortOrder;
+      context.ordering = sortOrder;
     }
     endpointInterface.executeApiCall(
       context,
