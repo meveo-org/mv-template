@@ -118,16 +118,16 @@ export const getEndpoints = (schema) => {
           numberOfRows,
           fetchFields,
           filters,
-          sortBy,
-          sortOrder,
+          sortField,
+          ordering,
         } = parameters;
         return {
           firstRow,
           numberOfRows,
           fetchFields,
           filters,
-          sortBy,
-          sortOrder,
+          sortField,
+          ordering,
         };
       },
     },
