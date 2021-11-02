@@ -44,6 +44,8 @@ export default class ListContent extends LitElement {
       currentPage: { type: Number },
       rowsPerPage: { type: Number },
       visibleFilters: { type: Boolean },
+      sortBy: { type: String },
+      sortOrder: { type: String },
     };
   }
 
@@ -188,6 +190,7 @@ export default class ListContent extends LitElement {
           ?select-one="${this.selectOne}"
           ?with-checkbox="${this.withCheckbox}"
           @select-row="${this.selectRow}"
+          @column-sort="${this.sortTable}"
         ></mv-table>
         <mv-pagination
           type="text"
@@ -285,7 +288,8 @@ export default class ListContent extends LitElement {
   };
 
   loadList = (page) => {
-    const { filters, entity, rowsPerPage, columnOrder } = this;
+    const { filters, sortBy, sortOrder, entity, rowsPerPage, columnOrder } =
+      this;
     this.currentPage = page < 1 ? 1 : page;
     const firstRow = (this.currentPage - 1) * rowsPerPage;
     const endpointInterface = modelInterfaces(entity).LIST;
@@ -298,6 +302,12 @@ export default class ListContent extends LitElement {
     };
     if (filters && Object.keys(filters).length > 0) {
       context.filters = JSON.stringify(filters);
+    }
+    if (sortBy) {
+      context.sortBy = sortBy;
+    }
+    if (sortOrder) {
+      context.sortOrder = sortOrder;
     }
     endpointInterface.executeApiCall(
       context,
@@ -441,6 +451,14 @@ export default class ListContent extends LitElement {
     } = event;
     this.filters = { ...filters };
     this.loadList(1);
+  };
+
+  sortTable = (event) => {
+    const {
+      detail: { column, order },
+    } = event;
+    this.sortBy = column.name;
+    this.sortOrder = order;
   };
 }
 
