@@ -284,7 +284,7 @@ export default class ListContent extends LitElement {
   };
 
   loadList = (page) => {
-    const { entity, rowsPerPage } = this;
+    const { filters, entity, rowsPerPage, columnOrder } = this;
     this.currentPage = page < 1 ? 1 : page;
     const firstRow = (this.currentPage - 1) * rowsPerPage;
     const endpointInterface = modelInterfaces(entity).LIST;
@@ -292,11 +292,11 @@ export default class ListContent extends LitElement {
       config,
       firstRow,
       token: this.auth.token,
-      numberOfRows: this.rowsPerPage,
-      fetchFields: this.columnOrder,
+      numberOfRows: rowsPerPage,
+      fetchFields: columnOrder,
     };
     if (filters && Object.keys(filters).length > 0) {
-      context.filters = this.filters;
+      context.filters = filters;
     }
     endpointInterface.executeApiCall(
       context,
