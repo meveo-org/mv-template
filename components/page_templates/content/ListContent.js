@@ -428,7 +428,7 @@ export default class ListContent extends LitElement {
   };
 
   clearFilters = () => {
-    this.filters = [];
+    this.filters = {};
     this.loadList(1);
   };
 
