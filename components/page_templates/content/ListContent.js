@@ -460,6 +460,7 @@ export default class ListContent extends LitElement {
     } = event;
     this.sortBy = column.name;
     this.sortOrder = order;
+    this.loadList(this.currentPage);
   };
 }
 
