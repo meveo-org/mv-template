@@ -180,6 +180,7 @@ export default class ListContent extends LitElement {
           @close-filters="${this.toggleFilters}"
         ></table-filters>
         <mv-table
+          sortable
           .columns="${this.columns || []}"
           .rows="${this.rows}"
           .action-column="${this.actionColumn}"
@@ -296,7 +297,7 @@ export default class ListContent extends LitElement {
       fetchFields: columnOrder,
     };
     if (filters && Object.keys(filters).length > 0) {
-      context.filters = filters;
+      context.filters = JSON.stringify(filters);
     }
     endpointInterface.executeApiCall(
       context,
