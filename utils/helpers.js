@@ -53,7 +53,7 @@ export const buildModelFields = (formFields) =>
   );
 
 export const parseModelDetails = (entityCode) => {
-  const model = MODELS.find(modelItem => modelItem.code === entityCode);
+  const model = MODELS.find((modelItem) => modelItem.code === entityCode);
   const { formFields } = model;
   const properties = buildProperties(formFields);
   const mappings = buildModelFields(formFields);
@@ -113,8 +113,8 @@ export const getEndpoints = (schema) => {
         };
       },
       decorateProperties: ({ parameters }) => {
-        const { firstRow, numberOfRows, fetchFields } = parameters;
-        return { firstRow, numberOfRows, fetchFields };
+        const { firstRow, numberOfRows, fetchFields, filters } = parameters;
+        return { firstRow, numberOfRows, fetchFields, filters };
       },
     },
     NEW: {

@@ -296,7 +296,6 @@ export default class ListContent extends LitElement {
       fetchFields: this.columnOrder,
       filters: this.filters,
     };
-    console.log('context: ', context);
     endpointInterface.executeApiCall(
       context,
       this.retrieveSuccess,
@@ -438,7 +437,6 @@ export default class ListContent extends LitElement {
       detail: { filters },
     } = event;
     this.filters = { ...filters };
-    console.log('this.filters: ', this.filters);
     this.loadList(1);
   };
 }
