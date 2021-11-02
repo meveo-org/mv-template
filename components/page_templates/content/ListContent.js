@@ -33,7 +33,7 @@ export default class ListContent extends LitElement {
         reflect: true,
       },
       entity: { type: Object, attribute: false },
-      filters: { type: Array, attribute: false },
+      filters: { type: Object, attribute: false },
       fields: { type: Array, attribute: false },
       messageDialog: { type: Object, attribute: false },
       confirmDialog: { type: Object, attribute: false },
@@ -122,7 +122,7 @@ export default class ListContent extends LitElement {
     this.visibleFilters = false;
     this.messageDialog = { ...EMPTY_DIALOG };
     this.confirmDialog = { ...EMPTY_DIALOG };
-    this.filters = [];
+    this.filters = {};
     this.actionColumn = {
       getActionComponent: (row) => html`
         <table-actions
