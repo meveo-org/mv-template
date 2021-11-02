@@ -294,8 +294,10 @@ export default class ListContent extends LitElement {
       token: this.auth.token,
       numberOfRows: this.rowsPerPage,
       fetchFields: this.columnOrder,
-      filters: this.filters,
     };
+    if (filters && Object.keys(filters).length > 0) {
+      context.filters = this.filters;
+    }
     endpointInterface.executeApiCall(
       context,
       this.retrieveSuccess,
