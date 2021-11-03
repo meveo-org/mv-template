@@ -26,12 +26,8 @@ export default class ListContent extends LitElement {
       auth: { type: Object, attribute: false },
       code: { type: String },
       selectable: { type: Boolean },
-      selectOne: { type: Boolean, attribute: "select-one", reflect: true },
-      withCheckbox: {
-        type: Boolean,
-        attribute: "with-checkbox",
-        reflect: true,
-      },
+      selectOne: { type: Boolean, attribute: "select-one" },
+      withCheckbox: { type: Boolean, attribute: "with-checkbox" },
       entity: { type: Object, attribute: false },
       filters: { type: Object, attribute: false },
       fields: { type: Array, attribute: false },
@@ -44,8 +40,7 @@ export default class ListContent extends LitElement {
       currentPage: { type: Number },
       rowsPerPage: { type: Number },
       visibleFilters: { type: Boolean },
-      sortBy: { type: String },
-      sortOrder: { type: String },
+      sortOrder: { type: Object },
     };
   }
 
@@ -186,7 +181,7 @@ export default class ListContent extends LitElement {
           .columns="${this.columns || []}"
           .rows="${this.rows}"
           .action-column="${this.actionColumn}"
-          .sort-order="${{[this.sortBy]: this.sortOrder}}"
+          .sort-order="${this.sortOrder}"
           ?selectable="${this.selectable}"
           ?select-one="${this.selectOne}"
           ?with-checkbox="${this.withCheckbox}"
@@ -289,8 +284,7 @@ export default class ListContent extends LitElement {
   };
 
   loadList = (page) => {
-    const { filters, sortBy, sortOrder, entity, rowsPerPage, columnOrder } =
-      this;
+    const { filters, sortOrder, entity, rowsPerPage, columnOrder } = this;
     this.currentPage = page < 1 ? 1 : page;
     const firstRow = (this.currentPage - 1) * rowsPerPage;
     const endpointInterface = modelInterfaces(entity).LIST;
@@ -304,11 +298,10 @@ export default class ListContent extends LitElement {
     if (filters && Object.keys(filters).length > 0) {
       context.filters = JSON.stringify(filters);
     }
-    if (sortBy) {
-      context.sortField = sortBy;
-    }
     if (sortOrder) {
-      context.ordering = sortOrder;
+      const [sortField] = Object.keys(this.sortOrder);
+      context.sortField = sortField;
+      context.ordering = this.sortOrder[sortField];
     }
     endpointInterface.executeApiCall(
       context,
@@ -458,8 +451,7 @@ export default class ListContent extends LitElement {
     const {
       detail: { column, order },
     } = event;
-    this.sortBy = column.name;
-    this.sortOrder = order;
+    this.sortOrder = { [column.name]: order };
     this.loadList(this.currentPage);
   };
 }
