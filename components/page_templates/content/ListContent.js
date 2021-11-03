@@ -296,7 +296,7 @@ export default class ListContent extends LitElement {
       fetchFields: columnOrder,
     };
     if (filters && Object.keys(filters).length > 0) {
-      context.filters = JSON.stringify(filters);
+      context.filters = filters;
     }
     if (sortOrder) {
       const [sortField] = Object.keys(this.sortOrder);
