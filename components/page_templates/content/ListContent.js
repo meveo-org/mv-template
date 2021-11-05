@@ -41,6 +41,8 @@ export default class ListContent extends LitElement {
       rowsPerPage: { type: Number },
       visibleFilters: { type: Boolean },
       sortOrder: { type: Object },
+      rowActions: { type: Array, attribute: false },
+      listActions: { type: Array, attribute: false },
     };
   }
 
@@ -121,18 +123,24 @@ export default class ListContent extends LitElement {
     this.confirmDialog = { ...EMPTY_DIALOG };
     this.filters = {};
     this.actionColumn = {
-      getActionComponent: (row) => html`
+      getActionComponent: (row, rowActions) => html`
         <table-actions
           .row="${row}"
+          .row-actions="${rowActions}"
           @edit="${this.editRow}"
           @delete="${this.confirmDelete}"
+          @custom-action="${this.executeCustomAction}"
         ></table-actions>
       `,
     };
+    this.rowActions = [];
+    this.listActions = [];
   }
 
   render() {
-    const { formFields } = this.entity;
+    const { entity, rowActions } = this;
+    const { formFields } = entity;
+
     return html`
       <mv-container>
         <h1>${this.entity.label}</h1>
@@ -181,6 +189,7 @@ export default class ListContent extends LitElement {
           .columns="${this.columns || []}"
           .rows="${this.rows}"
           .action-column="${this.actionColumn}"
+          .row-actions="${rowActions}"
           .sort-order="${this.sortOrder}"
           ?selectable="${this.selectable}"
           ?select-one="${this.selectOne}"
@@ -220,7 +229,7 @@ export default class ListContent extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    const { formFields, schema } = this.entity;
+    const { formFields, schema, actions } = this.entity;
     const { properties = {} } = schema || {};
     const activeColumns = formFields.reduce(
       (fieldColumns, group) => [
@@ -240,6 +249,12 @@ export default class ListContent extends LitElement {
     this.columnOrder =
       activeColumns.length > 0 ? activeColumns : Object.keys(properties);
     this.columns = this.columns || this.parseColumns(this.columnOrder);
+    this.rowActions = actions.filter(
+      (action) => action.applicableToEntityInstance
+    );
+    this.listActions = actions.filter(
+      (action) => action.applicableToEntityList
+    );
     this.loadList(1);
   }
 
@@ -453,6 +468,15 @@ export default class ListContent extends LitElement {
     } = event;
     this.sortOrder = { [column.name]: order };
     this.loadList(this.currentPage);
+  };
+
+  executeCustomAction = (event) => {
+    const {
+      detail: { row, action },
+    } = event;
+    this.dispatchEvent(new CustomEvent("execute-custom"), {
+      detail: { row, action },
+    });
   };
 }
 

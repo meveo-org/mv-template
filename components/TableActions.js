@@ -7,6 +7,7 @@ export class TableActions extends LitElement {
   static get properties() {
     return {
       row: { type: Object, attribute: false },
+      "row-actions": { type: Object, attribute: false },
     };
   }
 
@@ -36,6 +37,8 @@ export class TableActions extends LitElement {
   }
 
   render() {
+    const hasRowActions =
+      !!this["row-actions"] && this["row-actions"].length > 0;
     return html`
       <div class="action-container">
         <mv-tooltip position="left">
@@ -61,15 +64,34 @@ export class TableActions extends LitElement {
           </mv-button>
           <div slot="tooltip-content">Delete</div>
         </mv-tooltip>
+
+        ${hasRowActions ? this.renderRowActions() : null}
       </div>
     `;
   }
 
-  handleAction = (action) => (event) => {
+  renderRowActions = () =>
+    this["row-actions"].map(
+      (action) => html`
+        <mv-tooltip position="left">
+          <mv-button
+            class="action-button"
+            type="outline"
+            button-style="error"
+            @button-clicked="${this.handleAction("custom-action", action)}"
+          >
+            <mv-fa icon="play"></mv-fa>
+          </mv-button>
+          <div slot="tooltip-content">${action.label}</div>
+        </mv-tooltip>
+      `
+    );
+
+  handleAction = (eventName, action) => (event) => {
     const { row } = this;
     this.dispatchEvent(
-      new CustomEvent(action, {
-        detail: { row, event },
+      new CustomEvent(eventName, {
+        detail: { row, event, action },
       })
     );
   };
