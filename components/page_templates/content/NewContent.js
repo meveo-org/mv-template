@@ -169,6 +169,8 @@ export default class NewContent extends MvElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     this.store.resetState(true);
+    this.removeEventListener("update-errors", this.handleErrors);
+    this.removeEventListener("clear-errors", this.clearErrors);
   }
 
   // override this in child class if extending this class
@@ -194,7 +196,16 @@ export default class NewContent extends MvElement {
   };
 
   handleErrors = (event) => {
-    this.errors = event.detail.errors;
+    const {
+      detail: { error },
+    } = event;
+    console.error("error: ", error);
+    const {name, message: [message, statusCode]} = error;
+    this.dialog = {
+      title: name,
+      message: html`<span>${message}</span><br /><small>${statusCode}</small>`,
+      open: true,
+    };
   };
 
   save = () => {

@@ -129,7 +129,7 @@ export default class ListContent extends LitElement {
           .row-actions="${rowActions}"
           @edit="${this.editRow}"
           @delete="${this.confirmDelete}"
-          @custom-action="${this.executeCustomAction}"
+          @run-action="${this.runAction}"
         ></table-actions>
       `,
     };
@@ -302,7 +302,7 @@ export default class ListContent extends LitElement {
     const { filters, sortOrder, entity, rowsPerPage, columnOrder } = this;
     this.currentPage = page < 1 ? 1 : page;
     const firstRow = (this.currentPage - 1) * rowsPerPage;
-    const endpointInterface = modelEndpoints(entity).LIST;
+    const endpoint = modelEndpoints(entity).LIST;
     const context = {
       config,
       firstRow,
@@ -318,11 +318,7 @@ export default class ListContent extends LitElement {
       context.sortField = sortField;
       context.ordering = this.sortOrder[sortField];
     }
-    endpointInterface.executeApiCall(
-      context,
-      this.retrieveSuccess,
-      this.handleErrors
-    );
+    endpoint.executeApiCall(context, this.retrieveSuccess, this.handleErrors);
   };
 
   retrieveSuccess = (event) => {
@@ -346,9 +342,9 @@ export default class ListContent extends LitElement {
       detail: { error },
     } = event;
     console.error("error: ", error);
-    const [message, statusCode] = error;
+    const {name, message: [message, statusCode]} = error;
     this.messageDialog = {
-      title: "Error",
+      title: name,
       message: html`<span>${message}</span><br /><small>${statusCode}</small>`,
       open: true,
     };
@@ -384,8 +380,8 @@ export default class ListContent extends LitElement {
 
   deleteRow = (row) => () => {
     const { uuid } = row;
-    const endpointInterface = modelEndpoints(this.entity).DELETE;
-    endpointInterface.executeApiCall(
+    const endpoint = modelEndpoints(this.entity).DELETE;
+    endpoint.executeApiCall(
       {
         noAuth: true,
         config,
@@ -470,13 +466,33 @@ export default class ListContent extends LitElement {
     this.loadList(this.currentPage);
   };
 
-  executeCustomAction = (event) => {
+  runAction = (event) => {
     const {
       detail: { row, action },
     } = event;
-    this.dispatchEvent(new CustomEvent("execute-custom"), {
-      detail: { row, action },
-    });
+    const { uuid } = row;
+    const endpoint = modelEndpoints(this.entity).CUSTOM_ACTION;
+    endpoint.executeApiCall(
+      {
+        noAuth: true,
+        config,
+        uuid,
+        actionCode: action.code,
+        entityCode: this.entity.code,
+      },
+      this.actionSuccess(action),
+      this.handleErrors
+    );
+  };
+
+  actionSuccess = (action) => () => {
+    this.messageDialog = {
+      title: "Action Success",
+      message: html`<span>${action.label} successfully executed.</span>`,
+      open: true,
+    };
+    this.loadList(this.currentPage);
+    this.dispatchEvent(new CustomEvent("clear-selected"));
   };
 }
 

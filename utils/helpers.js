@@ -1,5 +1,5 @@
 import { MODELS } from "models";
-import { PERSISTENCE_PATH, SCHEMA_PATH } from "config";
+import { PERSISTENCE_PATH, SCHEMA_PATH, CUSTOM_ACTION_PATH } from "config";
 
 export const findEntity = (entities, code) => {
   return entities.find((entity) => entity.code === code) || {};
@@ -60,7 +60,7 @@ export const parseModelDetails = (entityCode) => {
   return { properties, mappings };
 };
 
-export const callApi = async (auth, url, method = "GET") => {
+export const retrieveSchema = async (auth, url, method = "GET") => {
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
   headers.append("Accept", "application/json");
@@ -69,10 +69,12 @@ export const callApi = async (auth, url, method = "GET") => {
   try {
     const response = await fetch(url, { method, headers });
     if (!response.ok) {
-      throw [
-        `Encountered error calling API: ${endpointUrl}`,
+      throw new Error({
+        name: "Schema Error",
+        message: [
+        `Encountered error retrieving schema: ${endpointUrl}`,
         `Status code: ${response.status} [${response.statusText}]`,
-      ];
+      ]});
     }
     const type = response.headers.get("Content-Type") || "";
     if (type.includes("application/json")) {
@@ -86,7 +88,7 @@ export const callApi = async (auth, url, method = "GET") => {
 };
 
 export const getSchema = (auth, code) => {
-  return callApi(auth, `${SCHEMA_PATH}/${code}`);
+  return retrieveSchema(auth, `${SCHEMA_PATH}/${code}`);
 };
 
 export const getRefSchemas = async (auth, codes) => {
@@ -175,16 +177,9 @@ export const getEndpoints = (schema) => {
           OVERRIDE_URL: CUSTOM_ACTION_PATH,
         };
       },
-      decorateProperties: ({ entity, props }) => {
-        return [
-          {
-            name: `${toPascalName(entity.code)} (${generateHash()})`,
-            type: entity.code,
-            properties: {
-              ...props,
-            },
-          },
-        ];
+      decorateProperties: ({ parameters }) => {
+        const { uuid, entityCode, actionCode } = parameters;
+        return { uuid, entityCode, actionCode };
       },
     },
   };

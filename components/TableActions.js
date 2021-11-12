@@ -77,8 +77,7 @@ export class TableActions extends LitElement {
           <mv-button
             class="action-button"
             type="outline"
-            button-style="error"
-            @button-clicked="${this.handleAction("custom-action", action)}"
+            @button-clicked="${this.handleAction("run-action", action)}"
           >
             <mv-fa icon="play"></mv-fa>
           </mv-button>
