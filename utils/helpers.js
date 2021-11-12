@@ -168,6 +168,25 @@ export const getEndpoints = (schema) => {
         };
       },
     },
+    CUSTOM_ACTION: {
+      schema,
+      getEndpointConfig: () => {
+        return {
+          OVERRIDE_URL: CUSTOM_ACTION_PATH,
+        };
+      },
+      decorateProperties: ({ entity, props }) => {
+        return [
+          {
+            name: `${toPascalName(entity.code)} (${generateHash()})`,
+            type: entity.code,
+            properties: {
+              ...props,
+            },
+          },
+        ];
+      },
+    },
   };
 };
 
