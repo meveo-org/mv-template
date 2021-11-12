@@ -1,4 +1,4 @@
-import { buildEndpointConfig } from "./ApiRequest.js";
+import { buildEndpointConfig } from "./ApiUtils.js";
 
 /**
  * The base class for Requests

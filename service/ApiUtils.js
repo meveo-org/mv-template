@@ -46,7 +46,7 @@ export const getSchemaKeys = (schema, refSchemas) => {
  * Retrieves the custom config object from the config.js file on the root of
  * the app if specified
  *
- * @param {*} endpoint the EndpointInterface object
+ * @param {*} endpoint the Endpoint object
  * @param {*} parameters the parameters passed in by the client
  */
 export const buildEndpointConfig = (endpoint, parameters) => {
@@ -93,7 +93,7 @@ export const buildRequestParameters = (endpoint, parameters) => {
  * Generate the api URL using the base endpoint URL and then appending
  * any included path parameters
  *
- * @param {*} endpoint the EndpointInterface object
+ * @param {*} endpoint the Endpoint object
  * @param {*} parameters the parameters passed in by the client
  * @returns
  */
