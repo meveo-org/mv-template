@@ -3,7 +3,7 @@ import { MvElement } from "mv-element";
 import * as config from "config";
 import { validate, clearForm } from "mv-form-utils";
 import { EMPTY_DIALOG, toTagName } from "utils";
-import { modelInterfaces } from "../../../service/EndpointInterface.js";
+import { modelEndpoints } from "../../../service/Endpoint.js";
 import "mv-button";
 import "mv-container";
 import "mv-dialog";
@@ -196,7 +196,7 @@ export default class UpdateContent extends MvElement {
     const { entity, parameters, formValues } = this;
     const { pathParameters } = parameters || {};
     const { id } = pathParameters || {};
-    const endpointInterface = modelInterfaces(entity).DETAIL;
+    const endpointInterface = modelEndpoints(entity).DETAIL;
     const entityValue = formValues || {};
     const uuid = entityValue.uuid || id;
     endpointInterface.executeApiCall(
@@ -253,7 +253,7 @@ export default class UpdateContent extends MvElement {
       const { pathParameters = {} } = parameters || {};
       const { id } = pathParameters;
       const item = store.state;
-      const endpointInterface = modelInterfaces(entity).UPDATE;
+      const endpointInterface = modelEndpoints(entity).UPDATE;
       const uuid = formValues.uuid || id;
       endpointInterface.executeApiCall(
         {

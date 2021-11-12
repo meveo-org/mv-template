@@ -3,7 +3,7 @@ import { MvElement } from "mv-element";
 import * as config from "config";
 import { validate, clearForm } from "mv-form-utils";
 import { EMPTY_DIALOG, toTagName } from "utils";
-import { modelInterfaces } from "../../../service/EndpointInterface.js";
+import { modelEndpoints } from "../../../service/Endpoint.js";
 import "mv-button";
 import "mv-container";
 import "mv-dialog";
@@ -212,7 +212,7 @@ export default class NewContent extends MvElement {
       console.error("errors :", errors);
     } else {
       const item = store.state;
-      const endpointInterface = modelInterfaces(entity).NEW;
+      const endpointInterface = modelEndpoints(entity).NEW;
       endpointInterface.executeApiCall(
         {
           config,

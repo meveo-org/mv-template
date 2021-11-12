@@ -17,7 +17,7 @@ const REQUEST_TYPE = {
  * the name and Http method of the endpoint via constructor.
  *
  * @export
- * @class EndpointInterface
+ * @class Endpoint
  */
 export default class Endpoint {
   constructor(method = "GET", type, entity) {
@@ -38,7 +38,7 @@ export default class Endpoint {
    * noAuth - set to true if the endpoint does not require authorization
    * @param {*} successCallback the function to be called when an api call is successful
    * @param {*} errorCallback the function to be called when an api call throws an error
-   * @memberof EndpointInterface
+   * @memberof Endpoint
    */
   executeApiCall(params, successCallback, errorCallback) {
     const { name, method } = this;
@@ -78,10 +78,10 @@ export default class Endpoint {
 }
 
 export const modelEndpoints = (model) => ({
-  DETAIL: new EndpointInterface("GET", "DETAIL", model),
-  LIST: new EndpointInterface("POST", "LIST", model),
-  NEW: new EndpointInterface("POST", "NEW", model),
-  UPDATE: new EndpointInterface("PUT", "UPDATE", model),
-  DELETE: new EndpointInterface("DELETE", "DELETE", model),
-  CUSTOM_ACTION: new EndpointInterface("POST", "CUSTOM_ACTION", model),
+  DETAIL: new Endpoint("GET", "DETAIL", model),
+  LIST: new Endpoint("POST", "LIST", model),
+  NEW: new Endpoint("POST", "NEW", model),
+  UPDATE: new Endpoint("PUT", "UPDATE", model),
+  DELETE: new Endpoint("DELETE", "DELETE", model),
+  CUSTOM_ACTION: new Endpoint("POST", "CUSTOM_ACTION", model),
 });

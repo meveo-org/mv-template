@@ -1,7 +1,7 @@
 import { LitElement, html, css } from "lit-element";
 import * as config from "config";
 import "mv-container";
-import { modelInterfaces } from "../service/EndpointInterface.js";
+import { modelEndpoints } from "../service/Endpoint.js";
 import "../components/DashboardTile.js";
 import "../components/layout/PageLayout.js";
 
@@ -65,7 +65,7 @@ export default class MainDashboard extends LitElement {
     // call api to load entity counts
     Object.keys(this.entities).forEach((key) => {
       const entity = this.entities[key];
-      const endpointInterface = modelInterfaces(entity).LIST;
+      const endpointInterface = modelEndpoints(entity).LIST;
       endpointInterface.executeApiCall(
         { config, token: this.auth.token },
         this.submitSuccess(entity),
