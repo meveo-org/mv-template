@@ -70,6 +70,10 @@ export default class ListContent extends LitElement {
         justify-content: center;
       }
 
+      .action-loader .message {
+        margin-bottom: 2rem;
+      }
+
       .text-with-selection {
         display: flex;
         align-items: center;
@@ -394,7 +398,7 @@ export default class ListContent extends LitElement {
     const endpoint = modelEndpoints(this.entity).DELETE;
     endpoint.executeApiCall(
       {
-        noAuth: true,
+        token: this.auth.token,
         config,
         uuid,
       },
@@ -486,7 +490,7 @@ export default class ListContent extends LitElement {
     const endpoint = modelEndpoints(this.entity).CUSTOM_ACTION;
     endpoint.executeApiCall(
       {
-        noAuth: true,
+        token: this.auth.token,
         config,
         uuid,
         actionCode: action.code,
@@ -512,7 +516,7 @@ export default class ListContent extends LitElement {
       title: "Loading",
       message: html`
         <div class="action-loader">
-          <div>Invoking ${action.label} action.</div>
+          <div class="message">Invoking ${action.label} action.</div>
           <mv-fa icon="spinner" icon-props="fa-2x fa-pulse"></mv-fa>
         </div>
       `,
