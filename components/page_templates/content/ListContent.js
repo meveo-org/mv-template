@@ -513,7 +513,7 @@ export default class ListContent extends LitElement {
       message: html`
         <div class="action-loader">
           <div>Invoking ${action.label} action.</div>
-          <mv-fa icon="spinner" fa-2x fa-pulse></mv-fa>
+          <mv-fa icon="spinner" icon-props="fa-2x fa-pulse"></mv-fa>
         </div>
       `,
       open: true,
