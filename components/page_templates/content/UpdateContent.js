@@ -268,7 +268,7 @@ export default class UpdateContent extends MvElement {
       const uuid = formValues.uuid || id;
       endpointInterface.executeApiCall(
         {
-          noAuth: true,
+          token: this.auth.token,
           config,
           uuid,
           ...item,
