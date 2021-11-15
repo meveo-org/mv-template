@@ -46,13 +46,9 @@ export default class ApiRequest {
     fetch(requestUrl, options)
       .then((response) => {
         if (!response.ok) {
-          throw new Error({
-            name: "ApiError",
-            message: [
-              `Encountered error calling API: ${requestUrl}`,
-              `Status code: [${response.status}] - ${response.statusText}`,
-            ],
-          });
+          throw new Error(
+            `Status code: [${response.status}] - ${response.statusText}`
+          );
         }
         const type = response.headers.get("Content-Type") || "";
         return type.includes("application/json")
@@ -69,7 +65,17 @@ export default class ApiRequest {
       .catch((error) => {
         if (errorCallback) {
           console.error(">>>>>>>>>Error: ", error);
-          errorCallback({ detail: { error } });
+          errorCallback({
+            detail: {
+              error: {
+                name: "ApiError",
+                message: [
+                  `Encountered error calling API: ${requestUrl}`,
+                  error.message,
+                ],
+              },
+            },
+          });
         } else {
           console.error(">>>>>>>>>Error: ", error);
         }

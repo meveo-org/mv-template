@@ -63,6 +63,13 @@ export default class ListContent extends LitElement {
         justify-content: space-between;
       }
 
+      .action-loader {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
       .text-with-selection {
         display: flex;
         align-items: center;
@@ -208,9 +215,10 @@ export default class ListContent extends LitElement {
         class="message-dialog dialog-size"
         header-label="${this.messageDialog.title}"
         ?open="${this.messageDialog.open}"
+        ?closeable="${this.messageDialog.closable}"
+        ?no-right-button="${this.messageDialog.noButtons}"
         @ok-dialog="${this.closeDialog("messageDialog")}"
         no-left-button
-        closeable
       >
         <p>${this.messageDialog.message}</p>
       </mv-dialog>
@@ -342,7 +350,10 @@ export default class ListContent extends LitElement {
       detail: { error },
     } = event;
     console.error("error: ", error);
-    const {name, message: [message, statusCode]} = error;
+    const {
+      name,
+      message: [message, statusCode],
+    } = error;
     this.messageDialog = {
       title: name,
       message: html`<span>${message}</span><br /><small>${statusCode}</small>`,
@@ -471,6 +482,7 @@ export default class ListContent extends LitElement {
       detail: { row, action },
     } = event;
     const { uuid } = row;
+    this.showLoader(action);
     const endpoint = modelEndpoints(this.entity).CUSTOM_ACTION;
     endpoint.executeApiCall(
       {
@@ -478,7 +490,7 @@ export default class ListContent extends LitElement {
         config,
         uuid,
         actionCode: action.code,
-        entityCode: this.entity.code,
+        entityCodes: [this.entity.code],
       },
       this.actionSuccess(action),
       this.handleErrors
@@ -493,6 +505,21 @@ export default class ListContent extends LitElement {
     };
     this.loadList(this.currentPage);
     this.dispatchEvent(new CustomEvent("clear-selected"));
+  };
+
+  showLoader = (action) => {
+    this.messageDialog = {
+      title: "Loading",
+      message: html`
+        <div class="action-loader">
+          <div>Invoking ${action.label} action.</div>
+          <mv-fa icon="spinner" fa-2x fa-pulse></mv-fa>
+        </div>
+      `,
+      open: true,
+      closable: false,
+      noButtons: true,
+    };
   };
 }
 
