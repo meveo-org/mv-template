@@ -131,7 +131,7 @@ export default class UpdateContent extends MvElement {
 
             <div class="action-section">
               <div class="standard-actions">
-                <mv-button @button-clicked="${clearForm()}" button-style="info">
+                <mv-button @button-clicked="${this.clearAll}" button-style="info">
                   <mv-fa icon="undo"></mv-fa>Clear
                 </mv-button>
                 <mv-button
@@ -261,6 +261,12 @@ export default class UpdateContent extends MvElement {
     this.dispatchEvent(event);
   };
 
+  clearAll = () => {
+    this.clearErrors();
+    const target = this.renderRoot.querySelector("mv-form");
+    clearForm()({ target });
+  };
+
   loadFormData = () => {
     const { entity, parameters, formValues } = this;
     const { pathParameters } = parameters || {};
@@ -330,12 +336,12 @@ export default class UpdateContent extends MvElement {
       this.errors = errors;
       console.error("errors :", errors);
     } else {
-      const { parameters, formValues } = this;
+      const { parameters } = this;
       const { pathParameters = {} } = parameters || {};
       const { id } = pathParameters;
       const item = store.state;
       const endpoint = modelEndpoints(entity).UPDATE;
-      const uuid = formValues.uuid || id;
+      const uuid = this.uuid || id;
       endpoint.executeApiCall(
         {
           token: this.auth.token,
@@ -349,9 +355,8 @@ export default class UpdateContent extends MvElement {
     }
   };
 
-  cancel = (event) => {
-    this.errors = null;
-    clearForm()(event);
+  cancel = () => {
+    this.clearAll();
     this.cancelCallback(new CustomEvent("cancel"));
   };
 

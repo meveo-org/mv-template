@@ -90,7 +90,10 @@ export default class NewContent extends MvElement {
                 : this.renderFields(formFields[0], schema)}
 
               <div class="button-grid">
-                <mv-button @button-clicked="${clearForm()}" button-style="info">
+                <mv-button
+                  @button-clicked="${this.clearAll}"
+                  button-style="info"
+                >
                   <mv-fa icon="undo"></mv-fa>Clear
                 </mv-button>
                 <mv-button
@@ -191,6 +194,12 @@ export default class NewContent extends MvElement {
     this.dispatchEvent(event);
   };
 
+  clearAll = () => {
+    this.clearErrors();
+    const target = this.renderRoot.querySelector("mv-form");
+    clearForm()({ target });
+  };
+
   clearErrors = () => {
     this.errors = null;
   };
@@ -200,7 +209,10 @@ export default class NewContent extends MvElement {
       detail: { error },
     } = event;
     console.error("error: ", error);
-    const {name, message: [message, statusCode]} = error;
+    const {
+      name,
+      message: [message, statusCode],
+    } = error;
     this.dialog = {
       title: name,
       message: html`<span>${message}</span><br /><small>${statusCode}</small>`,
@@ -236,22 +248,20 @@ export default class NewContent extends MvElement {
     }
   };
 
-  cancel = (event) => {
-    this.errors = null;
-    clearForm()(event);
+  cancel = () => {
+    this.clearAll();
     this.cancelCallback(new CustomEvent("cancel"));
   };
 
   submitSuccess = (event) => {
     const { detail } = event;
     this.dialog = {
+      status: "success",
       title: "Success",
       message: html`<span>Item saved.</span>`,
       open: true,
+      detail,
     };
-    setTimeout(() => {
-      this.successCallback(new CustomEvent("submitted", { detail }));  
-    }, 3000);
   };
 
   submitFailed = (event) => {
@@ -261,6 +271,7 @@ export default class NewContent extends MvElement {
     console.error("error: ", error);
     const [message, statusCode] = error;
     this.dialog = {
+      status: "fail",
       title: "Error",
       message: html`<span>${message}</span><br /><small>${statusCode}</small>`,
       open: true,
@@ -273,7 +284,12 @@ export default class NewContent extends MvElement {
   };
 
   closeDialog = () => {
+    const { status, detail } = this.dialog;
     this.dialog = { ...EMPTY_DIALOG };
+    if (status === "success") {
+      this.clearAll();
+      this.successCallback(new CustomEvent("submitted", { detail }));
+    }
   };
 }
 
