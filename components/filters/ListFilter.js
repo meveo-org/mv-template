@@ -29,8 +29,8 @@ export default class ListFilter extends FilterTemplate {
     super.connectedCallback();
     const { listValues } = this.field;
     this.options = Object.keys(this.field.listValues || {}).map((key) => ({
-      label: key,
-      value: listValues[key],
+      label: listValues[key],
+      value: key,
     }));
   }
 
@@ -40,10 +40,17 @@ export default class ListFilter extends FilterTemplate {
       <mv-select
         .value="${option}"
         .options="${this.options}"
-        @select-option="${this.updateValue}"
+        @select-option="${this.updateSelectedItem}"
         has-empty-option
       ></mv-select>
     `;
+  };
+
+  updateSelectedItem = ({ detail }) => {
+    const {
+      option: { value },
+    } = detail;
+    this.updateValue(value);
   };
 }
 
