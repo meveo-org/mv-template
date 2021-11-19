@@ -363,15 +363,34 @@ export default class ListContent extends LitElement {
   };
 
   parseColumns = (columnOrder) => {
-    return columnOrder.reduce((columnList, key) => {
-      const column = this.fields.find((field) => field.code === key);
-      const description = column.description || toTitleName(column.code);
-      columnList.push({
-        name: column.code,
-        title: description,
-        tooltip: description,
-        type: column.fieldType,
-      });
+    return columnOrder.reduce((columnList, columnCode) => {
+      const column = this.fields.find((field) => field.code === columnCode);
+      if (column) {
+        const description = column.description || toTitleName(columnCode);
+        const hasListValues =
+          column.listValues && Object.keys(column.listValues).length > 0;
+        const hasMatrixColumns =
+          column.matrixColumns && column.matrixColumns.length > 0;
+        const columnProperties = {
+          name: column.code,
+          title: description,
+          tooltip: description,
+          type: column.fieldType,
+        };
+        if (hasListValues) {
+          columnProperties.options = Object.keys(column.listValues).map(
+            (key) => ({
+              label: column.listValues[key],
+              value: key,
+            })
+          );
+        }
+        if (hasMatrixColumns) {
+          columnProperties.options = column.matrixColumns;
+        }
+
+        columnList.push(columnProperties);
+      }
       return columnList;
     }, []);
   };
