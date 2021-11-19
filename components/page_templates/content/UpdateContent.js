@@ -7,6 +7,7 @@ import { modelEndpoints } from "../../../service/Endpoint.js";
 import "mv-button";
 import "mv-container";
 import "mv-dialog";
+import "mv-dropdown";
 import "mv-font-awesome";
 import "mv-form";
 import "mv-form-field";
@@ -31,6 +32,37 @@ export default class UpdateContent extends MvElement {
 
   static get styles() {
     return css`
+      mv-dropdown {
+        --mv-dropdown-trigger-height: 4rem;
+      }
+
+      ul {
+        padding: 0;
+        margin: 0.3rem 0;
+      }
+
+      li {
+        display: block;
+        width: calc(100% - 2rem);
+        padding: 1rem;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+
+      li:hover {
+        list-style: none;
+        display: block;
+        background: #1d9bc9;
+        color: #ffffff;
+      }
+
+      .action-section {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+      }
+
       .form-grid {
         display: grid;
         grid-template-columns: 1fr;
@@ -76,12 +108,15 @@ export default class UpdateContent extends MvElement {
     super();
     this.auth = null;
     this.dialog = { ...EMPTY_DIALOG };
-    this.fields=[];
+    this.fields = [];
   }
 
   render() {
-    const { schema, refSchemas, formFields } = this.entity;
+    const { schema, refSchemas, formFields, actions } = this.entity;
     const hasMultipleTabs = (formFields || []).length > 1;
+    const entityActions = actions.filter(
+      (action) => action.applicableToEntityInstance
+    );
     return html`
       <mv-container>
         <mv-form
@@ -94,16 +129,47 @@ export default class UpdateContent extends MvElement {
               ? this.renderGroup(formFields, schema)
               : this.renderFields(formFields[0], schema)}
 
-            <div class="button-grid">
-              <mv-button @button-clicked="${clearForm()}" button-style="info">
-                <mv-fa icon="undo"></mv-fa>Clear
-              </mv-button>
-              <mv-button @button-clicked="${this.cancel}" button-style="cancel">
-                <mv-fa icon="ban"></mv-fa>Cancel
-              </mv-button>
-              <mv-button @button-clicked="${this.save}">
-                <mv-fa icon="save"></mv-fa>Save
-              </mv-button>
+            <div class="action-section">
+              <div class="standard-actions">
+                <mv-button @button-clicked="${clearForm()}" button-style="info">
+                  <mv-fa icon="undo"></mv-fa>Clear
+                </mv-button>
+                <mv-button
+                  @button-clicked="${this.cancel}"
+                  button-style="cancel"
+                >
+                  <mv-fa icon="ban"></mv-fa>Cancel
+                </mv-button>
+                <mv-button @button-clicked="${this.save}">
+                  <mv-fa icon="save"></mv-fa>Save
+                </mv-button>
+              </div>
+              <div class="custom-actions">
+                <mv-dropdown
+                  container
+                  toggle
+                  justify="left"
+                  position="bottom"
+                  theme="light"
+                >
+                  <mv-dropdown trigger>
+                    <mv-button
+                      >More actions <mv-fa icon="chevron-down"></mv-fa
+                    ></mv-button>
+                  </mv-dropdown>
+                  <mv-dropdown content theme="light">
+                    <ul>
+                      ${entityActions.map(
+                        (action) => html`
+                          <li @click="${this.runAction(action)}">
+                            ${action.label}
+                          </li>
+                        `
+                      )}
+                    </ul>
+                  </mv-dropdown>
+                </mv-dropdown>
+              </div>
             </div>
           </div>
         </mv-form>
@@ -112,9 +178,10 @@ export default class UpdateContent extends MvElement {
         class="dialog-size"
         header-label="${this.dialog.title}"
         ?open="${this.dialog.open}"
+        ?closeable="${this.dialog.closable}"
+        ?no-right-button="${this.dialog.noButtons}"
         @close-dialog="${this.closeDialog}"
         no-left-button
-        closeable
       >
         <p>${this.dialog.message}</p>
         <span slot="footer">
@@ -238,7 +305,10 @@ export default class UpdateContent extends MvElement {
       detail: { error },
     } = event;
     console.error("error: ", error);
-    const {name, message: [message, statusCode]} = error;
+    const {
+      name,
+      message: [message, statusCode],
+    } = error;
     this.dialog = {
       title: name,
       message: html`<span>${message}</span><br /><small>${statusCode}</small>`,
@@ -264,9 +334,9 @@ export default class UpdateContent extends MvElement {
       const { pathParameters = {} } = parameters || {};
       const { id } = pathParameters;
       const item = store.state;
-      const endpointInterface = modelEndpoints(entity).UPDATE;
+      const endpoint = modelEndpoints(entity).UPDATE;
       const uuid = formValues.uuid || id;
-      endpointInterface.executeApiCall(
+      endpoint.executeApiCall(
         {
           token: this.auth.token,
           config,
@@ -300,9 +370,12 @@ export default class UpdateContent extends MvElement {
       detail: { error },
     } = event;
     console.error("error: ", error);
-    const [message, statusCode] = error;
+    const {
+      name,
+      message: [message, statusCode],
+    } = error;
     this.dialog = {
-      title: "Error",
+      title: name,
       message: html`<span>${message}</span><br /><small>${statusCode}</small>`,
       open: true,
     };
@@ -315,6 +388,50 @@ export default class UpdateContent extends MvElement {
 
   closeDialog = () => {
     this.dialog = { ...EMPTY_DIALOG };
+  };
+
+  actionSuccess = (action) => () => {
+    this.dialog = {
+      title: "Action Success",
+      message: html`<span>${action.label} successfully executed.</span>`,
+      open: true,
+    };
+  };
+
+  showLoader = (action) => {
+    this.dialog = {
+      title: "Loading",
+      message: html`
+        <div class="action-loader">
+          <div class="message">Invoking ${action.label} action.</div>
+          <mv-fa icon="spinner" icon-props="fa-2x fa-pulse"></mv-fa>
+        </div>
+      `,
+      open: true,
+      closable: false,
+      noButtons: true,
+    };
+  };
+
+  runAction = (action) => () => {
+    this.showLoader(action);
+    const { entity, parameters, formValues } = this;
+    const { pathParameters } = parameters || {};
+    const { id } = pathParameters || {};
+    const endpoint = modelEndpoints(entity).CUSTOM_ACTION;
+    const entityValue = formValues || {};
+    const uuid = entityValue.uuid || id;
+    endpoint.executeApiCall(
+      {
+        token: this.auth.token,
+        config,
+        uuid,
+        actionCode: action.code,
+        entityCodes: [this.entity.code],
+      },
+      this.actionSuccess(action),
+      this.handleErrors
+    );
   };
 }
 

@@ -5,6 +5,7 @@ import { NULL_ENTITY, EMPTY_DIALOG, toTitleName } from "utils";
 import "mv-button";
 import "mv-container";
 import "mv-dialog";
+import "mv-dropdown";
 import "mv-font-awesome";
 import "mv-pagination";
 import "mv-table";
@@ -113,6 +114,37 @@ export default class ListContent extends LitElement {
         color: #ffffff;
         --mv-checkbox-label-color: #ffffff;
       }
+
+      .custom-actions mv-dropdown {
+        --mv-dropdown-trigger-height: 4rem;
+      }
+
+      .custom-actions ul {
+        padding: 0;
+        margin: 0.3rem 0;
+      }
+
+      .custom-actions li {
+        display: block;
+        width: calc(100% - 2rem);
+        padding: 1rem;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+
+      .custom-actions li:hover {
+        list-style: none;
+        display: block;
+        background: #1d9bc9;
+        color: #ffffff;
+      }
+
+      .table-actions {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
     `;
   }
 
@@ -149,7 +181,7 @@ export default class ListContent extends LitElement {
   }
 
   render() {
-    const { entity, rowActions } = this;
+    const { entity, rowActions, listActions } = this;
     const { formFields } = entity;
 
     return html`
@@ -208,12 +240,46 @@ export default class ListContent extends LitElement {
           @select-row="${this.selectRow}"
           @column-sort="${this.sortTable}"
         ></mv-table>
-        <mv-pagination
-          type="text"
-          .page="${this.currentPage}"
-          .pages="${this.pages}"
-          @change-page="${this.gotoPage}"
-        ></mv-pagination>
+        <div class="table-actions">
+          <div class="custom-actions">
+            ${listActions && listActions.length > 0
+              ? html`
+                  <mv-dropdown
+                    container
+                    toggle
+                    justify="left"
+                    position="bottom"
+                    theme="light"
+                  >
+                    <mv-dropdown trigger>
+                      <mv-button
+                        >More actions <mv-fa icon="chevron-down"></mv-fa
+                      ></mv-button>
+                    </mv-dropdown>
+                    <mv-dropdown content theme="light">
+                      <ul>
+                        ${listActions.map(
+                          (action) => html`
+                            <li @click="${this.runListAction(action)}">
+                              ${action.label}
+                            </li>
+                          `
+                        )}
+                      </ul>
+                    </mv-dropdown>
+                  </mv-dropdown>
+                `
+              : html``}
+          </div>
+          <div class="pagination-actions">
+            <mv-pagination
+              type="text"
+              .page="${this.currentPage}"
+              .pages="${this.pages}"
+              @change-page="${this.gotoPage}"
+            ></mv-pagination>
+          </div>
+        </div>
       </mv-container>
       <mv-dialog
         class="message-dialog dialog-size"
@@ -499,6 +565,22 @@ export default class ListContent extends LitElement {
       this.actionSuccess(action),
       this.handleErrors
     );
+  };
+
+  runListAction = (action) => () => {
+    console.log("action: ", action);
+    // this.showLoader(action);
+    // const endpoint = modelEndpoints(this.entity).CUSTOM_ACTION;
+    // endpoint.executeApiCall(
+    //   {
+    //     token: this.auth.token,
+    //     config,
+    //     actionCode: action.code,
+    //     entityCodes: [this.entity.code],
+    //   },
+    //   this.actionSuccess(action),
+    //   this.handleErrors
+    // );
   };
 
   actionSuccess = (action) => () => {

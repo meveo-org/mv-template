@@ -64,8 +64,6 @@ export class TableActions extends LitElement {
           </mv-button>
           <div slot="tooltip-content">Delete</div>
         </mv-tooltip>
-
-        ${hasRowActions ? this.renderRowActions() : null}
       </div>
     `;
   }
