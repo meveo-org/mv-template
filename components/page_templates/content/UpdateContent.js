@@ -430,9 +430,8 @@ export default class UpdateContent extends MvElement {
       {
         token: this.auth.token,
         config,
-        uuid,
         actionCode: action.code,
-        entityCodes: [this.entity.code],
+        runWith: {entities: [{code: this.entity.code, uuid}]},
       },
       this.actionSuccess(action),
       this.handleErrors

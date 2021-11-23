@@ -28,6 +28,7 @@ export default class ListContent extends LitElement {
       code: { type: String },
       selectable: { type: Boolean },
       selectOne: { type: Boolean, attribute: "select-one" },
+      selectedRows: { type: Array, attribute: "selected-rows" },
       withCheckbox: { type: Boolean, attribute: "with-checkbox" },
       entity: { type: Object, attribute: false },
       filters: { type: Object, attribute: false },
@@ -51,6 +52,10 @@ export default class ListContent extends LitElement {
     return css`
       h1 {
         margin-top: 0;
+      }
+
+      mv-table {
+        --mv-table-row-cursor: pointer;
       }
 
       .dialog-size {
@@ -178,6 +183,7 @@ export default class ListContent extends LitElement {
     };
     this.rowActions = [];
     this.listActions = [];
+    this.selectedRows = [];
   }
 
   render() {
@@ -234,6 +240,7 @@ export default class ListContent extends LitElement {
           .action-column="${this.actionColumn}"
           .row-actions="${rowActions}"
           .sort-order="${this.sortOrder}"
+          .selectedRows="${this.selectedRows}"
           ?selectable="${this.selectable}"
           ?select-one="${this.selectOne}"
           ?with-checkbox="${this.withCheckbox}"

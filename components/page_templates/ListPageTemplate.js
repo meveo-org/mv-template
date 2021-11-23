@@ -43,16 +43,21 @@ export default class ListPageTemplate extends LitElement {
     this.messageDialog = { ...EMPTY_DIALOG };
     this.confirmDialog = { ...EMPTY_DIALOG };
     this.filter = { DEFAULT_FILTER };
+    this.selectedRows = [];
   }
 
   render() {
     return html`
       <page-layout>
         <list-content
+          selectable
+          with-checkbox
           .auth="${this.auth}"
           .entity="${this.entity}"
+          .selected-rows="${this.selectedRows}"
           @new-item="${this.newItem}"
           @edit-item="${this.editRow}"
+          @row-click="${this.selectRow}"
         ></list-content>
       </page-layout>
     `;
@@ -67,6 +72,15 @@ export default class ListPageTemplate extends LitElement {
       detail: { row },
     } = event;
     history.pushState(null, "", `./${this.entity.code}/update/${row.uuid}`);
+  };
+
+  selectRow = (event) => {
+    const {
+      detail: { row },
+    } = event;
+    console.log("row: ", row);
+    this.selectedRows = [...this.selectedRows, row];
+    console.log("this.selectedRows: ", this.selectedRows);
   };
 }
 

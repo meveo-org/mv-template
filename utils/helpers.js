@@ -178,8 +178,8 @@ export const getEndpoints = (schema) => {
         };
       },
       decorateProperties: ({ parameters }) => {
-        const { uuid, entityCodes, actionCode } = parameters;
-        return { uuid, entityCodes, actionCode };
+        const { uuid, runWith, actionCode } = parameters;
+        return { uuid, runWith, actionCode };
       },
     },
   };
