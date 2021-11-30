@@ -187,10 +187,8 @@ export default class ListContent extends LitElement {
   }
 
   render() {
-    const { entity, rowActions, listActions } = this;
+    const { entity, rowActions } = this;
     const { formFields } = entity;
-
-    console.log('this["selected-rows"]: ', this["selected-rows"]);
 
     return html`
       <mv-container>
@@ -250,36 +248,7 @@ export default class ListContent extends LitElement {
           @column-sort="${this.sortTable}"
         ></mv-table>
         <div class="table-actions">
-          <div class="custom-actions">
-            ${listActions && listActions.length > 0
-              ? html`
-                  <mv-dropdown
-                    container
-                    toggle
-                    justify="left"
-                    position="bottom"
-                    theme="light"
-                  >
-                    <mv-dropdown trigger>
-                      <mv-button>
-                        More actions <mv-fa icon="chevron-down"></mv-fa>
-                      </mv-button>
-                    </mv-dropdown>
-                    <mv-dropdown content theme="light">
-                      <ul>
-                        ${listActions.map(
-                          (action) => html`
-                            <li @click="${this.runListAction(action)}">
-                              ${action.label}
-                            </li>
-                          `
-                        )}
-                      </ul>
-                    </mv-dropdown>
-                  </mv-dropdown>
-                `
-              : html``}
-          </div>
+          <div class="custom-actions">${this.renderListCustomActions()}</div>
           <div class="pagination-actions">
             <mv-pagination
               type="text"
@@ -313,6 +282,40 @@ export default class ListContent extends LitElement {
       </mv-dialog>
     `;
   }
+
+  renderListCustomActions = () => {
+    const { listActions } = this;
+    if (listActions && listActions.length > 0) {
+      return html`
+        <mv-dropdown
+          container
+          toggle
+          justify="left"
+          position="bottom"
+          theme="light"
+        >
+          <mv-dropdown trigger>
+            <mv-button>
+              More actions <mv-fa icon="chevron-down"></mv-fa>
+            </mv-button>
+          </mv-dropdown>
+          <mv-dropdown content theme="light">
+            <ul>
+              ${this.renderCustomAction(listActions)}
+            </ul>
+          </mv-dropdown>
+        </mv-dropdown>
+      `;
+    }
+    return html``;
+  };
+
+  renderCustomAction = (listActions) =>
+    listActions.map(
+      (action) => html`
+        <li @click="${this.runListAction(action)}">${action.label}</li>
+      `
+    );
 
   connectedCallback() {
     super.connectedCallback();
@@ -583,9 +586,8 @@ export default class ListContent extends LitElement {
       {
         token: this.auth.token,
         config,
-        uuid,
         actionCode: action.code,
-        entityCodes: [this.entity.code],
+        runWith: { entities: [{ code: this.entity.code, uuid }] },
       },
       this.actionSuccess(action),
       this.handleErrors
@@ -593,19 +595,31 @@ export default class ListContent extends LitElement {
   };
 
   runListAction = (action) => () => {
-    console.log("action: ", action);
-    // this.showLoader(action);
-    // const endpoint = modelEndpoints(this.entity).CUSTOM_ACTION;
-    // endpoint.executeApiCall(
-    //   {
-    //     token: this.auth.token,
-    //     config,
-    //     actionCode: action.code,
-    //     entityCodes: [this.entity.code],
-    //   },
-    //   this.actionSuccess(action),
-    //   this.handleErrors
-    // );
+    this.showLoader(action);
+    const { code } = this.entity;
+    const endpoint = modelEndpoints(this.entity).CUSTOM_ACTION;
+    const entities =
+      this["selected-rows"].map(({ uuid }) => ({ code, uuid })) || [];
+    if (entities.length > 0) {
+      endpoint.executeApiCall(
+        {
+          token: this.auth.token,
+          config,
+          actionCode: action.code,
+          runWith: { entities },
+        },
+        this.actionSuccess(action),
+        this.handleErrors
+      );
+    } else {
+      this.messageDialog = {
+        title: "Error",
+        message: html`
+          <span> Cannot run custom action. No items selected. </span>
+        `,
+        open: true,
+      };
+    }
   };
 
   actionSuccess = (action) => () => {

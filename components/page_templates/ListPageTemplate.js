@@ -48,7 +48,6 @@ export default class ListPageTemplate extends LitElement {
   }
 
   render() {
-    console.log("this.selectedRows: ", this.selectedRows);
     return html`
       <page-layout>
         <list-content
