@@ -23,8 +23,9 @@ const DEFAULT_FILTER = {
 export default class ListPageTemplate extends LitElement {
   static get properties() {
     return {
-      entity: { type: Object, attribute: false, reflect: true },
-      auth: { type: Object, attribute: false, reflect: true },
+      entity: { type: Object, attribute: false },
+      auth: { type: Object, attribute: false },
+      selectedRows: { type: Array, attribute: false },
     };
   }
 
@@ -47,6 +48,7 @@ export default class ListPageTemplate extends LitElement {
   }
 
   render() {
+    console.log("this.selectedRows: ", this.selectedRows);
     return html`
       <page-layout>
         <list-content
@@ -76,11 +78,15 @@ export default class ListPageTemplate extends LitElement {
 
   selectRow = (event) => {
     const {
-      detail: { row },
+      detail: { added, removed },
     } = event;
-    console.log("row: ", row);
-    this.selectedRows = [...this.selectedRows, row];
-    console.log("this.selectedRows: ", this.selectedRows);
+    this.selectedRows = [
+      ...this.selectedRows.filter(
+        (row) =>
+          !(removed || []).some((removedRow) => removedRow.uuid === row.uuid)
+      ),
+      ...(added || []),
+    ];
   };
 }
 

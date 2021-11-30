@@ -28,7 +28,7 @@ export default class ListContent extends LitElement {
       code: { type: String },
       selectable: { type: Boolean },
       selectOne: { type: Boolean, attribute: "select-one" },
-      selectedRows: { type: Array, attribute: "selected-rows" },
+      "selected-rows": { type: Array, attribute: false },
       withCheckbox: { type: Boolean, attribute: "with-checkbox" },
       entity: { type: Object, attribute: false },
       filters: { type: Object, attribute: false },
@@ -183,12 +183,14 @@ export default class ListContent extends LitElement {
     };
     this.rowActions = [];
     this.listActions = [];
-    this.selectedRows = [];
+    this["selected-rows"] = [];
   }
 
   render() {
     const { entity, rowActions, listActions } = this;
     const { formFields } = entity;
+
+    console.log('this["selected-rows"]: ', this["selected-rows"]);
 
     return html`
       <mv-container>
@@ -240,7 +242,7 @@ export default class ListContent extends LitElement {
           .action-column="${this.actionColumn}"
           .row-actions="${rowActions}"
           .sort-order="${this.sortOrder}"
-          .selectedRows="${this.selectedRows}"
+          .selected-rows="${this["selected-rows"]}"
           ?selectable="${this.selectable}"
           ?select-one="${this.selectOne}"
           ?with-checkbox="${this.withCheckbox}"
@@ -259,9 +261,9 @@ export default class ListContent extends LitElement {
                     theme="light"
                   >
                     <mv-dropdown trigger>
-                      <mv-button
-                        >More actions <mv-fa icon="chevron-down"></mv-fa
-                      ></mv-button>
+                      <mv-button>
+                        More actions <mv-fa icon="chevron-down"></mv-fa>
+                      </mv-button>
                     </mv-dropdown>
                     <mv-dropdown content theme="light">
                       <ul>
@@ -511,11 +513,8 @@ export default class ListContent extends LitElement {
   };
 
   selectRow = (event) => {
-    const {
-      detail: { selected },
-    } = event;
-    const [row] = selected || [];
-    this.dispatchEvent(new CustomEvent("row-click", { detail: { row } }));
+    const { detail } = event;
+    this.dispatchEvent(new CustomEvent("row-click", { detail }));
   };
 
   closeDialog = (name) => () => {
@@ -531,7 +530,7 @@ export default class ListContent extends LitElement {
     this.loadList(this.currentPage);
   };
 
-  selectColumn = (group, field) => () => {
+  selectColumn = (_, field) => () => {
     const index = this.columnOrder.findIndex((column) => column === field.code);
     this.columnOrder =
       index > -1
