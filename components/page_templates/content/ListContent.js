@@ -27,6 +27,7 @@ export default class ListContent extends LitElement {
       auth: { type: Object, attribute: false },
       code: { type: String },
       selectable: { type: Boolean },
+      noListActions: { type: Boolean, attribute: "no-list-actions" },
       selectOne: { type: Boolean, attribute: "select-one" },
       "selected-rows": { type: Array, attribute: false },
       withCheckbox: { type: Boolean, attribute: "with-checkbox" },
@@ -158,6 +159,7 @@ export default class ListContent extends LitElement {
     this.auth = null;
     this.selectable = false;
     this.selectOne = false;
+    this.noListActions = false;
     this.entity = { ...NULL_ENTITY };
     this.pages = 1;
     this.currentPage = 1;
@@ -248,7 +250,9 @@ export default class ListContent extends LitElement {
           @column-sort="${this.sortTable}"
         ></mv-table>
         <div class="table-actions">
-          <div class="custom-actions">${this.renderListCustomActions()}</div>
+          <div class="custom-actions">
+            ${this.noListActions ? null : this.renderListCustomActions()}
+          </div>
           <div class="pagination-actions">
             <mv-pagination
               type="text"
