@@ -149,6 +149,8 @@ export default class NewContent extends MvElement {
     const schemaProp = properties[formField.code] || {};
     return html`
       <form-field
+        .auth="${this.auth}"
+        .entity="${this.entity}"
         .field="${formField}"
         .schemaProp="${schemaProp}"
         .value="${value}"
@@ -205,19 +207,11 @@ export default class NewContent extends MvElement {
   };
 
   handleErrors = (event) => {
-    const {
-      detail: { error },
-    } = event;
-    console.error("error: ", error);
-    const {
-      name,
-      message: [message, statusCode],
-    } = error;
-    this.dialog = {
-      title: name,
-      message: html`<span>${message}</span><br /><small>${statusCode}</small>`,
-      open: true,
-    };
+    this.errors = event.detail.errors;
+  };
+
+  handleFieldErrors = (event) => {
+    this.errors = event.detail.errors;
   };
 
   save = () => {

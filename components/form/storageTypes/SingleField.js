@@ -11,6 +11,7 @@ import "../fieldTypes/NumberField.js";
 export default class SingleField extends LitElement {
   static get properties() {
     return {
+      auth: { type: Object, attribute: false },
       entity: { type: Object, attribute: false },
       field: { type: Object, attribute: false },
       value: { type: Object, attribute: false },
@@ -39,6 +40,7 @@ export default class SingleField extends LitElement {
         return html`
           <binary-field
             hide-placeholder
+            .auth=${this.auth}
             .field="${this.field}"
             .value="${this.value}"
             .errors="${this.errors}"
@@ -131,6 +133,7 @@ export default class SingleField extends LitElement {
       case "CHILD_ENTITY":
         return html`
           <entity-field
+            .auth=${this.auth}
             .entity="${this.entity}"
             .field="${this.field}"
             .value="${this.value}"

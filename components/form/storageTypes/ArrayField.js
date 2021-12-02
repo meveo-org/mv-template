@@ -7,6 +7,7 @@ import "../storageTypes/SingleField.js";
 export default class ArrayField extends LitElement {
   static get properties() {
     return {
+      auth: { type: Object, attribute: false },
       entity: { type: Object, attribute: false },
       field: { type: Object, attribute: false },
       errors: { type: Array, attribute: false },
@@ -76,19 +77,19 @@ export default class ArrayField extends LitElement {
 
   constructor() {
     super();
-    this.entity= null;
+    this.entity = null;
     this.field = {};
     this.value = [];
   }
 
   render() {
-    const { value = [], field } = this;
-    const { label, valueRequired } = field || {};
+    const { field } = this;
+    const { label } = field || {};
     return html`
       <fieldset>
         <legend>
           <label>
-            ${label}${valueRequired ? html`<i class="required"> *</i>` : null}
+            ${label}${this.renderRequired(field)}
             <mv-button
               type="circle"
               class="small-button"
@@ -98,23 +99,30 @@ export default class ArrayField extends LitElement {
             </mv-button>
           </label>
         </legend>
-        ${value.map(
-          (itemValue, index) => html`
-            <single-field
-              removable
-              hide-label
-              .entity="${this.entity}"
-              .field="${this.field}"
-              .value="${itemValue}"
-              .errors="${this.errors}"
-              @update-value="${this.updateItem(index)}"
-              @remove-value="${this.removeItem(index)}"
-            ></single-field>
-          `
-        )}
+        ${this.renderFields()}
       </fieldset>
     `;
   }
+
+  renderRequired = ({ valueRequired }) =>
+    valueRequired ? html`<i class="required"> *</i>` : null;
+
+  renderFields = () =>
+    (this.value || []).map(
+      (itemValue, index) => html`
+        <single-field
+          removable
+          hide-label
+          .auth="${this.auth}"
+          .entity="${this.entity}"
+          .field="${this.field}"
+          .value="${itemValue}"
+          .errors="${this.errors}"
+          @update-value="${this.updateItem(index)}"
+          @remove-value="${this.removeItem(index)}"
+        ></single-field>
+      `
+    );
 
   addItem = (event) => {
     const { value = [] } = this;

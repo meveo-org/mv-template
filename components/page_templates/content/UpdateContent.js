@@ -131,7 +131,10 @@ export default class UpdateContent extends MvElement {
 
             <div class="action-section">
               <div class="standard-actions">
-                <mv-button @button-clicked="${this.clearAll}" button-style="info">
+                <mv-button
+                  @button-clicked="${this.clearAll}"
+                  button-style="info"
+                >
                   <mv-fa icon="undo"></mv-fa>Clear
                 </mv-button>
                 <mv-button
@@ -153,19 +156,13 @@ export default class UpdateContent extends MvElement {
                   theme="light"
                 >
                   <mv-dropdown trigger>
-                    <mv-button
-                      >More actions <mv-fa icon="chevron-down"></mv-fa
-                    ></mv-button>
+                    <mv-button>
+                      More actions <mv-fa icon="chevron-down"></mv-fa>
+                    </mv-button>
                   </mv-dropdown>
                   <mv-dropdown content theme="light">
                     <ul>
-                      ${entityActions.map(
-                        (action) => html`
-                          <li @click="${this.runAction(action)}">
-                            ${action.label}
-                          </li>
-                        `
-                      )}
+                      ${this.renderActions(entityActions)}
                     </ul>
                   </mv-dropdown>
                 </mv-dropdown>
@@ -185,48 +182,60 @@ export default class UpdateContent extends MvElement {
       >
         <p>${this.dialog.message}</p>
         <span slot="footer">
-          <mv-button @button-clicked="${this.closeDialog}"> Close </mv-button>
+          <mv-button @button-clicked="${this.closeDialog}">Close</mv-button>
         </span>
       </mv-dialog>
     `;
   }
 
+  renderActions = (entityActions) =>
+    entityActions.map(
+      (action) => html`
+        <li @click="${this.runAction(action)}">${action.label}</li>
+      `
+    );
+
+  renderTabGroup = (schema) => (group) => {
+    const key = toTagName(group.label);
+    return html`
+      <mv-tab tab key="${key}">${group.label}</mv-tab>
+      <mv-tab content key="${key}">
+        ${this.renderFields(group, schema)}
+      </mv-tab>
+    `;
+  };
+
   renderGroup = (formFields, schema) =>
     html`
       <mv-tab group type="rounded">
-        ${(formFields || []).map((group) => {
-          const key = toTagName(group.label);
-          return html`
-            <mv-tab tab key="${key}">${group.label}</mv-tab>
-            <mv-tab content key="${key}">
-              ${this.renderFields(group, schema)}
-            </mv-tab>
-          `;
-        })}
+        ${(formFields || []).map(this.renderTabGroup(schema))}
       </mv-tab>
     `;
 
+  renderField = (schema) => (formField) => {
+    const value = this[formField.code];
+    const { properties = {} } = schema || {};
+    const schemaProp = properties[formField.code] || {};
+    return html`
+      <form-field
+        .auth="${this.auth}"
+        .field="${formField}"
+        .schemaProp="${schemaProp}"
+        .value="${value}"
+        .errors="${this.errors}"
+      ></form-field>
+    `;
+  };
+
   renderFields = (group, schema) => html`
     <div class="form-grid">
-      ${(group.fields || []).map((formField) => {
-        const value = this[formField.code];
-        const { properties = {} } = schema || {};
-        const schemaProp = properties[formField.code] || {};
-        return html`
-          <form-field
-            .field="${formField}"
-            .schemaProp="${schemaProp}"
-            .value="${value}"
-            .errors="${this.errors}"
-          ></form-field>
-        `;
-      })}
+      ${(group.fields || []).map(this.renderField(schema))}
     </div>
   `;
 
   connectedCallback() {
     super.connectedCallback();
-    this.addEventListener("update-errors", this.handleErrors);
+    this.addEventListener("update-errors", this.handleFieldErrors);
     this.addEventListener("clear-errors", this.clearErrors);
     const { formFields } = this.entity;
     this.fields = formFields.reduce(
@@ -239,7 +248,7 @@ export default class UpdateContent extends MvElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     this.store.resetState(true);
-    this.removeEventListener("update-errors", this.handleErrors);
+    this.removeEventListener("update-errors", this.handleFieldErrors);
     this.removeEventListener("clear-errors", this.clearErrors);
   }
 
@@ -320,6 +329,10 @@ export default class UpdateContent extends MvElement {
       message: html`<span>${message}</span><br /><small>${statusCode}</small>`,
       open: true,
     };
+  };
+
+  handleFieldErrors = (event) => {
+    this.errors = event.detail.errors;
   };
 
   save = () => {
@@ -431,7 +444,7 @@ export default class UpdateContent extends MvElement {
         token: this.auth.token,
         config,
         actionCode: action.code,
-        runWith: {entities: [{code: this.entity.code, uuid}]},
+        runWith: { entities: [{ code: this.entity.code, uuid }] },
       },
       this.actionSuccess(action),
       this.handleErrors

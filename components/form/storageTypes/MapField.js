@@ -8,6 +8,7 @@ import "../storageTypes/SingleField.js";
 export default class MapField extends LitElement {
   static get properties() {
     return {
+      auth: { type: Object, attribute: false },
       entity: { type: Object, attribute: false },
       field: { type: Object, attribute: false },
       errors: { type: Array, attribute: false },
@@ -109,6 +110,7 @@ export default class MapField extends LitElement {
           removable
           hide-label
           hide-placeholder
+          .auth="${this.auth}"
           .entity="${this.entity}"
           .field="${this.field}"
           .value="${item.value}"

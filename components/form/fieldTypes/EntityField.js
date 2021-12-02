@@ -11,6 +11,7 @@ import "../../page_templates/content/UpdateContent.js";
 export default class EntityField extends FieldTemplate {
   static get properties() {
     return {
+      auth: { type: Object, attribute: false },
       entity: { type: Object, attribute: false },
       dialog: { type: Object, attribute: false },
       selectedItem: { type: Object, attribute: false },
@@ -119,23 +120,8 @@ export default class EntityField extends FieldTemplate {
     const { label } = this.field || {};
     return html`
       ${hasValue
-        ? html`
-            <mv-tooltip>
-              <button class="${fieldClass}" @click="${this.openList}">
-                ${this.value.uuid}
-              </button>
-              <div slot="tooltip-content">
-                ${Object.keys(this.value).map(
-                  (key) => html`<b>${key}</b>: ${this.value[key]} `
-                )}
-              </div>
-            </mv-tooltip>
-          `
-        : html`
-            <button class="${fieldClass}" @click="${this.openList}">
-              ${label}
-            </button>
-          `}
+        ? this.renderButtonValues(fieldClass)
+        : this.renderButtonOnly(fieldClass, label)}
       <mv-dialog
         class="entity-dialog"
         header-label="${label}"
@@ -151,12 +137,33 @@ export default class EntityField extends FieldTemplate {
     `;
   }
 
+  renderButtonValues = (fieldClass) =>
+    html`
+      <mv-tooltip>
+        <button class="${fieldClass}" @click="${this.openList}">
+          ${this.value.uuid}
+        </button>
+        <div slot="tooltip-content">
+          ${Object.keys(this.value).map(this.renderEntityValue)}
+        </div>
+      </mv-tooltip>
+    `;
+
+  renderEntityValue = (key) => html`<b>${key}</b>: ${this.value[key]}`;
+
+  renderButtonOnly = (fieldClass, label) =>
+    html`
+      <button class="${fieldClass}" @click="${this.openList}">${label}</button>
+    `;
+
   getListComponent = (name) => {
     return html`
       <div class="dialog-content">
         <list-content
           select-one
           with-checkbox
+          no-list-actions
+          .auth="${this.auth}"
           .entity="${this.entity}"
           @edit-item="${this.editItem}"
           @new-item="${this.newItem}"
@@ -173,6 +180,7 @@ export default class EntityField extends FieldTemplate {
         <new-content
           name="${name}"
           storage-modes="local"
+          .auth="${this.auth}"
           .entity="${this.entity}"
           @submitted="${this.submitNew}"
           @cancel="${this.openList}"
@@ -187,6 +195,7 @@ export default class EntityField extends FieldTemplate {
         <update-content
           name="${name}"
           storage-modes="local"
+          .auth="${this.auth}"
           .entity="${this.entity}"
           .formValues="${row}"
           @submitted="${this.submitUpdate}"
