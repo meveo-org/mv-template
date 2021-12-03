@@ -10,6 +10,7 @@ export default class FormField extends LitElement {
     return {
       auth: { type: Object, attribute: false },
       entity: { type: Object, attribute: false },
+      entities: { type: Object, attribute: false },
       field: { type: Object, attribute: false },
       value: { type: Object, attribute: false },
       errors: { type: Array, attribute: false },
@@ -21,13 +22,14 @@ export default class FormField extends LitElement {
   }
 
   render() {
-    const { auth, entity, field, value, errors } = this;
+    const { auth, entity, entities, field, value, errors } = this;
     switch (field.storageType) {
       case "SINGLE":
         return html`
           <single-field
             .auth=${auth}
             .entity="${entity}"
+            .entities="${entities}"
             .field="${field}"
             .value="${value}"
             .errors="${errors}"
@@ -39,6 +41,7 @@ export default class FormField extends LitElement {
           <array-field
             .auth=${auth}
             .entity="${entity}"
+            .entities="${entities}"
             .field="${field}"
             .value="${value}"
             .errors="${errors}"
@@ -49,6 +52,7 @@ export default class FormField extends LitElement {
           <map-field
             .auth=${auth}
             .entity="${entity}"
+            .entities="${entities}"
             .field="${field}"
             .value="${value}"
             .errors="${errors}"
@@ -59,6 +63,7 @@ export default class FormField extends LitElement {
           <matrix-field
             .auth=${auth}
             .entity="${entity}"
+            .entities="${entities}"
             .field="${field}"
             .value="${value}"
             .errors="${errors}"

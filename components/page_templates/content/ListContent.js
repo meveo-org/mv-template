@@ -32,6 +32,7 @@ export default class ListContent extends LitElement {
       "selected-rows": { type: Array, attribute: false },
       withCheckbox: { type: Boolean, attribute: "with-checkbox" },
       entity: { type: Object, attribute: false },
+      entities: {type: Object, attribute: false},
       filters: { type: Object, attribute: false },
       fields: { type: Array, attribute: false },
       messageDialog: { type: Object, attribute: false },
@@ -161,6 +162,7 @@ export default class ListContent extends LitElement {
     this.selectOne = false;
     this.noListActions = false;
     this.entity = { ...NULL_ENTITY };
+    this.entities = {};
     this.pages = 1;
     this.currentPage = 1;
     this.rowsPerPage = ROWS_PER_PAGE[1].value;

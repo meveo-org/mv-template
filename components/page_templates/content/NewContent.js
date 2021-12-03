@@ -19,6 +19,7 @@ export default class NewContent extends MvElement {
     return {
       auth: { type: Object, attribute: false },
       entity: { type: Object, attribute: false },
+      entities: { type: Object, attribute: false },
       errors: { type: Array, attribute: false },
       dialog: { type: Object, attribute: false },
     };
@@ -151,6 +152,7 @@ export default class NewContent extends MvElement {
       <form-field
         .auth="${this.auth}"
         .entity="${this.entity}"
+        .entities="${this.entities}"
         .field="${formField}"
         .schemaProp="${schemaProp}"
         .value="${value}"

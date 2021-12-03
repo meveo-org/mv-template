@@ -9,6 +9,7 @@ export default class ArrayField extends LitElement {
     return {
       auth: { type: Object, attribute: false },
       entity: { type: Object, attribute: false },
+      entities: { type: Object, attribute: false },
       field: { type: Object, attribute: false },
       errors: { type: Array, attribute: false },
       value: { type: Array, attribute: false },
@@ -78,6 +79,7 @@ export default class ArrayField extends LitElement {
   constructor() {
     super();
     this.entity = null;
+    this.entities = {};
     this.field = {};
     this.value = [];
   }
@@ -115,6 +117,7 @@ export default class ArrayField extends LitElement {
           hide-label
           .auth="${this.auth}"
           .entity="${this.entity}"
+          .entities="${this.entities}"
           .field="${this.field}"
           .value="${itemValue}"
           .errors="${this.errors}"

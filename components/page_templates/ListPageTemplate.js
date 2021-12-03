@@ -24,6 +24,7 @@ export default class ListPageTemplate extends LitElement {
   static get properties() {
     return {
       entity: { type: Object, attribute: false },
+      entities: { type: Object, attribute: false },
       auth: { type: Object, attribute: false },
       selectedRows: { type: Array, attribute: false },
     };
@@ -55,6 +56,7 @@ export default class ListPageTemplate extends LitElement {
           with-checkbox
           .auth="${this.auth}"
           .entity="${this.entity}"
+          .entities="${this.entities}"
           .selected-rows="${this.selectedRows}"
           @new-item="${this.newItem}"
           @edit-item="${this.editRow}"

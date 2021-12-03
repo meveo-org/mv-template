@@ -13,6 +13,7 @@ export default class SingleField extends LitElement {
     return {
       auth: { type: Object, attribute: false },
       entity: { type: Object, attribute: false },
+      entities: { type: Object, attribute: false },
       field: { type: Object, attribute: false },
       value: { type: Object, attribute: false },
       errors: { type: Array, attribute: false },
@@ -32,6 +33,7 @@ export default class SingleField extends LitElement {
     this.hideLabel = false;
     this.hidePlaceholder = false;
     this.entity = null;
+    this.entities = {};
   }
 
   render() {
@@ -131,10 +133,11 @@ export default class SingleField extends LitElement {
         `;
       case "ENTITY":
       case "CHILD_ENTITY":
+        const entity = this.entities[this.field.name];
         return html`
           <entity-field
             .auth=${this.auth}
-            .entity="${this.entity}"
+            .entity="${entity}"
             .field="${this.field}"
             .value="${this.value}"
             .errors="${this.errors}"

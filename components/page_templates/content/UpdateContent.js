@@ -20,6 +20,7 @@ export default class UpdateContent extends MvElement {
     return {
       auth: { type: Object, attribute: false },
       entity: { type: Object, attribute: false },
+      entities: { type: Object, attribute: false },
       errors: { type: Array, attribute: false },
       parameters: { type: Object, attribute: false },
       formValues: { type: Object, attribute: false },
@@ -219,6 +220,8 @@ export default class UpdateContent extends MvElement {
     return html`
       <form-field
         .auth="${this.auth}"
+        .entity="${this.entity}"
+        .entities="${this.entities}"
         .field="${formField}"
         .schemaProp="${schemaProp}"
         .value="${value}"

@@ -10,6 +10,7 @@ export default class MapField extends LitElement {
     return {
       auth: { type: Object, attribute: false },
       entity: { type: Object, attribute: false },
+      entities: { type: Object, attribute: false },
       field: { type: Object, attribute: false },
       errors: { type: Array, attribute: false },
       value: { type: Array, attribute: false },
@@ -94,6 +95,7 @@ export default class MapField extends LitElement {
     this.field = {};
     this.value = [];
     this.entity = null;
+    this.entities = {}
   }
 
   mapFields = (item, index) => html`
@@ -112,6 +114,7 @@ export default class MapField extends LitElement {
           hide-placeholder
           .auth="${this.auth}"
           .entity="${this.entity}"
+          .entities="${this.entities}"
           .field="${this.field}"
           .value="${item.value}"
           .errors="${this.errors}"

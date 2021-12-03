@@ -44,6 +44,7 @@ class PageRoutes extends LitElement {
           name="${entity.code}"
           .auth="${this.auth}"
           .entity="${entity}"
+          .entities="${this.entities}"
           storage-modes="local"
           component="${PAGES_PATH}/${entity.code}/NewPage.js"
         ></mv-router>
@@ -53,6 +54,7 @@ class PageRoutes extends LitElement {
           name="${entity.code}"
           .auth="${this.auth}"
           .entity="${entity}"
+          .entities="${this.entities}"
           storage-modes="local"
           component="${PAGES_PATH}/${entity.code}/UpdatePage.js"
         ></mv-router>
@@ -61,6 +63,7 @@ class PageRoutes extends LitElement {
           path="${entity.code}/list"
           .auth="${this.auth}"
           .entity="${entity}"
+          .entities="${this.entities}"
           component="${PAGES_PATH}/${entity.code}/ListPage.js"
         ></mv-router>
       `;
