@@ -5,7 +5,6 @@ import { validate, clearForm } from "mv-form-utils";
 import { EMPTY_DIALOG, toTagName } from "utils";
 import { modelEndpoints } from "../../../service/Endpoint.js";
 import "mv-button";
-import "mv-container";
 import "mv-dialog";
 import "mv-dropdown";
 import "mv-font-awesome";
@@ -119,7 +118,7 @@ export default class UpdateContent extends MvElement {
       (action) => action.applicableToEntityInstance
     );
     return html`
-      <mv-container>
+      <div>
         <mv-form
           .store="${this.store}"
           .schema="${schema}"
@@ -171,7 +170,7 @@ export default class UpdateContent extends MvElement {
             </div>
           </div>
         </mv-form>
-      </mv-container>
+      </div>
       <mv-dialog
         class="dialog-size"
         header-label="${this.dialog.title}"
@@ -323,13 +322,18 @@ export default class UpdateContent extends MvElement {
       detail: { error },
     } = event;
     console.error("error: ", error);
-    const {
-      name,
-      message: [message, statusCode],
-    } = error;
+    let messageContent = null;
+    if (Array.isArray(message)) {
+      const [messageText, statusCode] = message;
+      messageContent = html`<span>${messageText}</span><br /><small
+          >${statusCode}</small
+        >`;
+    } else {
+      messageContent = html`<span>${message}</span>`;
+    }
     this.dialog = {
-      title: name,
-      message: html`<span>${message}</span><br /><small>${statusCode}</small>`,
+      title: "Error",
+      message: messageContent,
       open: true,
     };
   };

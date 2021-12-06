@@ -5,7 +5,6 @@ import { validate, clearForm } from "mv-form-utils";
 import { EMPTY_DIALOG, toTagName } from "utils";
 import { modelEndpoints } from "../../../service/Endpoint.js";
 import "mv-button";
-import "mv-container";
 import "mv-dialog";
 import "mv-font-awesome";
 import "mv-form";
@@ -78,7 +77,7 @@ export default class NewContent extends MvElement {
     const { schema, refSchemas, formFields } = this.entity;
     const hasMultipleTabs = (formFields || []).length > 1;
     return html`
-      <mv-container>
+      <div>
         <div class="form-container">
           <mv-form
             .store="${this.store}"
@@ -110,7 +109,7 @@ export default class NewContent extends MvElement {
             </div>
           </mv-form>
         </div>
-      </mv-container>
+      </div>
       <mv-dialog
         class="dialog-size"
         header-label="${this.dialog.title}"
@@ -169,14 +168,14 @@ export default class NewContent extends MvElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.addEventListener("update-errors", this.handleErrors);
+    this.addEventListener("update-errors", this.handleFieldErrors);
     this.addEventListener("clear-errors", this.clearErrors);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.store.resetState(true);
-    this.removeEventListener("update-errors", this.handleErrors);
+    this.removeEventListener("update-errors", this.handleFieldErrors);
     this.removeEventListener("clear-errors", this.clearErrors);
   }
 
@@ -206,10 +205,6 @@ export default class NewContent extends MvElement {
 
   clearErrors = () => {
     this.errors = null;
-  };
-
-  handleErrors = (event) => {
-    this.errors = event.detail.errors;
   };
 
   handleFieldErrors = (event) => {
@@ -265,11 +260,21 @@ export default class NewContent extends MvElement {
       detail: { error },
     } = event;
     console.error("error: ", error);
-    const [message, statusCode] = error;
+
+    let messageContent = null;
+    if (Array.isArray(message)) {
+      const [messageText, statusCode] = error;
+      messageContent = html`<span>${messageText}</span><br /><small
+          >${statusCode}</small
+        >`;
+    } else {
+      messageContent = html`<span>${error}</span>`;
+    }
+
     this.dialog = {
       status: "fail",
       title: "Error",
-      message: html`<span>${message}</span><br /><small>${statusCode}</small>`,
+      message: messageContent,
       open: true,
     };
     this.failCallback(

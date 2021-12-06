@@ -3,7 +3,6 @@ import { modelEndpoints } from "../../../service/Endpoint.js";
 import * as config from "config";
 import { NULL_ENTITY, EMPTY_DIALOG, toTitleName } from "utils";
 import "mv-button";
-import "mv-container";
 import "mv-dialog";
 import "mv-dropdown";
 import "mv-font-awesome";
@@ -32,7 +31,7 @@ export default class ListContent extends LitElement {
       "selected-rows": { type: Array, attribute: false },
       withCheckbox: { type: Boolean, attribute: "with-checkbox" },
       entity: { type: Object, attribute: false },
-      entities: {type: Object, attribute: false},
+      entities: { type: Object, attribute: false },
       filters: { type: Object, attribute: false },
       fields: { type: Array, attribute: false },
       messageDialog: { type: Object, attribute: false },
@@ -195,7 +194,7 @@ export default class ListContent extends LitElement {
     const { formFields } = entity;
 
     return html`
-      <mv-container>
+      <div>
         <h1>${this.entity.label}</h1>
         <div class="action-section">
           <div>
@@ -264,7 +263,7 @@ export default class ListContent extends LitElement {
             ></mv-pagination>
           </div>
         </div>
-      </mv-container>
+      </div>
       <mv-dialog
         class="message-dialog dialog-size"
         header-label="${this.messageDialog.title}"
@@ -457,13 +456,21 @@ export default class ListContent extends LitElement {
       detail: { error },
     } = event;
     console.error("error: ", error);
-    const {
-      name,
-      message: [message, statusCode],
-    } = error;
+    const { name, message } = error;
+
+    let messageContent = null;
+    if (Array.isArray(message)) {
+      const [messageText, statusCode] = message;
+      messageContent = html`<span>${messageText}</span><br /><small
+          >${statusCode}</small
+        >`;
+    } else {
+      messageContent = html`<span>${message}</span>`;
+    }
+
     this.messageDialog = {
       title: name,
-      message: html`<span>${message}</span><br /><small>${statusCode}</small>`,
+      message: messageContent,
       open: true,
     };
   };

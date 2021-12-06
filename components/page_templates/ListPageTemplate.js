@@ -1,14 +1,7 @@
 import { LitElement, html, css } from "lit-element";
 import { NULL_ENTITY, EMPTY_DIALOG } from "utils";
-import "mv-button";
 import "mv-container";
-import "mv-dialog";
-import "mv-font-awesome";
-import "mv-pagination";
-import "mv-table";
-import "mv-tooltip";
 import "./content/ListContent.js";
-import "../../components/TableActions.js";
 import "../../components/layout/PageLayout.js";
 
 const DEFAULT_FILTER = {
@@ -51,17 +44,19 @@ export default class ListPageTemplate extends LitElement {
   render() {
     return html`
       <page-layout>
-        <list-content
-          selectable
-          with-checkbox
-          .auth="${this.auth}"
-          .entity="${this.entity}"
-          .entities="${this.entities}"
-          .selected-rows="${this.selectedRows}"
-          @new-item="${this.newItem}"
-          @edit-item="${this.editRow}"
-          @row-click="${this.selectRow}"
-        ></list-content>
+        <mv-container>
+          <list-content
+            selectable
+            with-checkbox
+            .auth="${this.auth}"
+            .entity="${this.entity}"
+            .entities="${this.entities}"
+            .selected-rows="${this.selectedRows}"
+            @new-item="${this.newItem}"
+            @edit-item="${this.editRow}"
+            @row-click="${this.selectRow}"
+          ></list-content>
+        </mv-container>
       </page-layout>
     `;
   }

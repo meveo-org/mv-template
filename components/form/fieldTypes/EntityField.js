@@ -67,11 +67,11 @@ export default class EntityField extends FieldTemplate {
         align-items: center;
         justify-items: start;
         background: transparent;
+        width: 100%;
         border: var(--entity-button-border);
         border-radius: var(--border-radius);
         min-height: var(--max-height);
         max-height: var(--max-height);
-        width: 100%;
         padding: var(--input-padding);
         font-size: var(--entity-field-font-size);
         color: var(--mv-input-color, #818181);
@@ -94,8 +94,16 @@ export default class EntityField extends FieldTemplate {
       }
 
       .dialog-content {
-        padding-top: 40px;
+        padding: 1.8rem 0;
         width: 100%;
+      }
+
+      div[slot="tooltip-content"] {
+        display: flex;
+        flex-direction: column;
+        align-content: flex-start;
+        justify-content: flex-start;
+        align-items: flex-start;
       }
     `;
   }
@@ -137,19 +145,24 @@ export default class EntityField extends FieldTemplate {
     `;
   }
 
-  renderButtonValues = (fieldClass) =>
-    html`
+  renderButtonValues = (fieldClass) => {
+    const { code, label, name, uuid } = this.value || {};
+    let buttonLabel = label || name || code;
+    buttonLabel = buttonLabel ? buttonLabel : (uuid || "").split("-")[0];
+    return html`
       <mv-tooltip>
         <button class="${fieldClass}" @click="${this.openList}">
-          ${this.value.uuid}
+          ${buttonLabel}
         </button>
         <div slot="tooltip-content">
           ${Object.keys(this.value).map(this.renderEntityValue)}
         </div>
       </mv-tooltip>
     `;
+  };
 
-  renderEntityValue = (key) => html`<b>${key}</b>: ${this.value[key]}`;
+  renderEntityValue = (key) =>
+    html`<span><b>${key}</b>: ${this.value[key]}</span>`;
 
   renderButtonOnly = (fieldClass, label) =>
     html`
@@ -244,9 +257,10 @@ export default class EntityField extends FieldTemplate {
 
   selectRow = (event) => {
     const {
-      detail: { row },
+      detail: { selected },
     } = event;
-    this.selectedItem = row;
+    const [item] = selected;
+    this.selectedItem = item;
   };
 
   change = (originalEvent) => {

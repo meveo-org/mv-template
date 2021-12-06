@@ -5,7 +5,7 @@
  * @returns a reduce function that extracts the value that correspond
  * to a property and adds it to the resulting request parameters object
  */
-export const mapProperties = (parameters) => {
+ export const mapProperties = (parameters) => {
   return function (requestParameters, property) {
     const value = parameters[property];
     if (!!value) {
@@ -81,10 +81,9 @@ export const buildRequestParameters = (endpoint, parameters) => {
       decorateProperties: () => ({}),
     };
     const props = keys.reduce(mapProperties(parameters), {});
-    const properties = !!decorateProperties
+    return !!decorateProperties
       ? decorateProperties({ props, parameters, endpoint, entity })
       : props;
-    return properties;
   }
   return null;
 };

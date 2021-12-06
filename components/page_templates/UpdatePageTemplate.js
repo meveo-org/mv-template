@@ -1,10 +1,15 @@
 import { html } from "lit-element";
+import "mv-container";
 import "../layout/PageLayout.js";
 import UpdateContent from "./content/UpdateContent.js";
 
 export default class UpdatePageTemplate extends UpdateContent {
   render() {
-    return html`<page-layout>${super.render()}</page-layout>`;
+    return html`
+      <page-layout>
+        <mv-container>${super.render()}</mv-container>
+      </page-layout>
+    `;
   }
 
   cancelCallback = () => {
