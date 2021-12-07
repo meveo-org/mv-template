@@ -1,5 +1,7 @@
 import { html, css } from "lit-element";
 import FieldTemplate from "./FieldTemplate.js";
+import * as config from "config";
+import { modelEndpoints } from "../../../service/Endpoint.js";
 import "mv-button";
 import "mv-dialog";
 import "mv-form-field";
@@ -14,6 +16,7 @@ export default class EntityField extends FieldTemplate {
       auth: { type: Object, attribute: false },
       entity: { type: Object, attribute: false },
       dialog: { type: Object, attribute: false },
+      errorDialog: { type: Object, attribute: false },
       selectedItem: { type: Object, attribute: false },
       hideUuid: { type: Boolean, attribute: "hide-uuid" },
     };
@@ -98,6 +101,11 @@ export default class EntityField extends FieldTemplate {
         width: 100%;
       }
 
+      .dialog-size {
+        --mv-dialog-width: 500px;
+        --mv-dialog-max-height: 300px;
+      }
+
       div[slot="tooltip-content"] {
         display: flex;
         flex-direction: column;
@@ -117,10 +125,14 @@ export default class EntityField extends FieldTemplate {
       open: false,
       content: html``,
     };
+    this.errorDialog = {
+      open: false,
+      content: html``,
+    };
     this.entity = null;
   }
 
-  renderInput() {
+  renderInput = () => {
     const hasValue =
       !!this.value && Object.getOwnPropertyNames(this.value).length > 0;
     const selectionClass = hasValue ? "" : " no-selection";
@@ -142,8 +154,23 @@ export default class EntityField extends FieldTemplate {
       >
         ${this.dialog.content}
       </mv-dialog>
+      <mv-dialog
+        class="dialog-size"
+        header-label="${this.errorDialog.title}"
+        ?open="${this.errorDialog.open}"
+        @close-dialog="${this.closeErrorDialog}"
+        no-left-button
+        closeable
+      >
+        <p>${this.errorDialog.message}</p>
+        <span slot="footer">
+          <mv-button @button-clicked="${this.closeErrorDialog}">
+            Close
+          </mv-button>
+        </span>
+      </mv-dialog>
     `;
-  }
+  };
 
   renderButtonValues = (fieldClass) => {
     const { code, label, name, uuid } = this.value || {};
@@ -218,6 +245,59 @@ export default class EntityField extends FieldTemplate {
     `;
   };
 
+  updated = (changedProperties) => {
+    if (changedProperties.has("value")) {
+      const { uuid } = this.value;
+      if (!uuid) {
+        const endpointInterface = modelEndpoints(this.entity).DETAIL;
+        endpointInterface.executeApiCall(
+          {
+            config,
+            token: this.auth.token,
+            uuid: this.value,
+          },
+          this.updateDetails,
+          this.handleErrors
+        );
+      }
+    }
+  };
+
+  updateDetails = (originalEvent) => {
+    const {
+      detail: { result },
+    } = originalEvent;
+    this.value = result;
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: { value: { ...this.value }, originalEvent: { target: this } },
+      })
+    );
+  };
+
+  handleErrors = (event) => {
+    const {
+      detail: { error },
+    } = event;
+    console.error("error: ", error);
+    const { name, message } = error;
+    let messageContent = null;
+    if (Array.isArray(message)) {
+      const [messageText, statusCode] = message;
+      messageContent = html`
+        <span>${messageText}</span><br />
+        <small>${statusCode}</small>
+      `;
+    } else {
+      messageContent = html`<span>${message}</span>`;
+    }
+    this.errorDialog = {
+      title: name || "Error",
+      message: messageContent,
+      open: true,
+    };
+  };
+
   openList = () => {
     const { name } = this.field;
     this.dialog = {
@@ -230,6 +310,10 @@ export default class EntityField extends FieldTemplate {
 
   closeDialog = () => {
     this.dialog = { ...this.dialog, open: false };
+  };
+
+  closeErrorDialog = () => {
+    this.errorDialog = { ...this.errorDialog, open: false };
   };
 
   editItem = (event) => {

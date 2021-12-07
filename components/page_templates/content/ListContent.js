@@ -457,19 +457,19 @@ export default class ListContent extends LitElement {
     } = event;
     console.error("error: ", error);
     const { name, message } = error;
-
     let messageContent = null;
     if (Array.isArray(message)) {
       const [messageText, statusCode] = message;
-      messageContent = html`<span>${messageText}</span><br /><small
-          >${statusCode}</small
-        >`;
+      messageContent = html`
+        <span>${messageText}</span><br />
+        <small>${statusCode}</small>
+      `;
     } else {
       messageContent = html`<span>${message}</span>`;
     }
 
     this.messageDialog = {
-      title: name,
+      title: name || "Error",
       message: messageContent,
       open: true,
     };

@@ -260,20 +260,21 @@ export default class NewContent extends MvElement {
       detail: { error },
     } = event;
     console.error("error: ", error);
-
     let messageContent = null;
+    const { name, message } = error;
     if (Array.isArray(message)) {
       const [messageText, statusCode] = error;
-      messageContent = html`<span>${messageText}</span><br /><small
-          >${statusCode}</small
-        >`;
+      messageContent = html`
+        <span>${messageText}</span><br />
+        <small>${statusCode}</small>
+      `;
     } else {
       messageContent = html`<span>${error}</span>`;
     }
 
     this.dialog = {
       status: "fail",
-      title: "Error",
+      title: name || "Error",
       message: messageContent,
       open: true,
     };

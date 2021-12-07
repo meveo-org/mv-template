@@ -67,38 +67,44 @@ export default class FieldTemplate extends LitElement {
   }
 
   render() {
-    const { code, label } = this.field || {};
+    const { code } = this.field || {};
     const error = matchError(this.errors, code);
     const hasError = !!error;
     const errorClass = hasError ? " error" : "";
     return html`
       <mv-form-field name="${code}" label-position="none" .error="${error}">
         <div slot="field" class="field">
-          ${this.hideLabel
-            ? html``
-            : html`
-                <label for="${code}" class="label${errorClass}">
-                  ${label}
-                </label>
-              `}
+          ${this.renderLabel(this.field, errorClass)}
           <div class="input">${this.renderInput()}</div>
-          ${this.removable
-            ? html`
-                <div class="button">
-                  <mv-button
-                    button-style="error"
-                    class="small-button"
-                    @button-clicked="${this.remove}"
-                  >
-                    <mv-fa icon="minus"></mv-fa>
-                  </mv-button>
-                </div>
-              `
-            : html``}
+          ${this.renderDeleteButton()}
         </div>
       </mv-form-field>
     `;
   }
+
+  renderLabel = (field, errorClass) =>
+    this.hideLabel
+      ? html``
+      : html`
+          <label for="${field.code}" class="label${errorClass}">
+            ${field.label}
+          </label>
+        `;
+
+  renderDeleteButton = () =>
+    this.removable
+      ? html`
+          <div class="button">
+            <mv-button
+              button-style="error"
+              class="small-button"
+              @button-clicked="${this.remove}"
+            >
+              <mv-fa icon="minus"></mv-fa>
+            </mv-button>
+          </div>
+        `
+      : html``;
 
   change = (originalEvent) => {
     const { detail } = originalEvent;
