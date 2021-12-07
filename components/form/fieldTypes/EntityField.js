@@ -247,8 +247,8 @@ export default class EntityField extends FieldTemplate {
 
   updated = (changedProperties) => {
     if (changedProperties.has("value")) {
-      const { uuid } = this.value;
-      if (!uuid) {
+      const isStringValue = this.value && typeof this.value === "string";
+      if (isStringValue) {
         const endpointInterface = modelEndpoints(this.entity).DETAIL;
         endpointInterface.executeApiCall(
           {
