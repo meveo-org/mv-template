@@ -1,7 +1,7 @@
 import { LitElement, html, css } from "lit-element";
 import "mv-button";
 import "mv-form-group";
-import { changeField } from "mv-form-utils";
+import { changeField, matchError } from "mv-form-utils";
 import "../storageTypes/SingleField.js";
 
 export default class ArrayField extends LitElement {
@@ -80,11 +80,12 @@ export default class ArrayField extends LitElement {
     super();
     this.entity = null;
     this.entities = {};
+    this.errors = null;
     this.field = {};
     this.value = [];
   }
 
-  render() {
+  render = () => {
     const { field } = this;
     const { label } = field || {};
     return html`
@@ -101,13 +102,23 @@ export default class ArrayField extends LitElement {
             </mv-button>
           </label>
         </legend>
-        ${this.renderFields()}
+        ${this.renderFieldGroup()}
       </fieldset>
     `;
-  }
+  };
 
   renderRequired = ({ valueRequired }) =>
     valueRequired ? html`<i class="required"> *</i>` : null;
+
+  renderFieldGroup = () => html`
+    <mv-form-group
+      name="${this.field.code}"
+      .values="${this.value}"
+      .error="${matchError(this.errors, this.field.code)}"
+    >
+      ${this.renderFields()}
+    </mv-form-group>
+  `;
 
   renderFields = () =>
     (this.value || []).map(
@@ -115,6 +126,7 @@ export default class ArrayField extends LitElement {
         <single-field
           removable
           hide-label
+          hide-error
           .auth="${this.auth}"
           .entity="${this.entity}"
           .entities="${this.entities}"

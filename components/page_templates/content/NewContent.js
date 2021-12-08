@@ -170,11 +170,11 @@ export default class NewContent extends MvElement {
     super.connectedCallback();
     this.addEventListener("update-errors", this.handleFieldErrors);
     this.addEventListener("clear-errors", this.clearErrors);
+    this.store.resetState(true);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.store.resetState(true);
     this.removeEventListener("update-errors", this.handleFieldErrors);
     this.removeEventListener("clear-errors", this.clearErrors);
   }

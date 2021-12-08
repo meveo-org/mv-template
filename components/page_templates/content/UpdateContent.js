@@ -244,12 +244,12 @@ export default class UpdateContent extends MvElement {
       (allFields, group) => [...allFields, ...group.fields],
       []
     );
+    this.store.resetState(true);
     this.loadFormData();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.store.resetState(true);
     this.removeEventListener("update-errors", this.handleFieldErrors);
     this.removeEventListener("clear-errors", this.clearErrors);
   }

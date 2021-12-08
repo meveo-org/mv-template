@@ -196,7 +196,7 @@ export default class EntityField extends FieldTemplate {
       <button class="${fieldClass}" @click="${this.openList}">${label}</button>
     `;
 
-  getListComponent = (name) => {
+  getListComponent = () => {
     return html`
       <div class="dialog-content">
         <list-content
@@ -214,11 +214,11 @@ export default class EntityField extends FieldTemplate {
     `;
   };
 
-  getNewItemComponent = (name) => {
+  getNewItemComponent = () => {
     return html`
       <div class="dialog-content">
         <new-content
-          name="${name}"
+          name="${this.field.code}"
           storage-modes="local"
           .auth="${this.auth}"
           .entity="${this.entity}"
@@ -229,11 +229,11 @@ export default class EntityField extends FieldTemplate {
     `;
   };
 
-  getUpdateItemComponent = (name, row) => {
+  getUpdateItemComponent = (row) => {
     return html`
       <div class="dialog-content">
         <update-content
-          name="${name}"
+          name="${this.field.code}"
           storage-modes="local"
           .auth="${this.auth}"
           .entity="${this.entity}"
@@ -299,11 +299,10 @@ export default class EntityField extends FieldTemplate {
   };
 
   openList = () => {
-    const { name } = this.field;
     this.dialog = {
       ...this.dialog,
       open: true,
-      content: this.getListComponent(name),
+      content: this.getListComponent(),
       noFooter: false,
     };
   };
@@ -320,21 +319,19 @@ export default class EntityField extends FieldTemplate {
     const {
       detail: { row },
     } = event;
-    const { name } = this.field;
     this.dialog = {
       ...this.dialog,
       open: true,
-      content: this.getUpdateItemComponent(name, row),
+      content: this.getUpdateItemComponent(row),
       noFooter: true,
     };
   };
 
   newItem = () => {
-    const { name } = this.field;
     this.dialog = {
       ...this.dialog,
       open: true,
-      content: this.getNewItemComponent(name),
+      content: this.getNewItemComponent(),
       noFooter: true,
     };
   };

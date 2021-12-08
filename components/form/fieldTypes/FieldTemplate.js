@@ -15,6 +15,7 @@ export default class FieldTemplate extends LitElement {
       removable: { type: Boolean },
       hideLabel: { type: Boolean, attribute: "hide-label" },
       hidePlaceholder: { type: Boolean, attribute: "hide-placeholder" },
+      hideError: { type: Boolean, attribute: "hide-error" },
     };
   }
 
@@ -64,6 +65,7 @@ export default class FieldTemplate extends LitElement {
     this.removable = false;
     this.hideLabel = false;
     this.hidePlaceholder = false;
+    this.hideError = false;
   }
 
   render() {
@@ -72,7 +74,11 @@ export default class FieldTemplate extends LitElement {
     const hasError = !!error;
     const errorClass = hasError ? " error" : "";
     return html`
-      <mv-form-field name="${code}" label-position="none" .error="${error}">
+      <mv-form-field
+        name="${code}"
+        label-position="none"
+        .error="${this.hideError ? null : error}"
+      >
         <div slot="field" class="field">
           ${this.renderLabel(this.field, errorClass)}
           <div class="input">${this.renderInput()}</div>
