@@ -64,33 +64,8 @@ export default class UpdateContent extends MvElement {
       }
 
       .form-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-column-gap: 20px;
-      }
-
-      @media screen and (min-width: 980px) {
-        .form-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-      }
-
-      @media screen and (min-width: 1440px) {
-        .form-grid {
-          grid-template-columns: repeat(3, 1fr);
-        }
-      }
-
-      @media screen and (min-width: 1920px) {
-        .form-grid {
-          grid-template-columns: repeat(4, 1fr);
-        }
-      }
-
-      @media screen and (min-width: 2600px) {
-        .form-grid {
-          grid-template-columns: repeat(5, 1fr);
-        }
+        display: flex;
+        flex-direction: column;
       }
 
       .form-content {

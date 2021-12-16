@@ -45,7 +45,7 @@ export default class FieldTemplate extends LitElement {
 
       .input {
         width: calc(100% - var(--button-size));
-        padding: var(--padding-size);
+        padding: 0;
         position: relative;
       }
 

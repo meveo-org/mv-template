@@ -218,7 +218,7 @@ export default class EntityField extends FieldTemplate {
     return html`
       <div class="dialog-content">
         <new-content
-          name="${this.field.code}"
+          name="${this.entity.code}"
           storage-modes="local"
           .auth="${this.auth}"
           .entity="${this.entity}"
@@ -233,7 +233,7 @@ export default class EntityField extends FieldTemplate {
     return html`
       <div class="dialog-content">
         <update-content
-          name="${this.field.code}"
+          name="${this.entity.code}"
           storage-modes="local"
           .auth="${this.auth}"
           .entity="${this.entity}"
