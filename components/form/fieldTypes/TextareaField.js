@@ -1,8 +1,15 @@
-import { html } from "lit-element";
+import { html, css } from "lit-element";
 import FieldTemplate from "./FieldTemplate.js";
 import "mv-textarea";
 
 export default class TextareaField extends FieldTemplate {
+  static get styles() {
+    return css`
+      :host {
+        --mv-textarea-width: calc(100% - 18px);
+      }
+    `;
+  }
   renderInput() {
     const { label, disabled, valueRequired } = this.field || {};
     return html`

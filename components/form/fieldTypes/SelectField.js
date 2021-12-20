@@ -21,7 +21,7 @@ export default class SelectField extends FieldTemplate {
       mv-select {
         --mv-select-font-size: 16px;
         --mv-select-input-padding: 6.25px;
-        --mv-select-width: calc(100% - 16px);
+        --mv-select-width: calc(100% - 15px);
       }
 
       mv-button {
@@ -30,20 +30,8 @@ export default class SelectField extends FieldTemplate {
         --mv-button-min-width: var(--button-size);
       }
 
-      .field {
-        display: flex;
-        justify-content: space-between;
-        align-items: start;
-      }
-
       .label {
         padding-top: var(--padding-size);
-      }
-
-      .input {
-        width: calc(100% - var(--button-size));
-        padding: 0;
-        position: relative;
       }
 
       .button {

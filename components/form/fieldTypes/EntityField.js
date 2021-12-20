@@ -47,18 +47,6 @@ export default class EntityField extends FieldTemplate {
         --mv-button-min-width: var(--button-size);
       }
 
-      .field {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .input {
-        width: calc(100% - var(--button-size));
-        padding-top: 3px;
-        position: relative;
-      }
-
       .button {
         height: var(--button-size);
       }

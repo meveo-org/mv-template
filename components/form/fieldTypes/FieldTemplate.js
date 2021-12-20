@@ -33,20 +33,8 @@ export default class FieldTemplate extends LitElement {
         --mv-button-min-width: var(--button-size);
       }
 
-      .field {
-        display: flex;
-        justify-content: space-between;
-        align-items: start;
-      }
-
       .label {
         padding-top: var(--padding-size);
-      }
-
-      .input {
-        width: calc(100% - var(--button-size));
-        padding: 0;
-        position: relative;
       }
 
       .small-button {
@@ -79,7 +67,7 @@ export default class FieldTemplate extends LitElement {
         label-position="none"
         .error="${this.hideError ? null : error}"
       >
-        <div slot="field" class="field">
+        <div slot="field" class="field-template">
           ${this.renderLabel(this.field, errorClass)}
           <div class="input">${this.renderInput()}</div>
           ${this.renderDeleteButton()}

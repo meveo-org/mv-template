@@ -47,13 +47,6 @@ export default class ArrayField extends LitElement {
         resize: none;
       }
 
-      button,
-      label {
-        font-size: 1em;
-        font-weight: bold;
-        color: #4e686d;
-      }
-
       label .required {
         font-style: normal;
         color: #ff0000;
@@ -89,21 +82,17 @@ export default class ArrayField extends LitElement {
     const { field } = this;
     const { label } = field || {};
     return html`
-      <fieldset>
-        <legend>
-          <label>
-            ${label}${this.renderRequired(field)}
-            <mv-button
-              type="circle"
-              class="small-button"
-              @button-clicked="${this.addItem}"
-            >
-              <mv-fa icon="plus"></mv-fa>
-            </mv-button>
-          </label>
-        </legend>
-        ${this.renderFieldGroup()}
-      </fieldset>
+      <label>
+        ${label}${this.renderRequired(field)}
+        <mv-button
+          type="circle"
+          class="small-button"
+          @button-clicked="${this.addItem}"
+        >
+          <mv-fa icon="plus"></mv-fa>
+        </mv-button>
+      </label>
+      ${this.renderFieldGroup()}
     `;
   };
 

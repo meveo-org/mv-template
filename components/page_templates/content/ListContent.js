@@ -164,8 +164,8 @@ export default class ListContent extends LitElement {
     this.entities = {};
     this.pages = 1;
     this.currentPage = 1;
-    this.rowsPerPage = ROWS_PER_PAGE[1].value;
-    this.selectedRowsPerPage = ROWS_PER_PAGE[1];
+    this.rowsPerPage = ROWS_PER_PAGE[0].value;
+    this.selectedRowsPerPage = ROWS_PER_PAGE[0];
     this.rows = [];
     this.fields = [];
     this.columnOrder = [];
