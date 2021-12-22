@@ -191,6 +191,8 @@ export default class EntityField extends FieldTemplate {
           select-one
           with-checkbox
           no-list-actions
+          no-new-button
+          no-rows-per-page
           .auth="${this.auth}"
           .entity="${this.entity}"
           @edit-item="${this.editItem}"

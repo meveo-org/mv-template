@@ -30,6 +30,8 @@ export default class ListContent extends LitElement {
       selectOne: { type: Boolean, attribute: "select-one" },
       "selected-rows": { type: Array, attribute: false },
       withCheckbox: { type: Boolean, attribute: "with-checkbox" },
+      noNewButton: { type: Boolean, attribute: "no-new-button" },
+      noRowsPerPage: { type: Boolean, attribute: "no-rows-per-page" },
       entity: { type: Object, attribute: false },
       entities: { type: Object, attribute: false },
       filters: { type: Object, attribute: false },
@@ -160,6 +162,8 @@ export default class ListContent extends LitElement {
     this.selectable = false;
     this.selectOne = false;
     this.noListActions = false;
+    this.noNewButton = false;
+    this.noRowsPerPage = false;
     this.entity = { ...NULL_ENTITY };
     this.entities = {};
     this.pages = 1;
@@ -197,22 +201,9 @@ export default class ListContent extends LitElement {
       <div>
         <h1>${this.entity.label}</h1>
         <div class="action-section">
-          <div>
-            <mv-button type="rounded" @button-clicked="${this.newItem}">
-              <mv-fa icon="plus"></mv-fa>New
-            </mv-button>
-          </div>
+          <div>${this.renderNewButton()}</div>
           <div class="right">
-            <div class="text-with-selection">
-              <span>Show</span>
-              <mv-select
-                .value="${this.selectedRowsPerPage}"
-                .options="${ROWS_PER_PAGE}"
-                @select-option="${this.changeRowsPerPage}"
-                no-clear-button
-              ></mv-select>
-              <span>rows</span>
-            </div>
+            ${this.renderRowsPerPage()}
             <mv-dropdown
               container
               justify="right"
@@ -287,6 +278,31 @@ export default class ListContent extends LitElement {
       </mv-dialog>
     `;
   }
+
+  renderNewButton = () =>
+    this.noNewButton
+      ? null
+      : html`
+          <mv-button type="rounded" @button-clicked="${this.newItem}">
+            <mv-fa icon="plus"></mv-fa>New
+          </mv-button>
+        `;
+
+  renderRowsPerPage = () =>
+    this.noRowsPerPage
+      ? null
+      : html`
+          <div class="text-with-selection">
+            <span>Show</span>
+            <mv-select
+              .value="${this.selectedRowsPerPage}"
+              .options="${ROWS_PER_PAGE}"
+              @select-option="${this.changeRowsPerPage}"
+              no-clear-button
+            ></mv-select>
+            <span>rows</span>
+          </div>
+        `;
 
   renderListCustomActions = () => {
     const { listActions } = this;
