@@ -23,7 +23,6 @@ export default class FieldTemplate extends LitElement {
     return css`
       :host {
         --button-size: 24px;
-        --padding-size: 0.5rem;
         --mv-dropdown-trigger-padding: 0;
       }
 
@@ -31,10 +30,6 @@ export default class FieldTemplate extends LitElement {
         --mv-button-margin: 0 0 0 5px;
         --mv-button-padding: 3px 4px;
         --mv-button-min-width: var(--button-size);
-      }
-
-      .label {
-        padding-top: var(--padding-size);
       }
 
       .small-button {
@@ -67,26 +62,29 @@ export default class FieldTemplate extends LitElement {
         label-position="none"
         .error="${this.hideError ? null : error}"
       >
-        <div slot="field" class="field-template">
-          ${this.renderLabel(this.field, errorClass)}
-          <div class="input">${this.renderInput()}</div>
-          ${this.renderDeleteButton()}
+        <div slot="field">
+          <div class="field-template">
+            ${this.renderLabel(this.field, errorClass)}
+            <div class="input">${this.renderInput()}</div>
+            ${this.renderDeleteButton()}
+          </div>
         </div>
       </mv-form-field>
     `;
   }
 
-  renderLabel = (field, errorClass) =>
-    this.hideLabel
+  renderLabel(field, errorClass) {
+    return this.hideLabel
       ? html``
       : html`
           <label for="${field.code}" class="label${errorClass}">
             ${field.label}
           </label>
         `;
+  }
 
-  renderDeleteButton = () =>
-    this.removable
+  renderDeleteButton() {
+    return this.removable
       ? html`
           <div class="button">
             <mv-button
@@ -99,6 +97,7 @@ export default class FieldTemplate extends LitElement {
           </div>
         `
       : html``;
+  }
 
   change = (originalEvent) => {
     const { detail } = originalEvent;

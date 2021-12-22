@@ -13,11 +13,6 @@ export default class SelectField extends FieldTemplate {
 
   static get styles() {
     return css`
-      :host {
-        --button-size: 24px;
-        --padding-size: 0.5rem;
-      }
-
       mv-select {
         --mv-select-font-size: 16px;
         --mv-select-input-padding: 6.25px;
@@ -27,15 +22,7 @@ export default class SelectField extends FieldTemplate {
       mv-button {
         --mv-button-margin: 0 0 0 5px;
         --mv-button-padding: 3px 4px;
-        --mv-button-min-width: var(--button-size);
-      }
-
-      .label {
-        padding-top: var(--padding-size);
-      }
-
-      .button {
-        height: var(--button-size);
+        --mv-button-min-width: 24px;
       }
     `;
   }
