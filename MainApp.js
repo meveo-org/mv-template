@@ -103,9 +103,9 @@ class MainApp extends LitElement {
       detail: { auth },
     } = event;
     this.auth = auth;
-    const { MODELS, PERMISSIONS } = await retrieveModels(auth);
-    this.permissions = PERMISSIONS;
-    this.entities = MODELS.reduce(
+    const { MODELS, ENTITY_PERMISSIONS } = await retrieveModels(auth);
+    this.permissions = ENTITY_PERMISSIONS;
+    this.entities = (MODELS || []).reduce(
       (entities, model) => ({
         ...entities,
         [model.code]: new model.ModelClass(auth),
