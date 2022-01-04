@@ -8,6 +8,7 @@ class PageRoutes extends LitElement {
   static get properties() {
     return {
       entities: { type: Object, attribute: false },
+      permissions: { type: Object, attribute: false },
       auth: { type: Object, attribute: false },
     };
   }
@@ -15,6 +16,7 @@ class PageRoutes extends LitElement {
   constructor() {
     super();
     this.entities = null;
+    this.permissions = null;
     this.auth = null;
   }
 
@@ -27,6 +29,7 @@ class PageRoutes extends LitElement {
           path="dashboard"
           .auth="${this.auth}"
           .entities="${this.entities}"
+          .permissions="${this.permissions}"
           component="${PAGES_PATH}/MainDashboard.js"
         ></mv-router>
         ${this.renderDynamicRoutes()}
@@ -45,6 +48,7 @@ class PageRoutes extends LitElement {
           .auth="${this.auth}"
           .entity="${entity}"
           .entities="${this.entities}"
+          .permissions="${this.permissions}"
           storage-modes="local"
           component="${PAGES_PATH}/${entity.code}/NewPage.js"
         ></mv-router>
@@ -55,6 +59,7 @@ class PageRoutes extends LitElement {
           .auth="${this.auth}"
           .entity="${entity}"
           .entities="${this.entities}"
+          .permissions="${this.permissions}"
           storage-modes="local"
           component="${PAGES_PATH}/${entity.code}/UpdatePage.js"
         ></mv-router>
@@ -64,6 +69,7 @@ class PageRoutes extends LitElement {
           .auth="${this.auth}"
           .entity="${entity}"
           .entities="${this.entities}"
+          .permissions="${this.permissions}"
           component="${PAGES_PATH}/${entity.code}/ListPage.js"
         ></mv-router>
       `;

@@ -87,6 +87,34 @@ export const retrieveSchema = async (auth, url, method = "GET") => {
   }
 };
 
+export const retrieveModels = async (auth) => {
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+  headers.append("Accept", "application/json");
+  headers.append("Authorization", `Bearer ${auth.token}`);
+
+  try {
+    const response = await fetch(MODEL_PATH, { method: 'GET', headers });
+    if (!response.ok) {
+      throw new Error({
+        name: "Model Error",
+        message: [
+          `Encountered error retrieving models`,
+          `Status code: ${response.status} [${response.statusText}]`,
+        ],
+      });
+    }
+    const type = response.headers.get("Content-Type") || "";
+    if (type.includes("application/json")) {
+      return await response.json();
+    }
+    return { statusCode: response.status, status: response.statusText };
+  } catch (error) {
+    console.error("error: ", error);
+    return { detail: { error } };
+  }
+};
+
 export const getSchema = (auth, code) => {
   return retrieveSchema(auth, `${SCHEMA_PATH}/${code}`);
 };

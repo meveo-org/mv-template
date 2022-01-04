@@ -1,5 +1,5 @@
 import { LitElement, html, css } from "lit-element";
-import { MODELS } from "models";
+import { retrieveModels } from "utils";
 import "mv-container";
 import "mv-footer";
 import "mv-header";
@@ -20,6 +20,7 @@ class MainApp extends LitElement {
     super();
     this.auth = null;
     this.entities = null;
+    this.permissions = null;
   }
 
   static get styles() {
@@ -81,6 +82,7 @@ class MainApp extends LitElement {
     return html`
       <page-routes
         .entities="${this.entities}"
+        .permissions="${this.permissions}"
         .auth="${this.auth}"
       ></page-routes>
     `;
@@ -96,11 +98,13 @@ class MainApp extends LitElement {
     document.removeEventListener("logout", this.logout);
   }
 
-  loginSuccess = (event) => {
+  loginSuccess = async (event) => {
     const {
       detail: { auth },
     } = event;
     this.auth = auth;
+    const { MODELS, PERMISSIONS } = await retrieveModels(auth);
+    this.permissions = PERMISSIONS;
     this.entities = MODELS.reduce(
       (entities, model) => ({
         ...entities,
