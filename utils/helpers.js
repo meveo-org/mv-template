@@ -1,5 +1,4 @@
-import { MODELS } from "models";
-import { PERSISTENCE_PATH, SCHEMA_PATH, CUSTOM_ACTION_PATH } from "config";
+import { PERSISTENCE_PATH, SCHEMA_PATH, CUSTOM_ACTION_PATH, MODEL_PATH } from "config";
 
 export const findEntity = (entities, code) => {
   return entities.find((entity) => entity.code === code) || {};
