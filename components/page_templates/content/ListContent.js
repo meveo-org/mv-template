@@ -34,6 +34,7 @@ export default class ListContent extends LitElement {
       noRowsPerPage: { type: Boolean, attribute: "no-rows-per-page" },
       entity: { type: Object, attribute: false },
       entities: { type: Object, attribute: false },
+      permissions: { type: Object, attribute: false },
       filters: { type: Object, attribute: false },
       fields: { type: Array, attribute: false },
       messageDialog: { type: Object, attribute: false },

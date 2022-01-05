@@ -19,6 +19,7 @@ export default class NewContent extends MvElement {
       auth: { type: Object, attribute: false },
       entity: { type: Object, attribute: false },
       entities: { type: Object, attribute: false },
+      permissions: { type: Object, attribute: false },
       errors: { type: Array, attribute: false },
       dialog: { type: Object, attribute: false },
     };

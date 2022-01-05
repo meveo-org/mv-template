@@ -14,7 +14,7 @@ export default class ChildEntityUpdatePage extends UpdatePageTemplate {
 
   get model() {
     return {
-      modelClass: this.entity.schema,
+      entity: this.entity,
       mappings: [...mappings],
     };
   }

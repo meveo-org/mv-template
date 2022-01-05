@@ -1,5 +1,4 @@
 import { LitElement, html, css } from "lit-element";
-import { MODELS } from "models";
 import "mv-menu-panel";
 import "mv-font-awesome";
 
@@ -10,6 +9,8 @@ class SidebarMenu extends LitElement {
       selected: { type: String },
       sidebar: { type: Boolean },
       expanded: { type: Boolean },
+      entities: { type: Object, attribute: false },
+      permissions: { type: Object, attribute: false },
       hasHeader: { type: Boolean, attribute: "has-header" },
     };
   }
@@ -136,7 +137,7 @@ class SidebarMenu extends LitElement {
             </router-link>
           </mv-menu-panel>
 
-          ${MODELS.map(
+          ${this.entities.map(
             (model) => html`
               <mv-menu-panel
                 item

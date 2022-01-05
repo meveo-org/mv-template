@@ -20,6 +20,7 @@ export default class UpdateContent extends MvElement {
       auth: { type: Object, attribute: false },
       entity: { type: Object, attribute: false },
       entities: { type: Object, attribute: false },
+      permissions: { type: Object, attribute: false },
       errors: { type: Array, attribute: false },
       parameters: { type: Object, attribute: false },
       formValues: { type: Object, attribute: false },

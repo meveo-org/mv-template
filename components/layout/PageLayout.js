@@ -8,6 +8,8 @@ import "./SidebarMenu.js";
 export default class PageLayout extends LitElement {
   static get properties() {
     return {
+      entities: { type: Object, attribute: false },
+      permissions: { type: Object, attribute: false },
       sidebarExpanded: { type: Boolean, attribute: false },
       theme: { type: String, attribute: true },
     };
@@ -87,6 +89,8 @@ export default class PageLayout extends LitElement {
         <mv-main>
           <topbar-menu slot="header"></topbar-menu>
           <sidebar-menu
+            .entities="${this.entities}"
+            .permissions="${this.permissions}"
             ?expanded="${this.sidebarExpanded}"
             @sidebar-item-clicked="${this.sidebarItemClicked}"
           ></sidebar-menu>

@@ -49,7 +49,7 @@ class MainApp extends LitElement {
         @auth-fail="${this.loginFailed}"
         @auth-init-fail="${this.loginFailed}"
       >
-        ${this.auth ? this.loadRoutes() : null}
+        ${this.auth && this.entities ? this.loadRoutes() : null}
         ${this.shadowTemplate("loading", this.loading())}
         ${this.shadowTemplate("authenticating", this.loading())}
         ${this.shadowTemplate("failed", "Authentication failed.")}

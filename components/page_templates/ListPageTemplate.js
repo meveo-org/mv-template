@@ -18,6 +18,7 @@ export default class ListPageTemplate extends LitElement {
     return {
       entity: { type: Object, attribute: false },
       entities: { type: Object, attribute: false },
+      permissions: { type: Object, attribute: false },
       auth: { type: Object, attribute: false },
       selectedRows: { type: Array, attribute: false },
     };
@@ -43,7 +44,10 @@ export default class ListPageTemplate extends LitElement {
 
   render() {
     return html`
-      <page-layout>
+      <page-layout
+        .entities="${this.entities}"
+        .permissions="${this.permissions}"
+      >
         <mv-container>
           <list-content
             selectable

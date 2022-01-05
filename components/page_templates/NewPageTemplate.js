@@ -6,7 +6,10 @@ import NewContent from "./content/NewContent.js";
 export default class NewPageTemplate extends NewContent {
   render() {
     return html`
-      <page-layout>
+      <page-layout
+        .entities="${this.entities}"
+        .permissions="${this.permissions}"
+      >
         <mv-container>${super.render()}</mv-container>
       </page-layout>
     `;
