@@ -88,8 +88,8 @@ export const retrieveSchema = async (auth, url, method = "GET") => {
 
 export const retrieveModels = async (auth) => {
   const headers = new Headers();
-  headers.append("Content-Type", "application/json");
-  headers.append("Accept", "application/json");
+  headers.append("Content-Type", "application/javascript");
+  headers.append("Accept", "application/javascript");
   headers.append("Authorization", `Bearer ${auth.token}`);
 
   try {
