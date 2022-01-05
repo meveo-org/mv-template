@@ -105,7 +105,7 @@ export const retrieveModels = async (auth) => {
     }
     const type = response.headers.get("Content-Type") || "";
     if (type.includes("application/javascript")) {
-      return response.body;
+      return await response.text();
     }
     return { statusCode: response.status, status: response.statusText };
   } catch (error) {
