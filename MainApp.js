@@ -103,15 +103,17 @@ class MainApp extends LitElement {
       detail: { auth },
     } = event;
     this.auth = auth;
-    const { MODELS, ENTITY_PERMISSIONS } = await retrieveModels(auth);
-    this.permissions = ENTITY_PERMISSIONS;
-    this.entities = (MODELS || []).reduce(
-      (entities, model) => ({
-        ...entities,
-        [model.code]: new model.ModelClass(auth),
-      }),
-      {}
-    );
+    const self = this;
+    retrieveModels(auth).then(({ MODELS, ENTITY_PERMISSIONS }) => {
+      self.permissions = ENTITY_PERMISSIONS;
+      self.entities = (MODELS || []).reduce(
+        (entities, model) => ({
+          ...entities,
+          [model.code]: new model.ModelClass(auth),
+        }),
+        {}
+      );
+    });
   };
 
   loginFailed = () => {
