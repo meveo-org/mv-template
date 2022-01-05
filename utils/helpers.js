@@ -104,8 +104,8 @@ export const retrieveModels = async (auth) => {
       });
     }
     const type = response.headers.get("Content-Type") || "";
-    if (type.includes("application/json")) {
-      return await response.json();
+    if (type.includes("application/javascript")) {
+      return await response.body();
     }
     return { statusCode: response.status, status: response.statusText };
   } catch (error) {
