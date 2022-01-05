@@ -104,7 +104,9 @@ class MainApp extends LitElement {
     } = event;
     this.auth = auth;
     const self = this;
-    retrieveModels(auth).then(({ MODELS, ENTITY_PERMISSIONS }) => {
+    retrieveModels(auth).then((response) => {
+      console.log('response: ', response);
+      const { MODELS, ENTITY_PERMISSIONS } = response;
       self.permissions = ENTITY_PERMISSIONS;
       self.entities = (MODELS || []).reduce(
         (entities, model) => ({
