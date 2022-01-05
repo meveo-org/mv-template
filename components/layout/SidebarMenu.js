@@ -105,7 +105,7 @@ class SidebarMenu extends LitElement {
   }
 
   render() {
-    const { theme } = this;
+    const { entities, theme } = this;
     const expandedClass = this.expanded ? "" : " collapsed";
 
     return html`
@@ -137,7 +137,7 @@ class SidebarMenu extends LitElement {
             </router-link>
           </mv-menu-panel>
 
-          ${this.entities.map(
+          ${(entities || []).map(
             (model) => html`
               <mv-menu-panel
                 item
