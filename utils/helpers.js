@@ -1,4 +1,9 @@
-import { PERSISTENCE_PATH, SCHEMA_PATH, CUSTOM_ACTION_PATH, MODEL_PATH } from "config";
+import {
+  PERSISTENCE_PATH,
+  SCHEMA_PATH,
+  CUSTOM_ACTION_PATH,
+  MODEL_PATH,
+} from "config";
 
 export const findEntity = (entities, code) => {
   return entities.find((entity) => entity.code === code) || {};
@@ -51,8 +56,8 @@ export const buildModelFields = (formFields) =>
     []
   );
 
-export const parseModelDetails = (entityCode) => {
-  const model = MODELS.find((modelItem) => modelItem.code === entityCode);
+export const parseModelDetails = (entityCode, models) => {
+  const model = models.find((modelItem) => modelItem.code === entityCode);
   const { formFields } = model;
   const properties = buildProperties(formFields);
   const mappings = buildModelFields(formFields);
@@ -71,9 +76,10 @@ export const retrieveSchema = async (auth, url, method = "GET") => {
       throw new Error({
         name: "Schema Error",
         message: [
-        `Encountered error retrieving schema: ${endpointUrl}`,
-        `Status code: ${response.status} [${response.statusText}]`,
-      ]});
+          `Encountered error retrieving schema: ${url}`,
+          `Status code: ${response.status} [${response.statusText}]`,
+        ],
+      });
     }
     const type = response.headers.get("Content-Type") || "";
     if (type.includes("application/json")) {
@@ -86,28 +92,9 @@ export const retrieveSchema = async (auth, url, method = "GET") => {
   }
 };
 
-export const retrieveModels = async (auth) => {
-  const headers = new Headers();
-  headers.append("Content-Type", "application/javascript");
-  headers.append("Accept", "application/javascript");
-  headers.append("Authorization", `Bearer ${auth.token}`);
-
+export const loadModels = async () => {
   try {
-    const response = await fetch(MODEL_PATH, { method: 'GET', headers });
-    if (!response.ok) {
-      throw new Error({
-        name: "Model Error",
-        message: [
-          `Encountered error retrieving models`,
-          `Status code: ${response.status} [${response.statusText}]`,
-        ],
-      });
-    }
-    const type = response.headers.get("Content-Type") || "";
-    if (type.includes("application/javascript")) {
-      return await response.text();
-    }
-    return { statusCode: response.status, status: response.statusText };
+    return await import(MODEL_PATH);
   } catch (error) {
     console.error("error: ", error);
     return { detail: { error } };

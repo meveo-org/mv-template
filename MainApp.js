@@ -1,5 +1,5 @@
 import { LitElement, html, css } from "lit-element";
-import { retrieveModels } from "utils";
+import { loadModels } from "utils";
 import "mv-container";
 import "mv-footer";
 import "mv-header";
@@ -103,7 +103,7 @@ class MainApp extends LitElement {
       detail: { auth },
     } = event;
     this.auth = auth;
-    const { MODELS, ENTITY_PERMISSIONS } = await retrieveModels(auth);
+    const { MODELS, ENTITY_PERMISSIONS } = await loadModels();
     this.permissions = ENTITY_PERMISSIONS;
     this.entities = (MODELS || []).reduce(
       (entities, model) => ({
