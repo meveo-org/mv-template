@@ -1,9 +1,9 @@
-import { LitElement, html, css } from "lit-element";
-import { matchError } from "mv-form-utils";
-import "mv-button";
-import "mv-font-awesome";
-import "mv-form-field";
-import "mv-input";
+import { LitElement, html, css } from "lit";
+import { matchError } from "@meveo-org/mv-form-utils";
+import "@meveo-org/mv-button";
+import "@meveo-org/mv-font-awesome";
+import "@meveo-org/mv-form-field";
+import "@meveo-org/mv-input";
 
 export default class FieldTemplate extends LitElement {
   static get properties() {

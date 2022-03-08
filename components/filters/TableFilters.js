@@ -1,5 +1,5 @@
-import { LitElement, html, css } from "lit-element";
-import "mv-container";
+import { LitElement, html, css } from "lit";
+import "@meveo-org/mv-container";
 import "./BooleanFilter.js";
 import "./DateFilter.js";
 import "./ListFilter.js";

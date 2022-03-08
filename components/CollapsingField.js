@@ -1,6 +1,6 @@
-import { LitElement, html, css } from "lit-element";
-import "mv-container";
-import "mv-tooltip";
+import { LitElement, html, css } from "lit";
+import "@meveo-org/mv-container";
+import "@meveo-org/mv-tooltip";
 import "../components/layout/PageLayout.js";
 
 export default class CollapsingField extends LitElement {

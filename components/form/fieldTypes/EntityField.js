@@ -1,11 +1,11 @@
-import { html, css } from "lit-element";
+import { html, css } from "lit";
 import FieldTemplate from "./FieldTemplate.js";
 import * as config from "config";
 import { modelEndpoints } from "../../../service/Endpoint.js";
-import "mv-button";
-import "mv-dialog";
-import "mv-form-field";
-import "mv-tooltip";
+import "@meveo-org/mv-button";
+import "@meveo-org/mv-dialog";
+import "@meveo-org/mv-form-field";
+import "@meveo-org/mv-tooltip";
 import "../../page_templates/content/ListContent.js";
 import "../../page_templates/content/NewContent.js";
 import "../../page_templates/content/UpdateContent.js";

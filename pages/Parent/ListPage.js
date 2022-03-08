@@ -1,4 +1,4 @@
-import { css } from "lit-element";
+import { css } from "lit";
 import ListPageTemplate from "../../components/page_templates/ListPageTemplate.js";
 
 export default class ParentEntityListPage extends ListPageTemplate {

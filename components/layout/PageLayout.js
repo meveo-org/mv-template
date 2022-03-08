@@ -1,7 +1,7 @@
-import { LitElement, html, css } from "lit-element";
-import "mv-header";
-import "mv-main";
-import "mv-footer";
+import { LitElement, html, css } from "lit";
+import "@meveo-org/mv-header";
+import "@meveo-org/mv-main";
+import "@meveo-org/mv-footer";
 import "./TopbarMenu.js";
 import "./SidebarMenu.js";
 

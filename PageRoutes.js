@@ -1,5 +1,5 @@
-import { LitElement, html } from "lit-element";
-import "mv-router";
+import { LitElement, html } from "lit";
+import "@meveo-org/mv-router";
 
 // component paths are relative to /web_modules/mv-router
 const PAGES_PATH = "../../pages";

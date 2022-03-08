@@ -1,7 +1,7 @@
-import { LitElement, html, css } from "lit-element";
-import "mv-button";
-import "mv-font-awesome";
-import "mv-tooltip";
+import { LitElement, html, css } from "lit";
+import "@meveo-org/mv-button";
+import "@meveo-org/mv-font-awesome";
+import "@meveo-org/mv-tooltip";
 
 export class TableActions extends LitElement {
   static get properties() {

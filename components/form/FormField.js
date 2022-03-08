@@ -1,4 +1,4 @@
-import { LitElement, html, css } from "lit-element";
+import { LitElement, html, css } from "lit";
 import { changeField } from "mv-form-utils";
 import "./storageTypes/ArrayField.js";
 import "./storageTypes/SingleField.js";

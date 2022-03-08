@@ -1,6 +1,6 @@
-import { html, css } from "lit-element";
+import { html, css } from "lit";
 import FilterTemplate from "./FilterTemplate.js";
-import "mv-select";
+import "@meveo-org/mv-select";
 
 const BOOLEAN_OPTIONS = [
   { value: true, label: "True" },

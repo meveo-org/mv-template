@@ -1,6 +1,6 @@
-import { LitElement, html, css } from "lit-element";
+import { LitElement, html, css } from "lit";
 import { NULL_ENTITY, EMPTY_DIALOG } from "utils";
-import "mv-container";
+import "@meveo-org/mv-container";
 import "./content/ListContent.js";
 import "../../components/layout/PageLayout.js";
 

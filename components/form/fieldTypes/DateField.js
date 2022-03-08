@@ -1,10 +1,10 @@
-import { html } from "lit-element";
-import { EMPTY_DATE, parseDate, isEmpty } from "mv-calendar-utils";
+import { html } from "lit";
 import FieldTemplate from "./FieldTemplate.js";
-import "mv-button";
-import "mv-font-awesome";
-import "mv-form-field";
-import "mv-calendar";
+import { EMPTY_DATE, parseDate, isEmpty } from "@meveo-org/mv-calendar-utils";
+import "@meveo-org/mv-button";
+import "@meveo-org/mv-font-awesome";
+import "@meveo-org/mv-form-field";
+import "@meveo-org/mv-calendar";
 
 export default class DateField extends FieldTemplate {
   static get properties() {

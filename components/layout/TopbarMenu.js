@@ -1,10 +1,10 @@
-import { LitElement, html, css } from "lit-element";
-import "mv-button";
-import "mv-linear-icons";
-import "mv-dropdown";
-import "mv-header";
-import "mv-menu";
-import "mv-font-awesome";
+import { LitElement, html, css } from "lit";
+import "@meveo-org/mv-button";
+import "@meveo-org/mv-linear-icons";
+import "@meveo-org/mv-dropdown";
+import "@meveo-org/mv-header";
+import "@meveo-org/mv-menu";
+import "@meveo-org/mv-font-awesome";
 import "router-slot";
 
 class TopbarMenu extends LitElement {

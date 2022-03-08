@@ -1,8 +1,8 @@
-import { LitElement, html, css } from "lit-element";
-import { changeField } from "mv-form-utils";
-import "mv-button";
-import "mv-form-group";
-import "mv-input";
+import { LitElement, html, css } from "lit";
+import { changeField } from "@meveo-org/mv-form-utils";
+import "@meveo-org/mv-button";
+import "@meveo-org/mv-form-group";
+import "@meveo-org/mv-input";
 import "../storageTypes/SingleField.js";
 
 export default class MapField extends LitElement {

@@ -1,12 +1,12 @@
-import { LitElement, html, css } from "lit-element";
+import { LitElement, html, css } from "lit";
 import { loadModels } from "utils";
-import "mv-container";
-import "mv-footer";
-import "mv-header";
-import "mv-keycloak";
-import "mv-main";
-import "mv-menu-panel";
-import "mv-progress-bar";
+import "@meveo-org/mv-container";
+import "@meveo-org/mv-footer";
+import "@meveo-org/mv-header";
+import "@meveo-org/mv-keycloak";
+import "@meveo-org/mv-main";
+import "@meveo-org/mv-menu-panel";
+import "@meveo-org/mv-progress-bar";
 
 class MainApp extends LitElement {
   static get properties() {

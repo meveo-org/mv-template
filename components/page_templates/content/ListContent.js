@@ -1,15 +1,15 @@
-import { LitElement, html, css } from "lit-element";
+import { LitElement, html, css } from "lit";
 import { modelEndpoints } from "../../../service/Endpoint.js";
 import * as config from "config";
 import { NULL_ENTITY, EMPTY_DIALOG, toTitleName } from "utils";
-import "mv-button";
-import "mv-dialog";
-import "mv-dropdown";
-import "mv-font-awesome";
-import "mv-pagination";
-import "mv-table";
-import "mv-tooltip";
-import "mv-select";
+import "@meveo-org/mv-button";
+import "@meveo-org/mv-dialog";
+import "@meveo-org/mv-dropdown";
+import "@meveo-org/mv-font-awesome";
+import "@meveo-org/mv-pagination";
+import "@meveo-org/mv-table";
+import "@meveo-org/mv-tooltip";
+import "@meveo-org/mv-select";
 import "../../../components/TableActions.js";
 import "../../filters/TableFilters.js";
 

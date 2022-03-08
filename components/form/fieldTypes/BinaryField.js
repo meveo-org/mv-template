@@ -1,5 +1,5 @@
-import { html } from "lit-element";
-import "mv-file-upload";
+import { html } from "lit";
+import "@meveo-org/mv-file-upload";
 import FieldTemplate from "./FieldTemplate.js";
 
 export default class BinaryField extends FieldTemplate {

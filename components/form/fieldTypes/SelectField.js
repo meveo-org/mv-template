@@ -1,6 +1,6 @@
-import { html, css } from "lit-element";
+import { html, css } from "lit";
 import FieldTemplate from "./FieldTemplate.js";
-import "mv-select";
+import "@meveo-org/mv-select";
 
 export default class SelectField extends FieldTemplate {
   static get properties() {

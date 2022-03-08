@@ -1,5 +1,5 @@
-import { html } from "lit-element";
-import "mv-container";
+import { html } from "lit";
+import "@meveo-org/mv-container";
 import "../layout/PageLayout.js";
 import UpdateContent from "./content/UpdateContent.js";
 

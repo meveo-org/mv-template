@@ -1,7 +1,7 @@
-import { LitElement, html, css } from "lit-element";
-import "mv-button";
-import "mv-form-group";
-import { changeField, matchError } from "mv-form-utils";
+import { LitElement, html, css } from "lit";
+import { changeField, matchError } from "@meveo-org/mv-form-utils";
+import "@meveo-org/mv-button";
+import "@meveo-org/mv-form-group";
 import "../storageTypes/SingleField.js";
 
 export default class ArrayField extends LitElement {

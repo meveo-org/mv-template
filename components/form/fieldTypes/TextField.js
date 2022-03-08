@@ -1,6 +1,6 @@
-import { html } from "lit-element";
+import { html } from "lit";
 import FieldTemplate from "./FieldTemplate.js";
-import "mv-input";
+import "@meveo-org/mv-input";
 
 export default class TextField extends FieldTemplate {
   renderInput() {

@@ -1,10 +1,10 @@
-import { html } from "lit-element";
+import { html } from "lit";
 import { toBoolean } from "utils";
 import FieldTemplate from "./FieldTemplate.js";
-import "mv-button";
-import "mv-checkbox";
-import "mv-font-awesome";
-import "mv-form-field";
+import "@meveo-org/mv-button";
+import "@meveo-org/mv-checkbox";
+import "@meveo-org/mv-font-awesome";
+import "@meveo-org/mv-form-field";
 export default class BooleanField extends FieldTemplate {
   static get properties() {
     return {

@@ -1,6 +1,6 @@
-import { LitElement, html, css } from "lit-element";
+import { LitElement, html, css } from "lit";
 import * as config from "config";
-import "mv-container";
+import "@meveo-org/mv-container";
 import { modelEndpoints } from "../service/Endpoint.js";
 import "../components/DashboardTile.js";
 import "../components/layout/PageLayout.js";

@@ -1,6 +1,6 @@
-import { LitElement, html, css } from "lit-element";
-import "mv-menu-panel";
-import "mv-font-awesome";
+import { LitElement, html, css } from "lit";
+import "@meveo-org/mv-menu-panel";
+import "@meveo-org/mv-font-awesome";
 
 class SidebarMenu extends LitElement {
   static get properties() {

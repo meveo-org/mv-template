@@ -1,4 +1,4 @@
-import { LitElement, html, css } from "lit-element";
+import { LitElement, html, css } from "lit";
 import "../fieldTypes/BinaryField.js";
 import "../fieldTypes/BooleanField.js";
 import "../fieldTypes/DateField.js";

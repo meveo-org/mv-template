@@ -1,17 +1,17 @@
-import { html, css } from "lit-element";
-import { MvElement } from "mv-element";
+import { html, css } from "lit";
+import { MvElement } from "@meveo-org/mv-element";
 import * as config from "config";
-import { validate, clearForm } from "mv-form-utils";
+import { validate, clearForm } from "@meveo-org/mv-form-utils";
 import { EMPTY_DIALOG, toTagName } from "utils";
 import { modelEndpoints } from "../../../service/Endpoint.js";
-import "mv-button";
-import "mv-dialog";
-import "mv-dropdown";
-import "mv-font-awesome";
-import "mv-form";
-import "mv-form-field";
-import "mv-tab";
-import "mv-tooltip";
+import "@meveo-org/mv-button";
+import "@meveo-org/mv-dialog";
+import "@meveo-org/mv-dropdown";
+import "@meveo-org/mv-font-awesome";
+import "@meveo-org/mv-form";
+import "@meveo-org/mv-form-field";
+import "@meveo-org/mv-tab";
+import "@meveo-org/mv-tooltip";
 import "../../form/FormField.js";
 
 export default class UpdateContent extends MvElement {

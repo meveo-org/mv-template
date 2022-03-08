@@ -14,60 +14,59 @@
     <link rel="stylesheet" href="./web_modules/mv-fonts/linear-icons/linear-icons.min.css" />
     <link rel="stylesheet" href="./web_modules/mv-fonts/font-awesome/fontawesome.min.css" />
     <script src="./web_modules/mv-calendar/lib/moment.min.js"></script>
-    <script defer src="./web_modules/mv-dependencies/es-module-shims/es-module-shims.js" ></script>
-    <script type="importmap-shim">
+    <script type="importmap">
       {
         "imports": {
-          "lit-element": "./web_modules/mv-dependencies/lit-element.js",
+          "lit": "./web_modules/mv-dependencies/lit-core.min-v2.2.0.js",
           "jsonata": "./web_modules/mv-dependencies/jsonata.js",
           "router-slot": "./web_modules/mv-dependencies/router-slot/index.js",
           "ajv": "./web_modules/mv-dependencies/ajv/ajv.min.js",
           "config": "./config.js",
           "utils": "./utils/index.js",
 
-          "mv-element": "./web_modules/mv-modules/mv-element.js",
-          "mv-store": "./web_modules/mv-modules/mv-store.js",
-          "mv-breadcrumbs": "./web_modules/mv-breadcrumbs/mv-breadcrumbs.js",
-          "mv-button": "./web_modules/mv-button/mv-button.js",
-          "mv-calendar": "./web_modules/mv-calendar/mv-calendar.js",
-          "mv-calendar-utils": "./web_modules/mv-calendar/utils/index.js",
-          "mv-checkbox": "./web_modules/mv-checkbox/mv-checkbox.js",
-          "mv-click-away": "./web_modules/mv-click-away/mv-click-away.js",
-          "mv-container": "./web_modules/mv-container/mv-container.js",
-          "mv-dialog": "./web_modules/mv-dialog/mv-dialog.js",
-          "mv-dropdown": "./web_modules/mv-dropdown/mv-dropdown.js",
-          "mv-file-upload": "./web_modules/mv-file-upload/mv-file-upload.js",
-          "mv-font-awesome": "./web_modules/mv-font-awesome/mv-font-awesome.js",
-          "mv-footer": "./web_modules/mv-footer/mv-footer.js",
-          "mv-form": "./web_modules/mv-form/mv-form.js",
-          "mv-form-field": "./web_modules/mv-form/mv-form-field.js",
-          "mv-form-group": "./web_modules/mv-form/mv-form-group.js",
-          "mv-form-utils": "./web_modules/mv-form/utils/index.js",
-          "mv-header": "./web_modules/mv-header/mv-header.js",
-          "mv-input": "./web_modules/mv-input/mv-input.js",
-          "mv-keycloak": "./web_modules/mv-keycloak/mv-keycloak.js",
-          "mv-linear-icons": "./web_modules/mv-linear-icons/mv-linear-icons.js",
-          "mv-listbox": "./web_modules/mv-listbox/mv-listbox.js",
-          "mv-main": "./web_modules/mv-main/mv-main.js",
-          "mv-maps": "./web_modules/mv-maps/mv-maps.js",
-          "mv-menu": "./web_modules/mv-menu/mv-menu.js",
-          "mv-menu-panel": "./web_modules/mv-menu-panel/mv-menu-panel.js",
-          "mv-pagination": "./web_modules/mv-pagination/mv-pagination.js",
-          "mv-progress-bar": "./web_modules/mv-progress-bar/mv-progress-bar.js",
-          "mv-radio": "./web_modules/mv-radio/mv-radio.js",
-          "mv-router": "./web_modules/mv-router/mv-router.js",
-          "mv-select": "./web_modules/mv-select/mv-select.js",
-          "mv-spinner": "./web_modules/mv-spinner/mv-spinner.js",
-          "mv-tab": "./web_modules/mv-tab/mv-tab.js",
-          "mv-table": "./web_modules/mv-table/mv-table.js",
-          "mv-table-utils": "./web_modules/mv-table/utils/index.js",
-          "mv-tags": "./web_modules/mv-tags/mv-tags.js",
-          "mv-textarea": "./web_modules/mv-textarea/mv-textarea.js",
-          "mv-tooltip": "./web_modules/mv-tooltip/mv-tooltip.js"
+          "@meveo-org/mv-element": "./web_modules/mv-modules/mv-element.js",
+          "@meveo-org/mv-store": "./web_modules/mv-modules/mv-store.js",
+          "@meveo-org/mv-breadcrumbs": "./web_modules/mv-breadcrumbs/mv-breadcrumbs.js",
+          "@meveo-org/mv-button": "./web_modules/mv-button/mv-button.js",
+          "@meveo-org/mv-calendar": "./web_modules/mv-calendar/mv-calendar.js",
+          "@meveo-org/mv-calendar-utils": "./web_modules/mv-calendar/utils/index.js",
+          "@meveo-org/mv-checkbox": "./web_modules/mv-checkbox/mv-checkbox.js",
+          "@meveo-org/mv-click-away": "./web_modules/mv-click-away/mv-click-away.js",
+          "@meveo-org/mv-container": "./web_modules/mv-container/mv-container.js",
+          "@meveo-org/mv-dialog": "./web_modules/mv-dialog/mv-dialog.js",
+          "@meveo-org/mv-dropdown": "./web_modules/mv-dropdown/mv-dropdown.js",
+          "@meveo-org/mv-file-upload": "./web_modules/mv-file-upload/mv-file-upload.js",
+          "@meveo-org/mv-font-awesome": "./web_modules/mv-font-awesome/mv-font-awesome.js",
+          "@meveo-org/mv-footer": "./web_modules/mv-footer/mv-footer.js",
+          "@meveo-org/mv-form": "./web_modules/mv-form/mv-form.js",
+          "@meveo-org/mv-form-field": "./web_modules/mv-form/mv-form-field.js",
+          "@meveo-org/mv-form-group": "./web_modules/mv-form/mv-form-group.js",
+          "@meveo-org/mv-form-utils": "./web_modules/mv-form/utils/index.js",
+          "@meveo-org/mv-header": "./web_modules/mv-header/mv-header.js",
+          "@meveo-org/mv-input": "./web_modules/mv-input/mv-input.js",
+          "@meveo-org/mv-keycloak": "./web_modules/mv-keycloak/mv-keycloak.js",
+          "@meveo-org/mv-linear-icons": "./web_modules/mv-linear-icons/mv-linear-icons.js",
+          "@meveo-org/mv-listbox": "./web_modules/mv-listbox/mv-listbox.js",
+          "@meveo-org/mv-main": "./web_modules/mv-main/mv-main.js",
+          "@meveo-org/mv-maps": "./web_modules/mv-maps/mv-maps.js",
+          "@meveo-org/mv-menu": "./web_modules/mv-menu/mv-menu.js",
+          "@meveo-org/mv-menu-panel": "./web_modules/mv-menu-panel/mv-menu-panel.js",
+          "@meveo-org/mv-pagination": "./web_modules/mv-pagination/mv-pagination.js",
+          "@meveo-org/mv-progress-bar": "./web_modules/mv-progress-bar/mv-progress-bar.js",
+          "@meveo-org/mv-radio": "./web_modules/mv-radio/mv-radio.js",
+          "@meveo-org/mv-router": "./web_modules/mv-router/mv-router.js",
+          "@meveo-org/mv-select": "./web_modules/mv-select/mv-select.js",
+          "@meveo-org/mv-spinner": "./web_modules/mv-spinner/mv-spinner.js",
+          "@meveo-org/mv-tab": "./web_modules/mv-tab/mv-tab.js",
+          "@meveo-org/mv-table": "./web_modules/mv-table/mv-table.js",
+          "@meveo-org/mv-table-utils": "./web_modules/mv-table/utils/index.js",
+          "@meveo-org/mv-tags": "./web_modules/mv-tags/mv-tags.js",
+          "@meveo-org/mv-textarea": "./web_modules/mv-textarea/mv-textarea.js",
+          "@meveo-org/mv-tooltip": "./web_modules/mv-tooltip/mv-tooltip.js"
         }
       }
     </script>
-    <script type="module-shim" src="./MainApp.js"></script>
+    <script type="module" src="./MainApp.js"></script>
   </head>
 
   <body>

@@ -1,6 +1,6 @@
-import { html, css } from "lit-element";
+import { html, css } from "lit";
 import FieldTemplate from "./FieldTemplate.js";
-import "mv-textarea";
+import "@meveo-org/mv-textarea";
 
 export default class TextareaField extends FieldTemplate {
   static get styles() {

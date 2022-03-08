@@ -1,6 +1,6 @@
-import { html, css } from "lit-element";
+import { html, css } from "lit";
 import FilterTemplate from "./FilterTemplate.js";
-import "mv-input";
+import "@meveo-org/mv-input";
 
 export default class TextFilter extends FilterTemplate {
   static get styles() {
