@@ -5,14 +5,7 @@ import UpdateContent from "./content/UpdateContent.js";
 
 export default class UpdatePageTemplate extends UpdateContent {
   render() {
-    return html`
-      <page-layout
-        .entities="${this.entities}"
-        .permissions="${this.permissions}"
-      >
-        <mv-container>${super.render()}</mv-container>
-      </page-layout>
-    `;
+    return html`<mv-container>${super.render()}</mv-container>`;
   }
 
   cancelCallback = () => {

@@ -44,24 +44,19 @@ export default class ListPageTemplate extends LitElement {
 
   render() {
     return html`
-      <page-layout
-        .entities="${this.entities}"
-        .permissions="${this.permissions}"
-      >
-        <mv-container>
-          <list-content
-            selectable
-            with-checkbox
-            .auth="${this.auth}"
-            .entity="${this.entity}"
-            .entities="${this.entities}"
-            .selected-rows="${this.selectedRows}"
-            @new-item="${this.newItem}"
-            @edit-item="${this.editRow}"
-            @row-click="${this.selectRow}"
-          ></list-content>
-        </mv-container>
-      </page-layout>
+      <mv-container>
+        <list-content
+          selectable
+          with-checkbox
+          .auth="${this.auth}"
+          .entity="${this.entity}"
+          .entities="${this.entities}"
+          .selected-rows="${this.selectedRows}"
+          @new-item="${this.newItem}"
+          @edit-item="${this.editRow}"
+          @row-click="${this.selectRow}"
+        ></list-content>
+      </mv-container>
     `;
   }
 

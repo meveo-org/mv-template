@@ -41,7 +41,6 @@ export default class MainDashboard extends LitElement {
 
   render() {
     return html`
-      <page-layout>
         <mv-container>
           <h1>Dashboard</h1>
           <div class="tiles">
@@ -57,7 +56,6 @@ export default class MainDashboard extends LitElement {
             })}
           </div>
         </mv-container>
-      </page-layout>
     `;
   }
 

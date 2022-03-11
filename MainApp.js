@@ -80,11 +80,16 @@ class MainApp extends LitElement {
   loadRoutes = () => {
     import("./PageRoutes.js");
     return html`
-      <page-routes
+      <page-layout
         .entities="${this.entities}"
         .permissions="${this.permissions}"
-        .auth="${this.auth}"
-      ></page-routes>
+      >
+        <page-routes
+          .entities="${this.entities}"
+          .permissions="${this.permissions}"
+          .auth="${this.auth}"
+        ></page-routes>
+      </page-layout>
     `;
   };
 
