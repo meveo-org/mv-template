@@ -137,8 +137,9 @@ class SidebarMenu extends LitElement {
             </router-link>
           </mv-menu-panel>
 
-          ${(entities || []).map(
-            (model) => html`
+          ${Object.keys(entities || {}).map((key) => {
+            const model = entities[key];
+            return html`
               <mv-menu-panel
                 item
                 .value="${{ selected: model.code }}"
@@ -155,8 +156,8 @@ class SidebarMenu extends LitElement {
                   </div>
                 </router-link>
               </mv-menu-panel>
-            `
-          )}
+            `;
+          })}
         </mv-menu-panel>
       </div>
     `;
