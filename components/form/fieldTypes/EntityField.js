@@ -4,7 +4,7 @@ import * as config from "config";
 import { modelEndpoints } from "../../../service/Endpoint.js";
 import "@meveo-org/mv-button";
 import "@meveo-org/mv-dialog";
-import "@meveo-org/mv-form-field";
+import "@meveo-org/mv-form/mv-form-field.js";
 import "@meveo-org/mv-tooltip";
 import "../../page_templates/content/ListContent.js";
 import "../../page_templates/content/NewContent.js";

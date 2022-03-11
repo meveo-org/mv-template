@@ -1,7 +1,7 @@
 import { LitElement, html, css } from "lit";
-import { changeField, matchError } from "@meveo-org/mv-form-utils";
+import { changeField, matchError } from "@meveo-org/mv-form/utils/index.js";
 import "@meveo-org/mv-button";
-import "@meveo-org/mv-form-group";
+import "@meveo-org/mv-form/mv-form-group.js";
 import "../storageTypes/SingleField.js";
 
 export default class ArrayField extends LitElement {
@@ -100,13 +100,13 @@ export default class ArrayField extends LitElement {
     valueRequired ? html`<i class="required"> *</i>` : null;
 
   renderFieldGroup = () => html`
-    <mv-form-group
+    <mv-form-group/mv-form-group.js
       name="${this.field.code}"
       .values="${this.value}"
       .error="${matchError(this.errors, this.field.code)}"
     >
       ${this.renderFields()}
-    </mv-form-group>
+    </mv-form-group/mv-form-group.js>
   `;
 
   renderFields = () =>

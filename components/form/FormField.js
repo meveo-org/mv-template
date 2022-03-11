@@ -1,5 +1,5 @@
 import { LitElement, html, css } from "lit";
-import { changeField } from "mv-form-utils";
+import { changeField } from "@meveo-org/mv-form/utils/index.js";
 import "./storageTypes/ArrayField.js";
 import "./storageTypes/SingleField.js";
 import "./storageTypes/MapField.js";

@@ -1,7 +1,7 @@
 import { LitElement, html, css } from "lit";
-import { changeField } from "@meveo-org/mv-form-utils";
+import { changeField } from "@meveo-org/mv-form/utils/index.js";
 import "@meveo-org/mv-button";
-import "@meveo-org/mv-form-group";
+import "@meveo-org/mv-form/mv-form-group.js";
 import "@meveo-org/mv-input";
 import "../storageTypes/SingleField.js";
 

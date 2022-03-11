@@ -19,9 +19,6 @@
 [submodule "web_modules/mv-footer"]
 	path = web_modules/mv-footer
 	url = https://github.com/meveo-org/mv-footer.git
-[submodule "web_modules/mv-router"]
-	path = web_modules/mv-router
-	url = https://github.com/meveo-org/mv-router.git
 [submodule "web_modules/mv-input"]
 	path = web_modules/mv-input
 	url = https://github.com/meveo-org/mv-input.git
@@ -31,9 +28,6 @@
 [submodule "web_modules/mv-button"]
 	path = web_modules/mv-button
 	url = https://github.com/meveo-org/mv-button.git
-[submodule "web_modules/mv-calendar"]
-	path = web_modules/mv-calendar
-	url = https://github.com/meveo-org/mv-calendar.git
 [submodule "web_modules/mv-checkbox"]
 	path = web_modules/mv-checkbox
 	url = https://github.com/meveo-org/mv-checkbox.git

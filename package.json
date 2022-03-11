@@ -1,0 +1,63 @@
+{
+  "name": "mv-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "MainApp.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meveo-org/mv-template.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/meveo-org/mv-template/issues"
+  },
+  "homepage": "https://github.com/meveo-org/mv-template#readme",
+  "dependencies": {
+    "@meveo-org/mv-breadcrumbs": "^1.0.0",
+    "@meveo-org/mv-button": "^1.0.0",
+    "@meveo-org/mv-calendar": "^1.0.0",
+    "@meveo-org/mv-checkbox": "^1.0.0",
+    "@meveo-org/mv-click-away": "^1.0.0",
+    "@meveo-org/mv-container": "^1.0.0",
+    "@meveo-org/mv-dialog": "^1.0.0",
+    "@meveo-org/mv-dropdown": "^1.0.0",
+    "@meveo-org/mv-element": "^1.0.0",
+    "@meveo-org/mv-file-upload": "^1.0.0",
+    "@meveo-org/mv-font-awesome": "^1.0.0",
+    "@meveo-org/mv-fonts": "^1.0.0",
+    "@meveo-org/mv-footer": "^1.0.0",
+    "@meveo-org/mv-form": "^1.0.0",
+    "@meveo-org/mv-header": "^1.0.0",
+    "@meveo-org/mv-input": "^1.0.0",
+    "@meveo-org/mv-keycloak": "^1.0.0",
+    "@meveo-org/mv-linear-icons": "^1.0.0",
+    "@meveo-org/mv-listbox": "^1.0.0",
+    "@meveo-org/mv-main": "^1.0.0",
+    "@meveo-org/mv-maps": "^1.0.0",
+    "@meveo-org/mv-menu": "^1.0.0",
+    "@meveo-org/mv-menu-panel": "^1.0.0",
+    "@meveo-org/mv-pagination": "^1.0.0",
+    "@meveo-org/mv-progress-bar": "^1.0.0",
+    "@meveo-org/mv-radio": "^1.0.0",
+    "@meveo-org/mv-router": "^1.0.0",
+    "@meveo-org/mv-select": "^1.0.0",
+    "@meveo-org/mv-spinner": "^1.0.0",
+    "@meveo-org/mv-store": "^1.0.0",
+    "@meveo-org/mv-tab": "^1.0.0",
+    "@meveo-org/mv-table": "^1.0.0",
+    "@meveo-org/mv-tags": "^1.0.0",
+    "@meveo-org/mv-textarea": "^1.0.0",
+    "@meveo-org/mv-theme": "^1.0.0",
+    "@meveo-org/mv-tooltip": "^1.0.0",
+    "ajv": "^8.10.0",
+    "config": "^3.3.7",
+    "jsonata": "^1.8.6",
+    "lit": "^2.2.0",
+    "router-slot": "^1.5.4",
+    "utils": "^0.3.1"
+  }
+}

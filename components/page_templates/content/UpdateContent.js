@@ -1,7 +1,7 @@
 import { html, css } from "lit";
 import { MvElement } from "@meveo-org/mv-element";
 import * as config from "config";
-import { validate, clearForm } from "@meveo-org/mv-form-utils";
+import { validate, clearForm } from "@meveo-org/mv-form/utils/index.js";
 import { EMPTY_DIALOG, toTagName } from "utils";
 import { modelEndpoints } from "../../../service/Endpoint.js";
 import "@meveo-org/mv-button";
@@ -9,7 +9,7 @@ import "@meveo-org/mv-dialog";
 import "@meveo-org/mv-dropdown";
 import "@meveo-org/mv-font-awesome";
 import "@meveo-org/mv-form";
-import "@meveo-org/mv-form-field";
+import "@meveo-org/mv-form/mv-form-field.js";
 import "@meveo-org/mv-tab";
 import "@meveo-org/mv-tooltip";
 import "../../form/FormField.js";

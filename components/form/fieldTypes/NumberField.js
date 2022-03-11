@@ -1,9 +1,9 @@
 import { html } from "lit";
 import FieldTemplate from "./FieldTemplate.js";
-import { matchError } from "@meveo-org/mv-form-utils";
+import { matchError } from "@meveo-org/mv-form/utils/index.js";
 import "@meveo-org/mv-button";
 import "@meveo-org/mv-font-awesome";
-import "@meveo-org/mv-form-field";
+import "@meveo-org/mv-form/mv-form-field.js";
 import "@meveo-org/mv-spinner";
 
 export default class NumberField extends FieldTemplate {

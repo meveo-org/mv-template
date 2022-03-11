@@ -4,7 +4,8 @@ import FieldTemplate from "./FieldTemplate.js";
 import "@meveo-org/mv-button";
 import "@meveo-org/mv-checkbox";
 import "@meveo-org/mv-font-awesome";
-import "@meveo-org/mv-form-field";
+import "@meveo-org/mv-form/mv-form-field.js";
+
 export default class BooleanField extends FieldTemplate {
   static get properties() {
     return {

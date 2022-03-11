@@ -1,6 +1,6 @@
 import { html, css } from "lit";
 import FilterTemplate from "./FilterTemplate.js";
-import { EMPTY_DATE } from "@meveo-org/mv-calendar-utils";
+import { EMPTY_DATE } from "@meveo-org/mv-calendar/utils/index.js";
 import "@meveo-org/mv-calendar";
 
 export default class DateFilter extends FilterTemplate {

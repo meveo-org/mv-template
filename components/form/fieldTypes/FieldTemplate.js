@@ -1,8 +1,8 @@
 import { LitElement, html, css } from "lit";
-import { matchError } from "@meveo-org/mv-form-utils";
+import { matchError } from "@meveo-org/mv-form/utils/index.js";
 import "@meveo-org/mv-button";
 import "@meveo-org/mv-font-awesome";
-import "@meveo-org/mv-form-field";
+import "@meveo-org/mv-form/mv-form-field.js";
 import "@meveo-org/mv-input";
 
 export default class FieldTemplate extends LitElement {
@@ -57,7 +57,7 @@ export default class FieldTemplate extends LitElement {
     const hasError = !!error;
     const errorClass = hasError ? " error" : "";
     return html`
-      <mv-form-field
+      <mv-form-field/mv-form-field.js
         name="${code}"
         label-position="none"
         .error="${this.hideError ? null : error}"
@@ -69,7 +69,7 @@ export default class FieldTemplate extends LitElement {
             ${this.renderDeleteButton()}
           </div>
         </div>
-      </mv-form-field>
+      </mv-form-field/mv-form-field.js>
     `;
   }
 

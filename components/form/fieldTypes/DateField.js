@@ -1,9 +1,9 @@
 import { html } from "lit";
 import FieldTemplate from "./FieldTemplate.js";
-import { EMPTY_DATE, parseDate, isEmpty } from "@meveo-org/mv-calendar-utils";
+import { EMPTY_DATE, parseDate, isEmpty } from "@meveo-org/mv-calendar/utils/index.js";
 import "@meveo-org/mv-button";
 import "@meveo-org/mv-font-awesome";
-import "@meveo-org/mv-form-field";
+import "@meveo-org/mv-form/mv-form-field.js";
 import "@meveo-org/mv-calendar";
 
 export default class DateField extends FieldTemplate {

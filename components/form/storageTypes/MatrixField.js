@@ -1,7 +1,7 @@
 import { LitElement, html, css } from "lit";
 import "@meveo-org/mv-button";
-import "@meveo-org/mv-form-group";
-import { changeField } from "@meveo-org/mv-form-utils";
+import "@meveo-org/mv-form/mv-form-group.js";
+import { changeField } from "@meveo-org/mv-form/utils/index.js";
 import "../storageTypes/SingleField.js";
 
 export default class MatrixField extends LitElement {
