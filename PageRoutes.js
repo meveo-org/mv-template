@@ -3,7 +3,7 @@ import "@meveo-org/mv-router";
 
 // component paths are relative to /web_modules/mv-router
 const PAGES_PATH = "../../pages";
-import MainDashboard from "${PAGES_PATH}/MainDashboard.js";
+import MainDashboard from "../../pages/MainDashboard.js";
 
 class PageRoutes extends LitElement {
   static get properties() {
