@@ -23,6 +23,7 @@
     "@meveo-org/mv-checkbox": "^1.0.0",
     "@meveo-org/mv-click-away": "^1.0.0",
     "@meveo-org/mv-container": "^1.0.0",
+    "@meveo-org/mv-dependencies": "^1.0.0",
     "@meveo-org/mv-dialog": "^1.0.0",
     "@meveo-org/mv-dropdown": "^1.0.0",
     "@meveo-org/mv-element": "^1.0.0",
@@ -54,10 +55,7 @@
     "@meveo-org/mv-theme": "^1.0.0",
     "@meveo-org/mv-tooltip": "^1.0.0",
     "ajv": "^8.10.0",
-    "config": "^3.3.7",
     "jsonata": "^1.8.6",
-    "lit": "^2.2.0",
-    "router-slot": "^1.5.4",
-    "utils": "^0.3.1"
+    "lit": "^2.2.0"
   }
 }
