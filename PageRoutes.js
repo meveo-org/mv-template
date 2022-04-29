@@ -2,7 +2,7 @@ import { LitElement, html } from "lit";
 import "@meveo-org/mv-router";
 
 // component paths are relative to /web_modules/mv-router
-const PAGES_PATH = "./pages";
+const PAGES_PATH = "../../../pages";
 
 class PageRoutes extends LitElement {
   static get properties() {
@@ -30,7 +30,7 @@ class PageRoutes extends LitElement {
           .auth="${this.auth}"
           .entities="${this.entities}"
           .permissions="${this.permissions}"
-          .componentClass="${PAGES_PATH}/MainDashboard.js"
+          .component="${PAGES_PATH}/MainDashboard.js"
         ></mv-router>
         ${this.renderDynamicRoutes()}
       </mv-router>
