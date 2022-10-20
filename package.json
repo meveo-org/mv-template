@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "MainApp.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack serve -c webpack.config.cjs",
+    "build-prod": "webpack --env production"
   },
   "repository": {
     "type": "git",
@@ -55,7 +58,17 @@
     "@meveo-org/mv-theme": "^1.0.0",
     "@meveo-org/mv-tooltip": "^1.0.0",
     "ajv": "^8.10.0",
+    "dotenv": "^16.0.2",			
     "jsonata": "^1.8.6",
     "lit": "^2.2.0"
+  },
+  "devDependencies": {
+    "@lit/localize-tools": "^0.6.4",
+    "css-loader": "^6.7.1",
+    "html-webpack-plugin": "^5.5.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.0"
   }
 }
