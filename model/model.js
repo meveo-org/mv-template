@@ -1,4 +1,4 @@
-import { getEndpoints, getSchema, getRefSchemas } from "utils";
+import { getEndpoints, getSchema, getRefSchemas } from "/utils/index.js";
 
 export default class Model {
   constructor(auth) {

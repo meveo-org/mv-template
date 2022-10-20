@@ -1,5 +1,6 @@
 import { LitElement, html, css } from "lit";
-import { loadModels } from "utils";
+import { loadModels } from "/utils/index.js";
+import { MODELS } from "/model/index.js";										 
 import "@meveo-org/mv-container";
 import "@meveo-org/mv-footer";
 import "@meveo-org/mv-header";
@@ -7,6 +8,7 @@ import "@meveo-org/mv-keycloak";
 import "@meveo-org/mv-main";
 import "@meveo-org/mv-menu-panel";
 import "@meveo-org/mv-progress-bar";
+import "./PageRoutes.js";																
 
 class MainApp extends LitElement {
   static get properties() {
@@ -78,7 +80,6 @@ class MainApp extends LitElement {
   `;
 
   loadRoutes = () => {
-    import("./PageRoutes.js");
     return html`
       <page-layout
         .entities="${this.entities}"
@@ -108,15 +109,17 @@ class MainApp extends LitElement {
       detail: { auth },
     } = event;
     this.auth = auth;
-    const { MODELS, ENTITY_PERMISSIONS } = await loadModels();
+    const {  ENTITY_PERMISSIONS } = await loadModels(this.auth);
     this.permissions = ENTITY_PERMISSIONS;
-    this.entities = (MODELS || []).reduce(
+	 this.entities = (MODELS || []).reduce(
       (entities, model) => ({
         ...entities,
         [model.code]: new model.ModelClass(auth),
       }),
       {}
-    );
+    );									  
+
+					 
   };
 
   loginFailed = () => {

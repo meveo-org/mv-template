@@ -1,5 +1,6 @@
 import { LitElement, html } from "lit";
 import "@meveo-org/mv-router";
+import "./pages/MainDashboard.js"
 
 // component paths are relative to /web_modules/mv-router
 const PAGES_PATH = "../../../pages";
