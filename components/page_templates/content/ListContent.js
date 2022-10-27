@@ -232,6 +232,7 @@ export default class ListContent extends LitElement {
         <mv-table
           sortable
           .columns="${this.columns || []}"
+          .formFields="${this.entity.formFields}"
           .rows="${this.rows}"
           .action-column="${this.actionColumn}"
           .row-actions="${rowActions}"
