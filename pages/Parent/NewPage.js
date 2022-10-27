@@ -1,5 +1,5 @@
 import NewPageTemplate from "../../components/page_templates/NewPageTemplate.js";
-import { parseModelDetails } from "utils";
+import { parseModelDetails } from "../../utils/index.js";
 import { MODELS } from "../../model/index.js";
 
 const entityCode = "Parent";

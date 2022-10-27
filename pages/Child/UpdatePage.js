@@ -1,5 +1,5 @@
 import UpdatePageTemplate from "../../components/page_templates/UpdatePageTemplate.js";
-import { parseModelDetails } from "utils";
+import { parseModelDetails } from "../../utils/index.js";
 import { MODELS } from "../../model/index.js";
 
 const entityCode = "Child";
