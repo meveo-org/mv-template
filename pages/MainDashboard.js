@@ -1,5 +1,5 @@
 import { LitElement, html, css } from "lit";
-import * as config from "config";
+import * as config from "../config.js";
 import "@meveo-org/mv-container";
 import { modelEndpoints } from "../service/Endpoint.js";
 import "../components/DashboardTile.js";

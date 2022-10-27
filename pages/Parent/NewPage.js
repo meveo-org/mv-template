@@ -1,8 +1,9 @@
 import NewPageTemplate from "../../components/page_templates/NewPageTemplate.js";
 import { parseModelDetails } from "utils";
+import { MODELS } from "../../model/index.js";
 
 const entityCode = "Parent";
-const { properties, mappings } = parseModelDetails(entityCode);
+const { properties, mappings } = parseModelDetails(entityCode, MODELS);
 
 export default class ParentEntityNewPage extends NewPageTemplate {
   static get properties() {

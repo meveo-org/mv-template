@@ -4,6 +4,7 @@ import "@meveo-org/mv-main";
 import "@meveo-org/mv-footer";
 import "./TopbarMenu.js";
 import "./SidebarMenu.js";
+import "../../PageRoutes.js";				
 
 export default class PageLayout extends LitElement {
   static get properties() {
@@ -12,6 +13,7 @@ export default class PageLayout extends LitElement {
       permissions: { type: Object, attribute: false },
       sidebarExpanded: { type: Boolean, attribute: false },
       theme: { type: String, attribute: true },
+      auth: {type: Object, attribute: false }
     };
   }
 
@@ -83,7 +85,6 @@ export default class PageLayout extends LitElement {
 
   render() {
     const collapse = this.sidebarExpanded ? "" : " sidebar-collapse";
-
     return html`
       <div class="sidebar${collapse}">
         <mv-main>
@@ -92,21 +93,31 @@ export default class PageLayout extends LitElement {
             .entities="${this.entities}"
             .permissions="${this.permissions}"
             ?expanded="${this.sidebarExpanded}"
+            .router=${this.router}
             @sidebar-item-clicked="${this.sidebarItemClicked}"
           ></sidebar-menu>
           <div class="main-section">
             <div class="main-container">
-              <slot></slot>
+              <page-routes
+                .entities="${this.entities}"
+                .permissions="${this.permissions}"
+                .auth="${this.auth}"
+              ></page-routes>
             </div>
           </div>
           <mv-footer slot="footer" .theme="${this.theme}">
             <mv-footer item>
-              <small> Meveo&copy; 2020 </small>
+              <small> Meveo&copy; 2022 </small>
             </mv-footer>
           </mv-footer>
         </mv-main>
       </div>
     `;
+  }
+
+  firstUpdated() {
+    const pageRoutes = this.shadowRoot.querySelector("page-routes");
+    this.router = pageRoutes._routes;
   }
 
   connectedCallback() {

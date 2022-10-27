@@ -1,5 +1,5 @@
 import { html } from "lit";
-import { toBoolean } from "utils";
+import { toBoolean } from "../../../utils/index.js";
 import FieldTemplate from "./FieldTemplate.js";
 import "@meveo-org/mv-button";
 import "@meveo-org/mv-checkbox";

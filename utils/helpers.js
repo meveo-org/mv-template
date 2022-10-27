@@ -3,7 +3,7 @@ import {
   SCHEMA_PATH,
   CUSTOM_ACTION_PATH,
   MODEL_PATH,
-} from "config";
+} from "../config.js";
 
 export const findEntity = (entities, code) => {
   return entities.find((entity) => entity.code === code) || {};
@@ -92,9 +92,15 @@ export const retrieveSchema = async (auth, url, method = "GET") => {
   }
 };
 
-export const loadModels = async () => {
+export const loadModels = async (auth) => {
   try {
-    return await import(MODEL_PATH);
+    return await (await fetch(MODEL_PATH, { 
+      headers: {
+        "Accept": "application/json",
+        "Authorization": `Bearer ${auth.token}`
+      }
+    })).json()
+    // return await import(MODEL_PATH);
   } catch (error) {
     console.error("error: ", error);
     return { detail: { error } };

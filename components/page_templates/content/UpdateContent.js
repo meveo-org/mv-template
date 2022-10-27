@@ -1,8 +1,7 @@
 import { html, css } from "lit";
-import { MvElement } from "@meveo-org/mv-element";
-import * as config from "config";
+import * as config from "../../../config.js";
 import { validate, clearForm } from "@meveo-org/mv-form/utils/index.js";
-import { EMPTY_DIALOG, toTagName } from "utils";
+import { EMPTY_DIALOG, toTagName } from "../../../utils/index.js";
 import { modelEndpoints } from "../../../service/Endpoint.js";
 import "@meveo-org/mv-button";
 import "@meveo-org/mv-dialog";
@@ -13,6 +12,7 @@ import "@meveo-org/mv-form/mv-form-field.js";
 import "@meveo-org/mv-tab";
 import "@meveo-org/mv-tooltip";
 import "../../form/FormField.js";
+import { MvElement } from "@meveo-org/mv-element";
 
 export default class UpdateContent extends MvElement {
   static get properties() {
@@ -85,6 +85,7 @@ export default class UpdateContent extends MvElement {
     this.auth = null;
     this.dialog = { ...EMPTY_DIALOG };
     this.fields = [];
+    this.config = config;
   }
 
   render() {

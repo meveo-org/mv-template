@@ -1,6 +1,7 @@
 import { LitElement, html, css } from "lit";
 import "@meveo-org/mv-menu-panel";
 import "@meveo-org/mv-font-awesome";
+import * as config from "../../config.js";
 
 class SidebarMenu extends LitElement {
   static get properties() {
@@ -12,6 +13,7 @@ class SidebarMenu extends LitElement {
       entities: { type: Object, attribute: false },
       permissions: { type: Object, attribute: false },
       hasHeader: { type: Boolean, attribute: "has-header" },
+      router: { type: Object }
     };
   }
 
@@ -24,10 +26,6 @@ class SidebarMenu extends LitElement {
 
       mv-menu-panel {
         font-family: "MuseoSans";
-      }
-
-      router-link {
-        outline: none;
       }
 
       .sidebar {
@@ -124,17 +122,15 @@ class SidebarMenu extends LitElement {
 
           <mv-menu-panel
             item
-            .value="${{ selected: "dashboard" }}"
+            .value="${{ selected: "dashboard", path :"/dashboard" }}"
             ?selected="${this.selected === "dashboard"}"
             ?popout="${!this.expanded}"
             @select-item="${this.selectItem}"
           >
-            <router-link path="./dashboard">
               <div class="text">
                 <mv-fa icon="home"></mv-fa>
                 ${this.expanded ? html`<span>Dashboard</span>` : html``}
               </div>
-            </router-link>
           </mv-menu-panel>
 
           ${Object.keys(entities || {}).map((key) => {
@@ -142,19 +138,17 @@ class SidebarMenu extends LitElement {
             return html`
               <mv-menu-panel
                 item
-                .value="${{ selected: model.code }}"
+                .value="${{ selected: model.code, path:`/${model.code}/list`}}"
                 ?selected="${this.selected === model.code}"
                 ?popout="${!this.expanded}"
                 @select-item="${this.selectItem}"
               >
-                <router-link path="./${model.code}/list">
-                  <div class="text">
-                    <mv-fa icon="database"></mv-fa>
-                    ${this.expanded
-                      ? html`<span>${model.label}</span>`
-                      : html``}
-                  </div>
-                </router-link>
+                <div class="text">
+                  <mv-fa icon="database"></mv-fa>
+                  ${this.expanded
+                    ? html`<span>${model.label}</span>`
+                    : html``}
+                </div>
               </mv-menu-panel>
             `;
           })}
@@ -166,7 +160,7 @@ class SidebarMenu extends LitElement {
   selectItem = (event) => {
     const { detail } = event;
     const {
-      value: { selected },
+      value: { selected, path },
     } = detail;
     this.selected = selected;
     this.dispatchEvent(
@@ -174,6 +168,9 @@ class SidebarMenu extends LitElement {
         detail: { selected: this.selected },
       })
     );
+
+    window.router.goto(config.BASE_PATH + path);
+    history.pushState({}, path, config.BASE_PATH + path);
   };
 
   toggleSidebar = () => {

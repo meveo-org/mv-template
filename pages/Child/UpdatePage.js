@@ -1,8 +1,9 @@
 import UpdatePageTemplate from "../../components/page_templates/UpdatePageTemplate.js";
 import { parseModelDetails } from "utils";
+import { MODELS } from "../../model/index.js";
 
 const entityCode = "Child";
-const { properties, mappings } = parseModelDetails(entityCode);
+const { properties, mappings } = parseModelDetails(entityCode, MODELS);
 
 export default class ChildEntityUpdatePage extends UpdatePageTemplate {
   static get properties() {

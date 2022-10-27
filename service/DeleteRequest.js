@@ -22,7 +22,7 @@ export default class DeleteRequest extends ApiRequest {
     const parameterKeys = Object.keys(requestParameters || {});
     const hasParameters = requestParameters && parameterKeys.length > 0;
     const apiUrl = buildApiUrl(this.endpoint, parameters);
-    const requestUrl = new URL(apiUrl);
+    const requestUrl = new URL(apiUrl, window.location.origin);
     if (hasParameters) {
       parameterKeys.forEach(function (key) {
         requestUrl.searchParams.append(key, requestParameters[key]);

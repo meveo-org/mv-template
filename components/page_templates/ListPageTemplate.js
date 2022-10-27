@@ -1,8 +1,9 @@
 import { LitElement, html, css } from "lit";
-import { NULL_ENTITY, EMPTY_DIALOG } from "utils";
+import { NULL_ENTITY, EMPTY_DIALOG } from "../../utils/index.js";
 import "@meveo-org/mv-container";
 import "./content/ListContent.js";
 import "../../components/layout/PageLayout.js";
+import * as config from "../../config.js";
 
 const DEFAULT_FILTER = {
   rowsPerPage: 10,
@@ -61,14 +62,16 @@ export default class ListPageTemplate extends LitElement {
   }
 
   newItem = () => {
-    history.pushState(null, "", `./${this.entity.code}/new`);
+    history.pushState(null, "", `${config.BASE_PATH}/${this.entity.code}/new`);
+    window.router.goto(`${config.BASE_PATH}/${this.entity.code}/new`)
   };
 
   editRow = (event) => {
     const {
       detail: { row },
     } = event;
-    history.pushState(null, "", `./${this.entity.code}/update/${row.uuid}`);
+    history.pushState(null, "", `${config.BASE_PATH}/${this.entity.code}/update/${row.uuid}`);
+    window.router.goto(`${config.BASE_PATH}/${this.entity.code}/update/${row.uuid}`)
   };
 
   selectRow = (event) => {

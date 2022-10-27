@@ -20,7 +20,6 @@ export default class PostRequest extends ApiRequest {
     const { mock } = this.endpoint;
     const requestParameters = buildRequestParameters(this.endpoint, parameters);
     const apiUrl = buildApiUrl(this.endpoint, parameters);
-    const requestUrl = new URL(apiUrl);
     if (mock) {
       requestUrl.searchParams.append("mock", true);
     }
@@ -33,6 +32,6 @@ export default class PostRequest extends ApiRequest {
     if (body) {
       options.body = body;
     }
-    this.callApi(requestUrl, options);
+    this.callApi(apiUrl, options);
   }
 }

@@ -20,7 +20,7 @@ export default class PutRequest extends ApiRequest {
     const { mock } = this.endpoint;
     const requestParameters = buildRequestParameters(this.endpoint, parameters);
     const apiUrl = buildApiUrl(this.endpoint, parameters);
-    const requestUrl = new URL(apiUrl);
+    const requestUrl = new URL(apiUrl, window.location.origin);
     if (mock) {
       requestUrl.searchParams.append("mock", true);
     }

@@ -9,7 +9,8 @@ export default class UpdatePageTemplate extends UpdateContent {
   }
 
   cancelCallback = () => {
-    history.pushState(null, "", `./${this.entity.code}/list`);
+    window.goto(`${config.BASE_PATH}/${this.entity.code}/list`)
+    history.pushState(null, "", `${config.BASE_PATH}/${this.entity.code}/list`);
   };
 }
 

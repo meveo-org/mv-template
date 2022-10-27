@@ -1,6 +1,3 @@
-import { LitElement, html, css } from "lit";
-import { loadModels } from "/utils/index.js";
-import { MODELS } from "/model/index.js";										 
 import "@meveo-org/mv-container";
 import "@meveo-org/mv-footer";
 import "@meveo-org/mv-header";
@@ -8,7 +5,18 @@ import "@meveo-org/mv-keycloak";
 import "@meveo-org/mv-main";
 import "@meveo-org/mv-menu-panel";
 import "@meveo-org/mv-progress-bar";
-import "./PageRoutes.js";																
+
+import "@meveo-org/mv-theme/css/meveo-theme.css";
+import "@meveo-org/mv-fonts/museo/museo.min.css";
+import "@meveo-org/mv-fonts/source-sans-pro/source-sans-pro.min.css";
+import "@meveo-org/mv-fonts/comfortaa/comfortaa.min.css";
+import "@meveo-org/mv-fonts/linear-icons/linear-icons.min.css";
+import "@meveo-org/mv-fonts/font-awesome/fontawesome.min.css";
+
+import { LitElement, html, css } from "lit";
+import { loadModels } from "/utils/index.js";
+import { MODELS } from "/model/index.js";
+import "./PageRoutes.js";
 
 class MainApp extends LitElement {
   static get properties() {
@@ -46,7 +54,7 @@ class MainApp extends LitElement {
   render() {
     return html`
       <mv-keycloak
-        settings-path="./keycloak.json"
+        settings-path="keycloak.json"
         @auth-success="${this.loginSuccess}"
         @auth-fail="${this.loginFailed}"
         @auth-init-fail="${this.loginFailed}"
@@ -84,12 +92,9 @@ class MainApp extends LitElement {
       <page-layout
         .entities="${this.entities}"
         .permissions="${this.permissions}"
+        .auth="${this.auth}"
       >
-        <page-routes
-          .entities="${this.entities}"
-          .permissions="${this.permissions}"
-          .auth="${this.auth}"
-        ></page-routes>
+
       </page-layout>
     `;
   };
@@ -109,17 +114,15 @@ class MainApp extends LitElement {
       detail: { auth },
     } = event;
     this.auth = auth;
-    const {  ENTITY_PERMISSIONS } = await loadModels(this.auth);
+    const { ENTITY_PERMISSIONS } = await loadModels(this.auth);
     this.permissions = ENTITY_PERMISSIONS;
-	 this.entities = (MODELS || []).reduce(
+    this.entities = (MODELS || []).reduce(
       (entities, model) => ({
         ...entities,
         [model.code]: new model.ModelClass(auth),
       }),
       {}
-    );									  
-
-					 
+    );
   };
 
   loginFailed = () => {

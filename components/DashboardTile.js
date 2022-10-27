@@ -2,6 +2,7 @@ import { LitElement, html, css } from "lit";
 import "@meveo-org/mv-button";
 import "@meveo-org/mv-font-awesome";
 import "../components/layout/PageLayout.js";
+import * as config from "../config.js";
 
 export default class DashboardTile extends LitElement {
   static get properties() {
@@ -71,11 +72,13 @@ export default class DashboardTile extends LitElement {
   }
 
   create() {
-    history.pushState(null, "", `./${this.entityCode}/new`);
+    history.pushState(null, "", `${config.BASE_PATH}/${this.entityCode}/new`);
+    window.router.goto(`${config.BASE_PATH}/${this.entityCode}/new`);
   }
 
   list() {
-    history.pushState(null, "", `./${this.entityCode}/list`);
+    history.pushState(null, "", `${config.BASE_PATH}/${this.entityCode}/list`);
+    window.router.goto(`${config.BASE_PATH}/${this.entityCode}/list`);
   }
 }
 

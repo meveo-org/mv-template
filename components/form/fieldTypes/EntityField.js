@@ -1,6 +1,6 @@
 import { html, css } from "lit";
 import FieldTemplate from "./FieldTemplate.js";
-import * as config from "config";
+import * as config from "../../../config.js";
 import { modelEndpoints } from "../../../service/Endpoint.js";
 import "@meveo-org/mv-button";
 import "@meveo-org/mv-dialog";

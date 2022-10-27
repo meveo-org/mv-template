@@ -1,7 +1,7 @@
 import { LitElement, html, css } from "lit";
 import { modelEndpoints } from "../../../service/Endpoint.js";
-import * as config from "config";
-import { NULL_ENTITY, EMPTY_DIALOG, toTitleName } from "utils";
+import * as config from "../../../config.js";
+import { NULL_ENTITY, EMPTY_DIALOG, toTitleName } from "../../../utils/index.js";
 import "@meveo-org/mv-button";
 import "@meveo-org/mv-dialog";
 import "@meveo-org/mv-dropdown";
@@ -159,6 +159,7 @@ export default class ListContent extends LitElement {
 
   constructor() {
     super();
+    this.config = config;
     this.auth = null;
     this.selectable = false;
     this.selectOne = false;

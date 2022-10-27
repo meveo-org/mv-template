@@ -5,7 +5,6 @@ import "@meveo-org/mv-dropdown";
 import "@meveo-org/mv-header";
 import "@meveo-org/mv-menu";
 import "@meveo-org/mv-font-awesome";
-import "router-slot";
 
 class TopbarMenu extends LitElement {
   static get properties() {
@@ -68,7 +67,7 @@ class TopbarMenu extends LitElement {
             `}
         <mv-header item>
           <h1 class="title">
-            <router-link path="./dashboard">Custom Entities</router-link>
+            
           </h1>
         </mv-header>
         <mv-header item position="right">

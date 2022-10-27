@@ -27,7 +27,7 @@
  */
 export const getSchemaKeys = (schema, refSchemas) => {
   const hasParentSchema = !!schema.allOf && schema.allOf.length > 0;
-  const keys = Object.keys(schema.properties);
+  const keys = Object.keys(schema.properties || {});
   if (hasParentSchema) {
     return schema.allOf.reduce(
       (allKeys, schemaId) => {
@@ -74,18 +74,26 @@ export const buildEndpointConfig = (endpoint, parameters) => {
  */
 export const buildRequestParameters = (endpoint, parameters) => {
   const { entity, type } = endpoint;
-  const { schema, refSchemas } = entity;
+  const { schema, refSchemas= {} } = entity;
+
+  const { decorateProperties } = (entity.endpoints || {})[type] || {
+    decorateProperties: () => ({}),
+  };
+
   if (schema) {
     const keys = getSchemaKeys(schema, refSchemas);
-    const { decorateProperties } = (entity.endpoints || {})[type] || {
-      decorateProperties: () => ({}),
-    };
     const props = keys.reduce(mapProperties(parameters), {});
+
     return !!decorateProperties
       ? decorateProperties({ props, parameters, endpoint, entity })
       : props;
+
+  } else {
+    return !!decorateProperties
+      ? decorateProperties({ props: {}, parameters, endpoint, entity })
+      : null;
   }
-  return null;
+
 };
 
 /**

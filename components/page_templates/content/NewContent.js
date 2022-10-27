@@ -1,9 +1,9 @@
 import { html, css } from "lit";
-import { MvElement } from "@meveo-org/mv-element";
-import * as config from "config";
+import * as config from "../../../config.js";
 import { validate, clearForm } from "@meveo-org/mv-form/utils/index.js";
-import { EMPTY_DIALOG, toTagName } from "utils";
+import { EMPTY_DIALOG, toTagName } from "../../../utils/index.js";
 import { modelEndpoints } from "../../../service/Endpoint.js";
+import { MvElement } from "@meveo-org/mv-element";
 import "@meveo-org/mv-button";
 import "@meveo-org/mv-dialog";
 import "@meveo-org/mv-font-awesome";
@@ -44,7 +44,8 @@ export default class NewContent extends MvElement {
   }
 
   constructor() {
-    super(config);
+    super();
+    this.config = config;
     this.auth = null;
     this.dialog = { ...EMPTY_DIALOG };
   }
