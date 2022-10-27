@@ -8,7 +8,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const env = dotEnv.config().parsed || {} ;
 
 var keyCloakJson = `{
-  "realm": "${env.webContext || meveo}",
+  "realm": "${env.webContext || "meveo"}",
   "auth-server-url": "${env.authServer || 'http://localhost:8080/auth/'}",
   "ssl-required": "external",
   "resource": "meveo-web",
