@@ -64,7 +64,7 @@ export default class NewContent extends MvElement {
             <div class="form-content">
               ${hasMultipleTabs
                 ? this.renderGroup(formFields, schema)
-                : this.renderFields(formFields[0], schema)}
+                : (formFields && this.renderFields(formFields[0], schema))}
 
               <div class="button-grid">
                 <mv-button

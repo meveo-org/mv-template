@@ -104,7 +104,7 @@ export default class UpdateContent extends MvElement {
           <div class="form-content">
             ${hasMultipleTabs
               ? this.renderGroup(formFields, schema)
-              : this.renderFields(formFields[0], schema)}
+              : (formFields && this.renderFields(formFields[0], schema))}
 
             <div class="action-section">
               <div class="standard-actions">
