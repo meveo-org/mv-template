@@ -11,7 +11,6 @@ import "@meveo-org/mv-table";
 import "@meveo-org/mv-tooltip";
 import "@meveo-org/mv-select";
 import "../../../components/TableActions.js";
-import "../../filters/TableFilters.js";
 
 const ROWS_PER_PAGE = [
   { label: "10", value: 10 },
