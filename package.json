@@ -54,7 +54,7 @@
     "@meveo-org/mv-spinner": "^1.0.0",
     "@meveo-org/mv-store": "^1.0.1",
     "@meveo-org/mv-tab": "^1.0.0",
-    "@meveo-org/mv-table": "^1.0.0",
+    "@meveo-org/mv-table": "^1.0.8",
     "@meveo-org/mv-tags": "^1.0.0",
     "@meveo-org/mv-textarea": "^1.0.0",
     "@meveo-org/mv-theme": "^1.0.0",
