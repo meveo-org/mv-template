@@ -231,7 +231,6 @@ export default class ListContent extends LitElement {
         <mv-table
           sortable
           .columns="${this.columns || []}"
-          .formFields="${this.entity.formFields}"
           .rows="${this.rows}"
           .action-column="${this.actionColumn}"
           .row-actions="${rowActions}"
@@ -408,9 +407,14 @@ export default class ListContent extends LitElement {
           column.matrixColumns && column.matrixColumns.length > 0;
         const columnProperties = {
           name: column.code,
+          code: column.code,
           title: description,
           tooltip: description,
           type: column.fieldType,
+          fieldType: column.fieldType,
+          storageType: column.storageType,
+          filter: column.filter,
+          disabled: column.disabled,
         };
         if (hasListValues) {
           columnProperties.options = Object.keys(column.listValues).map(
