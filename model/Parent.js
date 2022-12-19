@@ -150,6 +150,18 @@ export const formFields = [
 	},
 ];
 
+const fieldsOverride = {
+	
+}
+
+function overrideFields() {
+	formFields.forEach(formField => {
+		formField.fields.forEach(field => {
+			Object.assign(field, fieldsOverride[field.code]);
+		})
+	})
+}
+
 export class ModelClass {
 	schema = ParentSchema;
 	endpoints = {
